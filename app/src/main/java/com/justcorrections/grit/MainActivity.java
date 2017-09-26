@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNav = (BottomNavigationView) findViewById(R.id.main_bottom_nav);
 
         // TODO: change these parameters as needed
-        fragments.add(MapFragment.newInstance("Parameter 1", "Parameter 2"));
+        fragments.add(MapFragment.newInstance());
         fragments.add(AccountFragment.newInstance("Parameter 1", "Parameter 2"));
         fragments.add(MysteryFragment.newInstance("Parameter 1", "Parameter 2"));
 
