@@ -7,7 +7,9 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.justcorrections.grit.account.AccountFragment;
+import com.justcorrections.grit.account.LoginFragment;
 import com.justcorrections.grit.map.MapFragment;
 import com.justcorrections.grit.mystery.MysteryFragment;
 
@@ -16,6 +18,9 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    // Firebase objects
+    FirebaseAuth auth;
+    FirebaseAuth.AuthStateListener authStateListener;
     private BottomNavigationView bottomNav;
     private List<Fragment> fragments = new ArrayList<>();
 
@@ -26,10 +31,33 @@ public class MainActivity extends AppCompatActivity {
 
         bottomNav = (BottomNavigationView) findViewById(R.id.main_bottom_nav);
 
-        // TODO: change these parameters as needed
-        fragments.add(MapFragment.newInstance("Parameter 1", "Parameter 2"));
-        fragments.add(AccountFragment.newInstance("Parameter 1", "Parameter 2"));
-        fragments.add(MysteryFragment.newInstance("Parameter 1", "Parameter 2"));
+        auth = FirebaseAuth.getInstance();
+        setupFragments();
+        // onAuthStateChanged gets called when AuthStateListener is registered
+        authStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                // user logged in
+                if (firebaseAuth.getCurrentUser() != null) {
+                    fragments.remove(1);
+                    fragments.add(1, AccountFragment.newInstance("Parameter 1", "Parameter 2"));
+                }
+                // user logged out
+                else {
+                    fragments.remove(1);
+                    fragments.add(1, LoginFragment.newInstance("Parameter 1", "Parameter 2"));
+                }
+
+                // TODO: add a transition using anim resource files
+                if (bottomNav.getSelectedItemId() == R.id.menu_account) {
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.main_fragment_holder, fragments.get(1))
+                            .commit();
+                }
+
+            }
+        };
 
         bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -59,5 +87,16 @@ public class MainActivity extends AppCompatActivity {
                 .beginTransaction()
                 .replace(R.id.main_fragment_holder, fragments.get(position))
                 .commit();
+    }
+
+    public void setupFragments() {
+        fragments.add(MapFragment.newInstance("Parameter 1", "Parameter 2"));
+        // dynamically change which fragment is added based on if the user is signed into Firebase
+        if (auth.getCurrentUser() != null) {
+            fragments.add(0, AccountFragment.newInstance("Parameter 1", "Parameter 2"));
+        } else {
+            fragments.add(1, LoginFragment.newInstance("Parameter 1", "Parameter 2"));
+        }
+        fragments.add(2, MysteryFragment.newInstance("Parameter 1", "Parameter 2"));
     }
 }
