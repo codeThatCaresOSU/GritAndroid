@@ -17,8 +17,6 @@
     <string name="map">Map</string>
     <string name="my_account">My Account</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="logo_description">A logo for the login page</string>
     <string name="email_address">Email Address</string>
     <string name="password">Password</string>
@@ -30,4 +28,8 @@
     <string name="create_account">Create Account</string>
     <string name="already_have_an_account">Already Have an Account?</string>
     <string name="back_to_login_page">Back to Login Page</string>
+    <string name="reset_email_sent">Reset email sent. Check your email to recover your password.</string>
+    <string name="reset_email_failed">Reset email failed to send. Try again later.</string>
+    <string name="sending_password_reset_email">Sending password reset email</string>
+    <string name="reset_password">Reset Password</string>
 </resources>

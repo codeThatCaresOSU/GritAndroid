@@ -6,7 +6,9 @@ package com.justcorrections.grit.account;
 
 public interface AccountInterface {
     int TYPE_LOGIN = 0;
-    int TYPE_ACCOUNT = 1;
+    int TYPE_RESET = 1;
+    int TYPE_CREATE = 2;
+    int TYPE_ACCOUNT = 3;
 
     int getType();
 }
