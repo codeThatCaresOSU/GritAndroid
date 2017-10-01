@@ -1,10 +1,12 @@
 package com.justcorrections.grit.account;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +23,10 @@ import com.justcorrections.grit.R;
 public class LoginFragment extends Fragment implements AccountInterface {
 
     private static final String ARG_EMAIL = "arg_email";
+    // interface
+    OnAccountRequestListener loginRequestListener;
     private String email;
-
+    private String password;
     // Views
     private TextInputLayout userLayout;
     private TextInputLayout passLayout;
@@ -44,7 +48,7 @@ public class LoginFragment extends Fragment implements AccountInterface {
         Bundle args = new Bundle();
         args.putString(ARG_EMAIL, email);
         fragment.setArguments(args);
-        return new LoginFragment();
+        return fragment;
     }
 
     @Override
@@ -83,6 +87,11 @@ public class LoginFragment extends Fragment implements AccountInterface {
         setButtonListeners();
     }
 
+    private boolean isValidEmail(String email) {
+        return !email.isEmpty() &&
+                Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
     private void setButtonListeners() {
         forgotButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,10 +114,40 @@ public class LoginFragment extends Fragment implements AccountInterface {
                         .commit();
             }
         });
+
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                email = userText.getText().toString();
+                password = passText.getText().toString();
+                if (isValidEmail(email)) {
+                    loginRequestListener.onLoginRequest(email, password);
+                } else {
+                    loginRequestListener.onFail("Not a valid email address");
+                }
+            }
+        });
     }
 
     @Override
     public int getType() {
         return TYPE_LOGIN;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnAccountRequestListener) {
+            loginRequestListener = (OnAccountRequestListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnAccountRequestListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        loginRequestListener = null;
     }
 }

@@ -5,7 +5,13 @@ package com.justcorrections.grit.account;
  */
 
 public interface OnAccountRequestListener {
+
     void onResetRequest(String email);
 
     void onFail(String message);
+
+    void onLoginRequest(String email, String password);
+
+    void onCreateRequest(String email, String password);
+
 }

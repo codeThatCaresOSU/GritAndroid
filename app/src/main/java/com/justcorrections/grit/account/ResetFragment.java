@@ -116,7 +116,7 @@ public class ResetFragment extends Fragment implements AccountInterface {
             resetRequestListener = (OnAccountRequestListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnResetRequestListener");
+                    + " must implement OnAccountRequestListener");
         }
     }
 

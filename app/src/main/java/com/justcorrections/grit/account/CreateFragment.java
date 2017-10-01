@@ -1,10 +1,12 @@
 package com.justcorrections.grit.account;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +24,9 @@ public class CreateFragment extends Fragment implements AccountInterface {
 
     private static final String ARG_EMAIL = "arg_email";
     private String email;
+    private String password;
+
+    private OnAccountRequestListener createRequestListener;
 
     // Views
     private TextInputLayout userLayout;
@@ -34,7 +39,7 @@ public class CreateFragment extends Fragment implements AccountInterface {
     private ImageView passIcon;
     private ImageView checkIcon;
     private ImageView logo;
-    private Button loginButton;
+    private Button createButton;
     private Button backButton;
 
     public CreateFragment() {
@@ -79,7 +84,7 @@ public class CreateFragment extends Fragment implements AccountInterface {
         passIcon = view.findViewById(R.id.create_pass_icon);
         checkIcon = view.findViewById(R.id.create_check_icon);
         logo = view.findViewById(R.id.create_logo);
-        loginButton = view.findViewById(R.id.create_account_button);
+        createButton = view.findViewById(R.id.create_account_button);
         backButton = view.findViewById(R.id.create_registered_button);
 
         userText.setText(email);
@@ -94,10 +99,59 @@ public class CreateFragment extends Fragment implements AccountInterface {
                 getFragmentManager().popBackStack();
             }
         });
+
+        createButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                email = userText.getText().toString();
+                password = passText.getText().toString();
+                String check = checkText.getText().toString();
+                if (isValidEmail(email)) {
+                    if (isValidPassword(password)) {
+                        if (password.equals(check)) {
+                            createRequestListener.onCreateRequest(email, password);
+                        } else {
+                            createRequestListener.onFail("Passwords must match");
+                        }
+                    } else {
+                        createRequestListener.onFail("Password must be 8 characters and contain lowercase, uppercase, numbers and special characters (!@#$%^&*)");
+                    }
+                } else {
+                    createRequestListener.onFail("Not a valid email address");
+                }
+            }
+        });
+    }
+
+    private boolean isValidEmail(String email) {
+        return !email.isEmpty() &&
+                Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
+    private boolean isValidPassword(String password) {
+        return password.length() > 7 && password.matches(".*[a-z].*[A-Z].*")
+                && password.matches(".*\\d.*") && password.matches(".*[!@#$%^&*].*");
     }
 
     @Override
     public int getType() {
         return TYPE_CREATE;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnAccountRequestListener) {
+            createRequestListener = (OnAccountRequestListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnAccountRequestListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        createRequestListener = null;
     }
 }

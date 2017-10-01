@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.justcorrections.grit.account.AccountFragment;
 import com.justcorrections.grit.account.LoginFragment;
@@ -125,6 +126,55 @@ public class MainActivity extends AppCompatActivity implements OnAccountRequestL
                 }
                 status.findViewById(R.id.dialog_progress).setVisibility(View.INVISIBLE);
                 status.setCancelable(true);
+            }
+        });
+    }
+
+    @Override
+    public void onLoginRequest(String email, String password) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        status = builder.setView(R.layout.dialog_status)
+                .setCancelable(false)
+                .create();
+        status.show();
+        ((TextView) status.findViewById(R.id.dialog_status)).setText(R.string.signing_in);
+        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    status.dismiss();
+                } else {
+                    status.findViewById(R.id.dialog_error).setVisibility(View.VISIBLE);
+                    ((TextView) status.findViewById(R.id.dialog_status)).setText(R.string.invalid_credentials);
+                    status.findViewById(R.id.dialog_progress).setVisibility(View.INVISIBLE);
+                    status.setCancelable(true);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onCreateRequest(String email, String password) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        status = builder.setView(R.layout.dialog_status)
+                .setCancelable(false)
+                .create();
+        status.show();
+        ((TextView) status.findViewById(R.id.dialog_status)).setText(R.string.creating_account);
+        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    status.dismiss();
+                    fragments.remove(1);
+                    fragments.add(1, AccountFragment.newInstance());
+                    setSelected(1);
+                } else {
+                    status.findViewById(R.id.dialog_error).setVisibility(View.VISIBLE);
+                    ((TextView) status.findViewById(R.id.dialog_status)).setText(R.string.error_occurred);
+                    status.findViewById(R.id.dialog_progress).setVisibility(View.INVISIBLE);
+                    status.setCancelable(true);
+                }
             }
         });
     }
