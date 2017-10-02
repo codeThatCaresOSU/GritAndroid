@@ -1,78 +1,45 @@
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <FrameLayout
-        android:id="@+id/map_container"
+    <fragment
+        android:id="@+id/map"
+        class="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"/>
+        android:layout_height="match_parent"/>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical">
-
-        <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true">
 
         <ToggleButton
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_width="66dp"
+            android:layout_height="66dp"
+            android:layout_margin="8dp"
             android:background="@drawable/round_button"
-            android:textOff="Off"
-            android:textOn="On"/>
+            android:checked="true"
+            android:text="Toggle Text"/>
 
         <ToggleButton
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_width="66dp"
+            android:layout_height="66dp"
+            android:layout_margin="8dp"
             android:background="@drawable/round_button"
-            android:textOff="Off"
-            android:textOn="On"/>
+            android:checked="false"
+            android:text="Toggle Text"/>
 
         <ToggleButton
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_width="66dp"
+            android:layout_height="66dp"
+            android:layout_margin="8dp"
             android:background="@drawable/round_button"
-            android:textOff="Off"
-            android:textOn="On"/>
+            android:checked="true"
+            android:text="Toggle Text"/>
 
     </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <ToggleButton
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/round_button"
-                android:textOff="Off"
-                android:textOn="On"/>
-
-            <ToggleButton
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/round_button"
-                android:textOff="Off"
-                android:textOn="On"/>
-
-        </LinearLayout>
-
-
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>

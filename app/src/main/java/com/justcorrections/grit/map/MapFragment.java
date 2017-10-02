@@ -2,12 +2,10 @@ package com.justcorrections.grit.map;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.gms.maps.SupportMapFragment;
 import com.justcorrections.grit.R;
 
 /**
@@ -29,11 +27,6 @@ public class MapFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_map, container, false);
-
-        // Replace map_container with a 'google map'
-        FragmentManager fm = getChildFragmentManager();
-        SupportMapFragment supportMapFragment = SupportMapFragment.newInstance();
-        fm.beginTransaction().replace(R.id.map_container, supportMapFragment).commit();
 
         return view;
     }
