@@ -3,4 +3,9 @@
     <color name="colorPrimary">#1E88E5</color>
     <color name="colorPrimaryDark">#1565C0</color>
     <color name="colorAccent">#FDD835</color>
+
+    <color name="fabFilterIcon">#DE3163</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
 </resources>

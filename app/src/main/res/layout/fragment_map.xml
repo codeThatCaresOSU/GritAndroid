@@ -1,5 +1,6 @@
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -8,42 +9,26 @@
         android:id="@+id/map"
         class="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="5"/>
+        android:layout_height="match_parent"/>
 
-    <LinearLayout
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/filterMenuOpenButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_filter_white"
+        android:tint="@color/fabFilterIcon"
+        app:backgroundTint="@color/white"
+        app:borderWidth="0dp"
+        app:elevation="6dp"/>
 
-        <ToggleButton
-            android:layout_width="66dp"
-            android:layout_height="66dp"
-            android:layout_margin="8dp"
-            android:background="@drawable/round_button"
-            android:checked="true"
-            android:text="Toggle Text"/>
+    <android.support.v7.widget.CardView
+        android:id="@+id/filterMenuContent"
+        android:layout_width="166dp"
+        android:layout_height="200dp"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:visibility="invisible"/>
 
-        <ToggleButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:checked="false"
-            android:text="Toggle Text"/>
-
-        <ToggleButton
-            android:layout_width="66dp"
-            android:layout_height="66dp"
-            android:layout_margin="8dp"
-            android:background="@drawable/round_button"
-            android:checked="true"
-            android:text="Toggle Text"/>
-
-        <Switch
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Switch test"/>
-
-    </LinearLayout>
-
-</LinearLayout>
+</FrameLayout>

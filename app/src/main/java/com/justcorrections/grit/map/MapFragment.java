@@ -1,17 +1,15 @@
 package com.justcorrections.grit.map;
 
-import android.Manifest.permission;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.justcorrections.grit.R;
 
 /**
@@ -20,6 +18,9 @@ import com.justcorrections.grit.R;
  * create an instance of this fragment.
  */
 public class MapFragment extends Fragment {
+
+    private FloatingActionButton filterMenuOpenButton;
+    private CardView filterMenuContent;
 
     public MapFragment() {
         // Required empty public constructor
@@ -34,19 +35,39 @@ public class MapFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_map, container, false);
 
-        Fragment fragment = getChildFragmentManager().findFragmentById(R.id.map);
-        SupportMapFragment supportmapfragment = (SupportMapFragment) fragment;
-        supportmapfragment.getMapAsync(new OnMapReadyCallback() {
+//        Fragment fragment = getChildFragmentManager().findFragmentById(R.id.map);
+//        SupportMapFragment supportmapfragment = (SupportMapFragment) fragment;
+//        supportmapfragment.getMapAsync(new OnMapReadyCallback() {
+//            @Override
+//            public void onMapReady(GoogleMap googleMap) {
+//                if (ActivityCompat.checkSelfPermission(getContext(), permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+//                        && ActivityCompat.checkSelfPermission(getContext(), permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//                    return;
+//                }
+//                googleMap.setMyLocationEnabled(true);
+//            }
+//        });
+
+        filterMenuOpenButton = view.findViewById(R.id.filterMenuOpenButton);
+        filterMenuContent = view.findViewById(R.id.filterMenuContent);
+
+        filterMenuOpenButton.setOnClickListener(new OnClickListener() {
             @Override
-            public void onMapReady(GoogleMap googleMap) {
-                if (ActivityCompat.checkSelfPermission(getContext(), permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                        && ActivityCompat.checkSelfPermission(getContext(), permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    return;
-                }
-                googleMap.setMyLocationEnabled(true);
+            public void onClick(View view) {
+                onFilterButtonOpen(view);
             }
         });
 
+
         return view;
+    }
+
+    public void onFilterButtonOpen(View view) {
+        Toast.makeText(getActivity(), "This is my Toast message!",
+                Toast.LENGTH_LONG).show();
+        filterMenuOpenButton.setVisibility(View.INVISIBLE);
+        filterMenuContent.setVisibility(View.VISIBLE);
+
+
     }
 }
