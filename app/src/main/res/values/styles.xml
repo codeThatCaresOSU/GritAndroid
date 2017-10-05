@@ -6,6 +6,19 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:dropDownHorizontalOffset">-16dp</item>
+        <item name="android:dropDownVerticalOffset">16dp</item>
+    </style>
+
+    <style name="MapFilterPopupMenu" parent="@style/Widget.AppCompat.PopupMenu">
+        <item name="android:dropDownHorizontalOffset">-16dp</item>
+        <item name="android:dropDownVerticalOffset">16dp</item>
+    </style>
+
+    <style name="mapFilterMenuAnimation">
+        <item name="android:windowEnterAnimation">@anim/map_filter_menu_show</item>
+        <item name="android:windowExitAnimation">@anim/map_filter_menu_hide</item>
     </style>
 
 </resources>

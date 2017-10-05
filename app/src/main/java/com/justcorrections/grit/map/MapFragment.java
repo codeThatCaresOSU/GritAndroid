@@ -3,12 +3,13 @@ package com.justcorrections.grit.map;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.CardView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 
 import com.justcorrections.grit.R;
 
@@ -19,8 +20,9 @@ import com.justcorrections.grit.R;
  */
 public class MapFragment extends Fragment {
 
+    private View view;
     private FloatingActionButton filterMenuOpenButton;
-    private CardView filterMenuContent;
+    private PopupWindow filterMenu;
 
     public MapFragment() {
         // Required empty public constructor
@@ -33,41 +35,34 @@ public class MapFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_map, container, false);
-
-//        Fragment fragment = getChildFragmentManager().findFragmentById(R.id.map);
-//        SupportMapFragment supportmapfragment = (SupportMapFragment) fragment;
-//        supportmapfragment.getMapAsync(new OnMapReadyCallback() {
-//            @Override
-//            public void onMapReady(GoogleMap googleMap) {
-//                if (ActivityCompat.checkSelfPermission(getContext(), permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-//                        && ActivityCompat.checkSelfPermission(getContext(), permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//                    return;
-//                }
-//                googleMap.setMyLocationEnabled(true);
-//            }
-//        });
+        view = inflater.inflate(R.layout.fragment_map, container, false);
 
         filterMenuOpenButton = view.findViewById(R.id.filterMenuOpenButton);
-        filterMenuContent = view.findViewById(R.id.filterMenuContent);
-
         filterMenuOpenButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                onFilterButtonOpen(view);
+                onFilterMenuOpen();
             }
         });
 
+        View filterMenuLayout = inflater.inflate(R.layout.map_filter_menu, container, false);
+        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        boolean focusable = true; // lets taps outside the popup also dismiss it
+        filterMenu = new PopupWindow(filterMenuLayout, width, height, focusable);
+        filterMenu.setAnimationStyle(R.style.mapFilterMenuAnimation);
 
         return view;
     }
 
-    public void onFilterButtonOpen(View view) {
-        Toast.makeText(getActivity(), "This is my Toast message!",
-                Toast.LENGTH_LONG).show();
-        filterMenuOpenButton.setVisibility(View.INVISIBLE);
-        filterMenuContent.setVisibility(View.VISIBLE);
+    public void onFilterMenuOpen() {
+//        filterMenuOpenButton.setVisibility(View.GONE);
+        filterMenu.showAtLocation(view, Gravity.CENTER, 0, 0);
 
+        final float scale = getContext().getResources().getDisplayMetrics().density;
+        int pixels = (int) (60 * scale + 0.5f);
+
+        filterMenuOpenButton.animate().translationXBy(-pixels).setDuration(100);
 
     }
 }
