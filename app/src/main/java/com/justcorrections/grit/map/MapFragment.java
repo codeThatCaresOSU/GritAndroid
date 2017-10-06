@@ -1,15 +1,17 @@
 package com.justcorrections.grit.map;
 
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnMultiChoiceClickListener;
+import android.content.DialogInterface.OnShowListener;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.view.Gravity;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 
 import com.justcorrections.grit.R;
 
@@ -20,9 +22,7 @@ import com.justcorrections.grit.R;
  */
 public class MapFragment extends Fragment {
 
-    private View view;
     private FloatingActionButton filterMenuOpenButton;
-    private PopupWindow filterMenu;
 
     public MapFragment() {
         // Required empty public constructor
@@ -35,7 +35,7 @@ public class MapFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_map, container, false);
+        View view = inflater.inflate(R.layout.fragment_map, container, false);
 
         filterMenuOpenButton = view.findViewById(R.id.filterMenuOpenButton);
         filterMenuOpenButton.setOnClickListener(new OnClickListener() {
@@ -45,24 +45,57 @@ public class MapFragment extends Fragment {
             }
         });
 
-        View filterMenuLayout = inflater.inflate(R.layout.map_filter_menu, container, false);
-        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
-        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
-        boolean focusable = true; // lets taps outside the popup also dismiss it
-        filterMenu = new PopupWindow(filterMenuLayout, width, height, focusable);
-        filterMenu.setAnimationStyle(R.style.mapFilterMenuAnimation);
-
         return view;
     }
 
     public void onFilterMenuOpen() {
-//        filterMenuOpenButton.setVisibility(View.GONE);
-        filterMenu.showAtLocation(view, Gravity.CENTER, 0, 0);
 
-        final float scale = getContext().getResources().getDisplayMetrics().density;
-        int pixels = (int) (60 * scale + 0.5f);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setCancelable(false)
+                .setTitle("The title");
+        String[] choices = {"One", "Two", "Three"};
+        boolean[] checked = {false, true, false};
 
-        filterMenuOpenButton.animate().translationXBy(-pixels).setDuration(100);
+        builder.setMultiChoiceItems(choices, checked, new OnMultiChoiceClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int index, boolean b) {
+            }
+        });
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Do something when click the negative button
+            }
+        });
+
+        builder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Do something when click the neutral button
+            }
+        });
+
+        final AlertDialog dialog = builder.create();
+
+        final int darkPink = ContextCompat.getColor(getContext(), R.color.darkPink);
+
+        dialog.setOnShowListener(new OnShowListener() {
+            @Override
+            public void onShow(DialogInterface d) {
+                dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(darkPink);
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(darkPink);
+            }
+        });
+
+        dialog.show();
 
     }
 }
