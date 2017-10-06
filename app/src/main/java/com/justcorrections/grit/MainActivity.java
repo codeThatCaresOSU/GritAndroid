@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ import com.justcorrections.grit.account.LoginFragment;
 import com.justcorrections.grit.account.OnAccountRequestListener;
 import com.justcorrections.grit.map.MapFragment;
 import com.justcorrections.grit.mystery.MysteryFragment;
+import com.justcorrections.grit.utils.DatabaseHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +36,8 @@ public class MainActivity extends AppCompatActivity implements OnAccountRequestL
     private List<Fragment> fragments = new ArrayList<>();
     private AlertDialog status;
 
+    private DatabaseHelper helper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,13 +45,14 @@ public class MainActivity extends AppCompatActivity implements OnAccountRequestL
 
         bottomNav = (BottomNavigationView) findViewById(R.id.main_bottom_nav);
         snackbarView = (CoordinatorLayout) findViewById(R.id.main_snackbar_view);
-        setupFragments();
+        helper = new DatabaseHelper();
 
         auth = FirebaseAuth.getInstance();
         // onAuthStateChanged gets called when AuthStateListener is registered
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                Log.d("Main Activity", "onAuthStateChanged: user state changed");
                 // user logged in
                 if (firebaseAuth.getCurrentUser() != null) {
                     fragments.remove(1);
@@ -69,6 +74,10 @@ public class MainActivity extends AppCompatActivity implements OnAccountRequestL
 
             }
         };
+
+        auth.addAuthStateListener(authStateListener);
+
+        setupFragments();
 
         bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
