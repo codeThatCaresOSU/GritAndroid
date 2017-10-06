@@ -1,17 +1,22 @@
 package com.justcorrections.grit.map;
 
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnMultiChoiceClickListener;
-import android.content.DialogInterface.OnShowListener;
+import android.animation.Animator;
+import android.animation.Animator.AnimatorListener;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
+import android.view.animation.TranslateAnimation;
+import android.widget.CheckBox;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import com.justcorrections.grit.R;
 
@@ -23,6 +28,9 @@ import com.justcorrections.grit.R;
 public class MapFragment extends Fragment {
 
     private FloatingActionButton filterMenuOpenButton;
+    private CardView card;
+    private LinearLayout ll;
+    private FrameLayout frame;
 
     public MapFragment() {
         // Required empty public constructor
@@ -45,57 +53,135 @@ public class MapFragment extends Fragment {
             }
         });
 
+        final CheckBox check = view.findViewById(R.id.check);
+        ll = view.findViewById(R.id.ll);
+        ll.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                check.setChecked(!check.isChecked());
+            }
+        });
+
+        card = view.findViewById(R.id.card);
+        frame = view.findViewById(R.id.frame);
+
+        frame.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hideMenu();
+            }
+        });
+
+        card.setClickable(true);
+
         return view;
     }
 
     public void onFilterMenuOpen() {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setCancelable(false)
-                .setTitle("The title");
-        String[] choices = {"One", "Two", "Three"};
-        boolean[] checked = {false, true, false};
+        if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
+            int x = card.getLeft() + (card.getWidth() / 2);
+            int y = card.getBottom() - (filterMenuOpenButton.getHeight() / 2);
 
-        builder.setMultiChoiceItems(choices, checked, new OnMultiChoiceClickListener() {
+            int startRadius = 0;
+            int endRadius = (int) Math.hypot(card.getWidth(), card.getHeight());
+
+            TranslateAnimation tAnim = new TranslateAnimation(0, -200, 0, 0);
+            tAnim.setDuration(200);
+            filterMenuOpenButton.animate().translationXBy(-200).setDuration(200).start();
+
+
+            Animator animator = ViewAnimationUtils.createCircularReveal(frame, x, y, startRadius, endRadius);
+            animator.setDuration(500);
+
+
+            animator.setStartDelay(175);
+
+            animator.addListener(new AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animator) {
+                    frame.setVisibility(View.VISIBLE);
+                    filterMenuOpenButton.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animator) {
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animator) {
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animator) {
+                }
+            });
+            animator.start();
+        }
+    }
+
+    public void hideMenu() {
+        filterMenuOpenButton.setVisibility(View.VISIBLE);
+        filterMenuOpenButton.animate().translationXBy(200).setDuration(200).start();
+        frame.animate().alpha(0f).setDuration(200).translationY(200).setListener(new AnimatorListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int index, boolean b) {
+            public void onAnimationStart(Animator animator) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                frame.setVisibility(View.INVISIBLE);
+                frame.setAlpha(1f);
+                frame.setY(frame.getY() - 200);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+
             }
         });
-
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // Do something when click the negative button
-            }
-        });
-
-        builder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // Do something when click the neutral button
-            }
-        });
-
-        final AlertDialog dialog = builder.create();
-
-        final int darkPink = ContextCompat.getColor(getContext(), R.color.darkPink);
-
-        dialog.setOnShowListener(new OnShowListener() {
-            @Override
-            public void onShow(DialogInterface d) {
-                dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(darkPink);
-                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(darkPink);
-            }
-        });
-
-        dialog.show();
-
+        if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
+//            int x = card.getLeft() + (card.getWidth() / 2);
+//            int y = card.getBottom();
+//
+//            int startRadius = 0;
+//            int endRadius = (int) Math.hypot(card.getWidth(), card.getHeight());
+//
+//            TranslateAnimation tAnim = new TranslateAnimation(0, -200, 0, 0);
+//            tAnim.setDuration(200);
+//            filterMenuOpenButton.animate().translationXBy(-200).setDuration(200).start();
+//
+//
+//            Animator animator = ViewAnimationUtils.
+//            animator.setDuration(700);
+//
+//
+//            animator.setStartDelay(200);
+//
+//            animator.addListener(new AnimatorListener() {
+//                @Override
+//                public void onAnimationStart(Animator animator) {
+//                    frame.setVisibility(View.VISIBLE);
+//                }
+//
+//                @Override
+//                public void onAnimationEnd(Animator animator) {
+//                }
+//
+//                @Override
+//                public void onAnimationCancel(Animator animator) {
+//                }
+//
+//                @Override
+//                public void onAnimationRepeat(Animator animator) {
+//                }
+//            });
+//            animator.start();
+        }
     }
 }
