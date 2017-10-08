@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
-import android.view.animation.TranslateAnimation;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -86,13 +85,10 @@ public class MapFragment extends Fragment {
             int startRadius = 0;
             int endRadius = (int) Math.hypot(card.getWidth(), card.getHeight());
 
-            TranslateAnimation tAnim = new TranslateAnimation(0, -200, 0, 0);
-            tAnim.setDuration(200);
             filterMenuOpenButton.animate().translationXBy(-200).setDuration(200).start();
 
-
             Animator animator = ViewAnimationUtils.createCircularReveal(frame, x, y, startRadius, endRadius);
-            animator.setDuration(500);
+            animator.setDuration(375);
 
 
             animator.setStartDelay(175);
