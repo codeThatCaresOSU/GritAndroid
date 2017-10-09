@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
-import android.view.ViewPropertyAnimator;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 import android.widget.CheckBox;
@@ -30,11 +29,8 @@ import com.justcorrections.grit.map.SlidingFloatingActionButton.AnimationFinishe
  */
 public class MapFragment extends Fragment {
 
-    // FAB is the floating action button represented by filterMenuOpenButton
-    private static final int FAB_OPEN_OFFSET = 200; // in pixels
-    private static final int FAB_ANIMATION_DURATION = 175; // in millis
 
-    private static final int FILTER_MENU_OPEN_DELAY = FAB_ANIMATION_DURATION; // in millis
+    private static final int FILTER_MENU_OPEN_DELAY = 175; // in millis
     private static final int FILTER_MENU_OPEN_DURATION = 375 / 2; // in millis
     private static final int FILTER_MENU_HIDE_DURATION = 200; // in milliis
     private static final int FILTER_MENU_HIDE_OFFSET = 200; // in pixels
@@ -100,35 +96,30 @@ public class MapFragment extends Fragment {
         if (isFilterMenuShowing)
             return;
 
-        if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP && 1 == 1) {
+        if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
 
             int x = filterMenu.getLeft() + (filterMenu.getWidth() / 2); // middle of view horizontally
-            int y = filterMenu.getBottom() - (filterMenuOpenButton.getHeight() / 2); // middle of view vertically
+            int y = filterMenu.getBottom(); // bottom of the view
             int startRadius = 0;
             int endRadius = (int) Math.hypot(filterMenu.getWidth(), filterMenu.getHeight()); // diagonal length of view
             final Animator openFilterMenu = ViewAnimationUtils.createCircularReveal(backgroundFrame, x, y, startRadius, endRadius);
 
-            int toX = filterMenuOpenButton_StartingX - FAB_OPEN_OFFSET;
-            filterMenuOpenButton.slideTo(toX, FAB_ANIMATION_DURATION, new AnimationFinishedListener() {
+            filterMenuOpenButton.slide(new AnimationFinishedListener() {
                 @Override
                 public void onAnimationFinished() {
-                    backgroundFrame.setVisibility(View.VISIBLE);
                     filterMenuOpenButton.setVisibility(View.GONE);
+                    filterMenu.setVisibility(View.VISIBLE);
                     openFilterMenu.start();
                 }
             });
 
-        } else
-
-        {
+        } else {
             final int initialHeight = 0;
             filterMenu.getLayoutParams().height = 0;
             filterMenu.requestLayout();
 
             filterMenu.measure(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
             int targetHeight = filterMenu.getMeasuredHeight();
-
-            System.out.println("Ian " + targetHeight);
 
             backgroundFrame.setVisibility(View.VISIBLE);
 
@@ -152,55 +143,34 @@ public class MapFragment extends Fragment {
             };
 
             a.setDuration(FILTER_MENU_OPEN_DURATION);
-            int toX = filterMenuOpenButton_StartingX - FAB_OPEN_OFFSET;
-            ViewPropertyAnimator translateFab = filterMenuOpenButton.animate().translationX(toX).setDuration(FAB_ANIMATION_DURATION);
-
-            translateFab.setListener(new AnimatorListener() {
+            filterMenuOpenButton.slide(new AnimationFinishedListener() {
                 @Override
-                public void onAnimationStart(Animator animator) {
-                }
-
-                @Override
-                public void onAnimationEnd(Animator animator) {
+                public void onAnimationFinished() {
                     backgroundFrame.setVisibility(View.VISIBLE);
                     filterMenuOpenButton.setVisibility(View.GONE);
                     filterMenu.startAnimation(a);
                 }
-
-                @Override
-                public void onAnimationCancel(Animator animator) {
-
-                }
-
-                @Override
-                public void onAnimationRepeat(Animator animator) {
-
-                }
             });
-
-            translateFab.start();
         }
 
         isFilterMenuShowing = true;
-
-
     }
 
     public void hideFilterMenu() {
         if (!isFilterMenuShowing)
             return;
 
-        filterMenuOpenButton.slideBack(FAB_ANIMATION_DURATION);
-        backgroundFrame.animate().alpha(0f).setDuration(FILTER_MENU_HIDE_DURATION).translationY(FILTER_MENU_HIDE_OFFSET).setListener(new AnimatorListener() {
+        filterMenuOpenButton.slideBack();
+        filterMenu.animate().alpha(0f).setDuration(FILTER_MENU_HIDE_DURATION).translationY(FILTER_MENU_HIDE_OFFSET).setListener(new AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animator) {
             }
 
             @Override
             public void onAnimationEnd(Animator animator) {
-                backgroundFrame.setVisibility(View.INVISIBLE);
-                backgroundFrame.setAlpha(1f);
-                backgroundFrame.setY(backgroundFrame.getY() - FILTER_MENU_HIDE_OFFSET);
+                filterMenu.setVisibility(View.INVISIBLE);
+                filterMenu.setAlpha(1f);
+                filterMenu.setY(filterMenu.getY() - FILTER_MENU_HIDE_OFFSET);
             }
 
             @Override

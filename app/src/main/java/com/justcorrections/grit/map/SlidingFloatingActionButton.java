@@ -12,16 +12,23 @@ import android.util.AttributeSet;
 
 public class SlidingFloatingActionButton extends FloatingActionButton {
 
-
-    public SlidingFloatingActionButton(Context context) {
-        super(context);
-    }
+    public static final long OFFSET = -200; // in pixels
+    public static final long DURATION = 175; // in millis
 
     public SlidingFloatingActionButton(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public void slideTo(float x, int duration, final SlidingFloatingActionButton.AnimationFinishedListener listener) {
+    public void slide(final SlidingFloatingActionButton.AnimationFinishedListener listener) {
+        this.slide(OFFSET, DURATION, listener);
+    }
+
+    public void slideBack() {
+        this.setVisibility(VISIBLE);
+        slide(0, DURATION, null);
+    }
+
+    private void slide(long x, long duration, final SlidingFloatingActionButton.AnimationFinishedListener listener) {
         this.animate().translationX(x).setDuration(duration).setListener(new AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animator) {
@@ -44,11 +51,6 @@ public class SlidingFloatingActionButton extends FloatingActionButton {
 
             }
         }).start();
-    }
-
-    public void slideBack(int duration) {
-        this.setVisibility(VISIBLE);
-        slideTo(0, duration, null);
     }
 
     public interface AnimationFinishedListener {
