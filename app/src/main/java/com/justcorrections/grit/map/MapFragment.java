@@ -5,7 +5,6 @@ import android.animation.Animator.AnimatorListener;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
@@ -22,6 +21,7 @@ import android.widget.FrameLayout.LayoutParams;
 import android.widget.LinearLayout;
 
 import com.justcorrections.grit.R;
+import com.justcorrections.grit.map.SlidingFloatingActionButton.AnimationFinishedListener;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -39,7 +39,7 @@ public class MapFragment extends Fragment {
     private static final int FILTER_MENU_HIDE_DURATION = 200; // in milliis
     private static final int FILTER_MENU_HIDE_OFFSET = 200; // in pixels
 
-    private FloatingActionButton filterMenuOpenButton;
+    private SlidingFloatingActionButton filterMenuOpenButton;
     private CardView filterMenu;
     private FrameLayout backgroundFrame;
     private LinearLayout ll;
@@ -104,39 +104,23 @@ public class MapFragment extends Fragment {
 
             int x = filterMenu.getLeft() + (filterMenu.getWidth() / 2); // middle of view horizontally
             int y = filterMenu.getBottom() - (filterMenuOpenButton.getHeight() / 2); // middle of view vertically
-
             int startRadius = 0;
             int endRadius = (int) Math.hypot(filterMenu.getWidth(), filterMenu.getHeight()); // diagonal length of view
+            final Animator openFilterMenu = ViewAnimationUtils.createCircularReveal(backgroundFrame, x, y, startRadius, endRadius);
 
             int toX = filterMenuOpenButton_StartingX - FAB_OPEN_OFFSET;
-            ViewPropertyAnimator translateFab = filterMenuOpenButton.animate().translationX(toX).setDuration(FAB_ANIMATION_DURATION);
-
-            final Animator openFilterMenu = ViewAnimationUtils.createCircularReveal(backgroundFrame, x, y, startRadius, endRadius);
-            translateFab.setListener(new AnimatorListener() {
+            filterMenuOpenButton.slideTo(toX, FAB_ANIMATION_DURATION, new AnimationFinishedListener() {
                 @Override
-                public void onAnimationStart(Animator animator) {
-                }
-
-                @Override
-                public void onAnimationEnd(Animator animator) {
+                public void onAnimationFinished() {
                     backgroundFrame.setVisibility(View.VISIBLE);
                     filterMenuOpenButton.setVisibility(View.GONE);
                     openFilterMenu.start();
                 }
-
-                @Override
-                public void onAnimationCancel(Animator animator) {
-
-                }
-
-                @Override
-                public void onAnimationRepeat(Animator animator) {
-
-                }
             });
 
-            translateFab.start();
-        } else {
+        } else
+
+        {
             final int initialHeight = 0;
             filterMenu.getLayoutParams().height = 0;
             filterMenu.requestLayout();
@@ -196,6 +180,7 @@ public class MapFragment extends Fragment {
 
             translateFab.start();
         }
+
         isFilterMenuShowing = true;
 
 
@@ -205,8 +190,7 @@ public class MapFragment extends Fragment {
         if (!isFilterMenuShowing)
             return;
 
-        filterMenuOpenButton.setVisibility(View.VISIBLE);
-        filterMenuOpenButton.animate().translationXBy(FAB_OPEN_OFFSET).setDuration(FAB_ANIMATION_DURATION).setListener(null).start();
+        filterMenuOpenButton.slideBack(FAB_ANIMATION_DURATION);
         backgroundFrame.animate().alpha(0f).setDuration(FILTER_MENU_HIDE_DURATION).translationY(FILTER_MENU_HIDE_OFFSET).setListener(new AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animator) {
