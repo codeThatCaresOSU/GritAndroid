@@ -21,4 +21,13 @@
         <item name="android:windowExitAnimation">@anim/map_filter_menu_hide</item>
     </style>
 
+    <style name="TextHint" parent="TextAppearance.AppCompat">
+        <!-- Hint color and label color in FALSE state -->
+        <item name="android:textColorHint">@android:color/primary_text_light</item>
+        <!-- Label color in TRUE state and bar color FALSE and TRUE State -->
+        <item name="colorAccent">@android:color/primary_text_light</item>
+        <item name="colorControlNormal">@android:color/primary_text_light</item>
+        <item name="colorControlActivated">@android:color/primary_text_light</item>
+    </style>
+
 </resources>
