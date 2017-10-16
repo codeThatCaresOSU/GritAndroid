@@ -5,6 +5,8 @@ import android.animation.Animator.AnimatorListener;
 import android.content.Context;
 import android.support.design.widget.FloatingActionButton;
 import android.util.AttributeSet;
+import android.view.View;
+import android.widget.FrameLayout;
 
 /**
  * Created by ianwillis on 10/8/17.
@@ -12,15 +14,24 @@ import android.util.AttributeSet;
 
 public class SlidingFloatingActionButton extends FloatingActionButton {
 
-    public static final long OFFSET = -200; // in pixels
     public static final long DURATION = 175; // in millis
+
+    // parent of this view used to capture click events
+    private FrameLayout backgroundFrame;
 
     public SlidingFloatingActionButton(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public void slide(final SlidingFloatingActionButton.AnimationFinishedListener listener) {
-        this.slide(OFFSET, DURATION, listener);
+    public void setBackgroundFrame(FrameLayout backgroundFrame) {
+        this.backgroundFrame = backgroundFrame;
+    }
+
+    public void slideTo(View view, final SlidingFloatingActionButton.AnimationFinishedListener listener) {
+        int viewX = view.getLeft() + (view.getWidth() / 2); // middle of view horizontally
+        int toX = viewX - this.getLeft();
+        System.out.println("Ian " + toX + " " + viewX + " " + this.getLeft());
+        this.slide(toX, DURATION, listener);
     }
 
     public void slideBack() {
