@@ -1,5 +1,7 @@
 package com.justcorrections.grit.map;
 
+import android.animation.Animator;
+import android.animation.Animator.AnimatorListener;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -7,7 +9,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewTreeObserver;
+import android.view.ViewAnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
@@ -22,8 +24,9 @@ public class FilterMenu extends FrameLayout {
 
     private FrameLayout background;
     private FloatingActionButton openButton;
-    private CardView menuWrapper;
-    private LinearLayout menu;
+    private FrameLayout menuWrapper;
+    private CardView menu;
+    private LinearLayout menuItems;
 
     private OnFilterUpdatedListener onFilterChangedListener;
 
@@ -36,30 +39,24 @@ public class FilterMenu extends FrameLayout {
         openButton = view.findViewById(R.id.open_button);
         menuWrapper = view.findViewById(R.id.menu_wrapper);
         menu = view.findViewById(R.id.menu);
-
-        openButton.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                int openButtonVerticalCenter = openButton.getBottom() - (openButton.getHeight() / 2);
-                menuWrapper.setY(openButtonVerticalCenter - menuWrapper.getHeight());
-                openButton.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-            }
-        });
+        menuItems = view.findViewById(R.id.menu_items);
 
         background.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("Ian here2");
+                background.setClickable(false);
+                closeMenu();
             }
         });
+        background.setClickable(false);
         openButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                background.setClickable(true);
                 openMenu();
             }
         });
     }
-
 
     public void setItems(String[] titles, boolean[] checked) {
         for (int i = 0; i < titles.length && i < checked.length; i++) {
@@ -70,7 +67,7 @@ public class FilterMenu extends FrameLayout {
                     onFilterChangedListener.onFilterUpdated(item.getTitle(), item.isChecked());
                 }
             });
-            menu.addView(item);
+            menuItems.addView(item);
         }
     }
 
@@ -79,7 +76,61 @@ public class FilterMenu extends FrameLayout {
     }
 
     private void openMenu() {
-        System.out.println("Ian here");
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            int[] menuCoords = {0, 0};
+            menu.getLocationOnScreen(menuCoords);
+            int menuX = menuCoords[0];
+            int menuY = menuCoords[1];
+            int menuCenterX = menuX + (menu.getWidth() / 2);
+            int menuCenterY = menuY + (menu.getHeight() / 2);
+
+            int[] openButtonCoords = {0, 0};
+            openButton.getLocationOnScreen(openButtonCoords);
+            int openButtonX = openButtonCoords[0];
+            int openButtonY = openButtonCoords[1];
+            int openButtonCenterX = openButtonX + (openButton.getWidth() / 2);
+            int openButtonCenterY = openButtonY + (openButton.getHeight() / 2);
+
+            int x = (menu.getWidth() / 2);
+            int y = (menu.getHeight() / 2) + (openButtonCenterY - menuCenterY);
+            int startRadius = (int) Math.hypot(openButton.getWidth(), openButton.getHeight()) / 2;
+            int endRadius = (int) Math.hypot(menu.getWidth(), menu.getHeight());
+            System.out.println("Ian " + startRadius + " " + endRadius + " " + openButton.getWidth() + " " + openButton.getHeight());
+
+            Animator animator = null;
+            animator = ViewAnimationUtils.createCircularReveal(menuWrapper, x, y, startRadius, endRadius);
+            openButton.animate().translationXBy(menuCenterX - openButtonCenterX).setDuration(200).start();
+            animator.setDuration(375);
+
+            animator.setStartDelay(200);
+
+            animator.addListener(new AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animator) {
+                    openButton.setVisibility(INVISIBLE);
+                    menuWrapper.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animator) {
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animator) {
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animator) {
+                }
+            });
+            animator.start();
+        }
+    }
+
+    private void closeMenu() {
+        menuWrapper.setVisibility(INVISIBLE);
+        openButton.setVisibility(VISIBLE);
+        openButton.animate().translationX(0).setDuration(200).start();
     }
 
     public interface OnFilterUpdatedListener {
