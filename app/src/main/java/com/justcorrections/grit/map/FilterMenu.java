@@ -2,6 +2,8 @@ package com.justcorrections.grit.map;
 
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -93,16 +95,24 @@ public class FilterMenu extends FrameLayout {
 
             int x = (menu.getWidth() / 2);
             int y = (menu.getHeight() / 2) + (openButtonCenterY - menuCenterY);
-            int startRadius = (int) Math.hypot(openButton.getWidth(), openButton.getHeight()) / 2;
+
+            int startRadius = openButton.getWidth() / 2;
             int endRadius = (int) Math.hypot(menu.getWidth(), menu.getHeight());
             System.out.println("Ian " + startRadius + " " + endRadius + " " + openButton.getWidth() + " " + openButton.getHeight());
 
             Animator animator = null;
             animator = ViewAnimationUtils.createCircularReveal(menuWrapper, x, y, startRadius, endRadius);
-            openButton.animate().translationXBy(menuCenterX - openButtonCenterX).setDuration(200).start();
-            animator.setDuration(375);
+            openButton.animate().translationXBy(menuCenterX - openButtonCenterX).setDuration(250).start();
+            animator.setDuration(500);
 
-            animator.setStartDelay(200);
+            animator.setStartDelay(250);
+
+            ObjectAnimator a = ObjectAnimator
+                    .ofPropertyValuesHolder(openButton.getDrawable(),
+                            PropertyValuesHolder.ofInt("alpha", 255, 0));
+            a.setTarget(openButton.getDrawable());
+            a.setDuration(20);
+            a.start();
 
             animator.addListener(new AnimatorListener() {
                 @Override
