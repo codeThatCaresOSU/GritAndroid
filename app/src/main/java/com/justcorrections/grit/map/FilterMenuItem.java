@@ -40,6 +40,12 @@ public class FilterMenuItem extends LinearLayout {
                 onChangeListener.onChange(FilterMenuItem.this);
             }
         });
+        checkBox.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onChangeListener.onChange(FilterMenuItem.this);
+            }
+        });
         checkBox.setChecked(true);
     }
 

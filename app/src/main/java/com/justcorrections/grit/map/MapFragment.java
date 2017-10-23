@@ -33,10 +33,11 @@ public class MapFragment extends Fragment {
 
 
         filterMenu = view.findViewById(R.id.filter_menu);
-        filterMenu.setItems(new String[]{"Food", "G.E.D", "Food", "Food"}, new boolean[]{false, true, false, false});
+        filterMenu.setItems(new String[]{"Food", "G.E.D", "Recovery", "Second Chance Employer", "Transportation"}, new boolean[]{false, false, false, false, false});
         filterMenu.setOnFilterChangedListener(new OnFilterUpdatedListener() {
             @Override
             public void onFilterUpdated(String title, boolean checked) {
+                System.out.println("Ian " + title + " " + checked);
             }
         });
 

@@ -12,6 +12,8 @@ import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewAnimationUtils;
+import android.view.ViewPropertyAnimator;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
@@ -95,26 +97,11 @@ public class FilterMenu extends FrameLayout {
 
             int x = (menu.getWidth() / 2);
             int y = (menu.getHeight() / 2) + (openButtonCenterY - menuCenterY);
-
             int startRadius = openButton.getWidth() / 2;
             int endRadius = (int) Math.hypot(menu.getWidth(), menu.getHeight());
-            System.out.println("Ian " + startRadius + " " + endRadius + " " + openButton.getWidth() + " " + openButton.getHeight());
 
-            Animator animator = null;
-            animator = ViewAnimationUtils.createCircularReveal(menuWrapper, x, y, startRadius, endRadius);
-            openButton.animate().translationXBy(menuCenterX - openButtonCenterX).setDuration(250).start();
-            animator.setDuration(500);
-
-            animator.setStartDelay(250);
-
-            ObjectAnimator a = ObjectAnimator
-                    .ofPropertyValuesHolder(openButton.getDrawable(),
-                            PropertyValuesHolder.ofInt("alpha", 255, 0));
-            a.setTarget(openButton.getDrawable());
-            a.setDuration(20);
-            a.start();
-
-            animator.addListener(new AnimatorListener() {
+            Animator openMenuAnimation = ViewAnimationUtils.createCircularReveal(menuWrapper, x, y, startRadius, endRadius).setDuration(250);
+            openMenuAnimation.addListener(new AnimatorListener() {
                 @Override
                 public void onAnimationStart(Animator animator) {
                     openButton.setVisibility(INVISIBLE);
@@ -133,14 +120,28 @@ public class FilterMenu extends FrameLayout {
                 public void onAnimationRepeat(Animator animator) {
                 }
             });
-            animator.start();
+            openMenuAnimation.setInterpolator(new AccelerateInterpolator());
+            openMenuAnimation.setStartDelay(250);
+
+            ViewPropertyAnimator moveOpenButtonAnimation = openButton.animate().translationXBy(menuCenterX - openButtonCenterX).setDuration(250);
+
+
+            moveOpenButtonAnimation.start();
+            ObjectAnimator.ofPropertyValuesHolder(openButton.getDrawable(),
+                    PropertyValuesHolder.ofInt("alpha", 255, 0)).setDuration(100).start();
+            openMenuAnimation.start();
+
         }
     }
 
     private void closeMenu() {
         menuWrapper.setVisibility(INVISIBLE);
         openButton.setVisibility(VISIBLE);
-        openButton.animate().translationX(0).setDuration(200).start();
+        openButton.animate().translationX(0).setDuration(300).start();
+        Animator a = ObjectAnimator.ofPropertyValuesHolder(openButton.getDrawable(),
+                PropertyValuesHolder.ofInt("alpha", 0, 255)).setDuration(100);
+        a.setStartDelay(150);
+        a.start();
     }
 
     public interface OnFilterUpdatedListener {
