@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements OnAccountRequestL
 
         bottomNav = (BottomNavigationView) findViewById(R.id.main_bottom_nav);
         snackbarView = (CoordinatorLayout) findViewById(R.id.main_snackbar_view);
-        helper = new DatabaseHelper();
+        helper = DatabaseHelper.getInstance();
 
         auth = FirebaseAuth.getInstance();
         // onAuthStateChanged gets called when AuthStateListener is registered
