@@ -19,4 +19,19 @@ public class DatabaseHelper {
         return database.getReference(path.toString());
     }
 
+    public enum DatabasePath {
+
+        OhioData("MapData/MapData/OhioData"),
+        Categories("MapData/Categories");
+
+        private final String path;
+
+        DatabasePath(String path) {
+            this.path = path;
+        }
+
+        public String toString() {
+            return path;
+        }
+    }
 }
