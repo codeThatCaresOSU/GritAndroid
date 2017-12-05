@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -28,6 +29,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.justcorrections.grit.utils.GoogleMapUtils.hue;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link MapFragment#newInstance} factory method to
@@ -37,10 +40,11 @@ public class MapFragment extends Fragment implements OnClickListener{
 
     private MapPresenter presenter;
 
-    private GoogleMap googleMap;
-    private FloatingActionButton filterOpenButton;
+    private GoogleMap googleMap; // displays resources
+    private FloatingActionButton filterOpenButton; // opens filter menu, disabled when resources are loading
+    private ProgressBar indeterminateProgressBar; // visible until resource data loads
 
-    private Map<String, List<Marker>> mapMarkers; // maps: a category's name to the markers that fall under said category
+    private Map<String, List<Marker>> mapMarkers; // maps: a category's name -> the markers that fall under said category
 
     public static MapFragment newInstance() {
         return new MapFragment();
@@ -64,8 +68,11 @@ public class MapFragment extends Fragment implements OnClickListener{
 
         filterOpenButton = view.findViewById(R.id.map_filter_open_button);
         filterOpenButton.setOnClickListener(this);
+        filterOpenButton.setEnabled(false); // disabled until resources are loaded
 
         mapMarkers = new HashMap<>();
+
+        indeterminateProgressBar = view.findViewById(R.id.map_progress_bar);
 
         return view;
     }
@@ -105,6 +112,18 @@ public class MapFragment extends Fragment implements OnClickListener{
                 .show();
     }
 
+    public void setMarkers(Category category, List<Resource> resources) {
+        List<Marker> markers = new ArrayList<>();
+        for (Resource r : resources) {
+            LatLng latLng = new LatLng(r.getLat(), r.getLng());
+            MarkerOptions markerOptions = new MarkerOptions().position(latLng)
+                    .title(r.getName()).icon(BitmapDescriptorFactory.defaultMarker(hue(category.getColor())));
+            Marker m = googleMap.addMarker(markerOptions);
+            markers.add(m);
+        }
+        mapMarkers.put(category.getName(), markers);
+    }
+
     public void removeMarkers(String category) {
         if (mapMarkers.containsKey(category)) {
             for (Marker m : mapMarkers.get(category))
@@ -114,35 +133,15 @@ public class MapFragment extends Fragment implements OnClickListener{
         }
     }
 
-    public void setMarkers(Category category, List<Resource> resources) {
-        List<Marker> markers = new ArrayList<>();
-        for (Resource r : resources) {
-            LatLng latLng = new LatLng(r.getLat(), r.getLng());
-            MarkerOptions markerOptions = new MarkerOptions().position(latLng)
-                    .title(r.getName()).icon(BitmapDescriptorFactory.defaultMarker(hue(category.getName())));
-            Marker m = googleMap.addMarker(markerOptions);
-            markers.add(m);
-        }
-        mapMarkers.put(category.getName(), markers);
-    }
 
-    // TODO: move to util class
-    private float hue(String category) {
-        switch (category) {
-            case "Food":
-                return BitmapDescriptorFactory.HUE_RED;
-            case "G.E.D.":
-                return BitmapDescriptorFactory.HUE_BLUE;
-            case "Recovery":
-                return BitmapDescriptorFactory.HUE_GREEN;
-            case "Second Change Employer":
-                return BitmapDescriptorFactory.HUE_YELLOW;
-            case "Transportation":
-                return BitmapDescriptorFactory.HUE_ORANGE;
-            default:
-                // in case new category is added
-                return BitmapDescriptorFactory.HUE_VIOLET;
-        }
+    public void showProgressBar() {
+        indeterminateProgressBar.setVisibility(View.VISIBLE);
+        filterOpenButton.setEnabled(false);
+    }
+    
+    public void hideProgressBar() {
+        indeterminateProgressBar.setVisibility(View.GONE);
+        filterOpenButton.setEnabled(true);
     }
 
 }

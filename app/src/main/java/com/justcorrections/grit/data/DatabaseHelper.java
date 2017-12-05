@@ -21,7 +21,7 @@ public class DatabaseHelper {
 
     public enum DatabasePath {
 
-        OhioData("MapData/MapData/OhioData"),
+        OhioData("MapData/OhioData"),
         Categories("MapData/Categories");
 
         private final String path;

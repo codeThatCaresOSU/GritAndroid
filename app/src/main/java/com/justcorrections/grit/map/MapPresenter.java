@@ -6,8 +6,10 @@ import com.justcorrections.grit.data.category.CategoryDataSource.GetCategoriesCa
 import com.justcorrections.grit.data.resource.Resource;
 import com.justcorrections.grit.data.resource.ResourcesDataSource;
 import com.justcorrections.grit.data.resource.ResourcesDataSource.GetResourcesCallback;
+import com.justcorrections.grit.utils.ArrayUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -21,19 +23,24 @@ public class MapPresenter {
     private MapFragment mapFragment;
 
     private Category[] categories;
-    private boolean[] checked;
+    private boolean[] selected;
     private List<Resource> resources;
 
-    private SortedMap<String, List<Resource>> sortedResources; // maps: a category's name to the resources that fall under said category
+    private boolean categoriesHaveLoaded, resourcesHaveLoaded;
+
+    private SortedMap<String, List<Resource>> sortedResources; // maps: a category's name -> the resources that fall under said category
 
     public MapPresenter(MapFragment mapFragment) {
         this.mapFragment = mapFragment;
     }
 
     public void start() {
+        mapFragment.showProgressBar();
         loadCategories();
         loadResources();
     }
+
+    // TODO: onPause, dereference mapFragment to prevent memory leak? not sure if needed
 
     public void loadCategories() {
         CategoryDataSource.getInstance().getCategories(new GetCategoriesCallback() {
@@ -41,12 +48,15 @@ public class MapPresenter {
             public void onCategoriesLoaded(List<Category> loadedCategories) {
                 categories = new Category[loadedCategories.size()];
                 loadedCategories.toArray(categories);
-                checked = new boolean[loadedCategories.size()];
+                selected = new boolean[loadedCategories.size()];
+                categoriesHaveLoaded = true;
+                if (resourcesHaveLoaded)
+                    mapFragment.hideProgressBar();
             }
 
             @Override
             public void onDataNotAvailable() {
-                //TODO: err handling?
+                //TODO: err handling
             }
         });
     }
@@ -56,12 +66,16 @@ public class MapPresenter {
             @Override
             public void onResourcesLoaded(List<Resource> loadedResources) {
                 resources = loadedResources;
+                resourcesHaveLoaded = true;
                 sortResources();
+                resourcesHaveLoaded = true;
+                if (categoriesHaveLoaded)
+                    mapFragment.hideProgressBar();
             }
 
             @Override
             public void onDataNotAvailable() {
-                //TODO: err handling?
+                //TODO: err handling
             }
         });
     }
@@ -78,12 +92,24 @@ public class MapPresenter {
     }
 
     public void onFilterButtonPressed() {
-        String[] categories = new String[this.categories.length];
-        for (int i = 0; i < this.categories.length; i++)
-            categories[i] = this.categories[i].getName();
-        mapFragment.openFilterMenu(categories, checked);
+        if (categoriesHaveLoaded && resourcesHaveLoaded) {
+            String[] categories = new String[this.categories.length];
+            for (int i = 0; i < this.categories.length; i++)
+                categories[i] = this.categories[i].getName();
+            boolean[] selectedCopy = Arrays.copyOf(selected, selected.length); // use copy so original values aren't changed
+            mapFragment.openFilterMenu(categories, selectedCopy);
+        }
     }
 
-    public void onFilterChanged(String[] categoryNames, boolean[] newSelected) {
+    public void onFilterChanged(String[] categoryNames, boolean[] updatedSelected) {
+        boolean[] changes = ArrayUtils.findArrayChanges(selected, updatedSelected);
+        for (int i = 0; i < changes.length; i++) {
+            if (changes[i] && updatedSelected[i]) {
+                mapFragment.setMarkers(categories[i], sortedResources.get(categoryNames[i]));
+            } else if (changes[i] && !updatedSelected[i]) {
+                mapFragment.removeMarkers(categoryNames[i]);
+            }
+        }
+        selected = updatedSelected;
     }
 }

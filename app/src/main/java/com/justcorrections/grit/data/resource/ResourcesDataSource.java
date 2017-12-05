@@ -81,6 +81,7 @@ public class ResourcesDataSource {
                     List<Resource> resources = new ArrayList<>();
                     for (DataSnapshot child : dataSnapshot.getChildren()) {
                         Resource r = child.getValue(Resource.class);
+                        r.setId(child.getKey());
                         resources.add(r);
                     }
                     resourceCache = resources;
