@@ -1,7 +1,5 @@
 package com.justcorrections.grit.utils;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
@@ -58,11 +56,6 @@ public class DatabaseHelper {
     // method that you want to execute after the data is available.
     public void getOhioLocations(ValueEventListener callback) {
         locations.addListenerForSingleValueEvent(callback);
-    }
-
-    // adds the location to a randomly named node under the OhioData node
-    public void setLocation(MapLocation location) {
-        locations.push().setValue(location);
     }
 
 }

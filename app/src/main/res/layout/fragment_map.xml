@@ -1,18 +1,36 @@
-<FrameLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- Displays resource data -->
     <fragment
         android:id="@+id/map"
         class="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <com.justcorrections.grit.map.FilterMenu
-        android:id="@+id/filter_menu"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+    <!-- Opens the filter menu -->
+    <!-- Disabled when resources are loading -->
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/map_filter_open_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_filter_white"
+        android:tint="@color/colorAccent"
+        app:backgroundTint="@color/map_filter_open_button"/>
 
-</FrameLayout>
+    <!-- Enabled until resource data loads -->
+    <ProgressBar
+        android:id="@+id/map_progress_bar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:layout_alignParentTop="true"
+        android:indeterminate="true"/>
+
+</RelativeLayout>

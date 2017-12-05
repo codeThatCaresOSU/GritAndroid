@@ -2,13 +2,31 @@
 <resources>
     <color name="colorPrimary">#1E88E5</color>
     <color name="colorPrimaryDark">#1565C0</color>
-    <color name="colorAccent">#FDD835</color>
+    <color name="colorAccent">@color/darkPink
+    </color> <!-- I find myself using this color where all accents are used so I replace the old one -->
+    <!--<color name="colorAccent">#FDD835</color>-->
 
     <color name="darkPink">#DE3163</color>
-
-    <color name="white">#FFFFFF</color>
-    <color name="black">#000000</color>
+    <color name="yellow">#FFEB3B</color>
 
     <color name="green">#8BC34A</color>
     <color name="red">#F44336</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="grayE">#EEEEEE</color>
+    <color name="grayD">#DDDDDD</color>
+    <color name="grayC">#CCCCCC</color>
+    <color name="grayB">#BBBBBB</color>
+    <color name="grayA">#AAAAAA</color>
+    <color name="gray9">#999999</color>
+    <color name="gray8">#888888</color>
+    <color name="gray7">#777777</color>
+    <color name="gray6">#666666</color>
+    <color name="gray5">#555555</color>
+    <color name="gray4">#444444</color>
+    <color name="gray3">#333333</color>
+    <color name="gray2">#222222</color>
+    <color name="gray1">#111111</color>
+    <color name="black">#000000</color>
+
 </resources>
