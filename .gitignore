@@ -1,10 +1,10 @@
-.idea
-*.iml
-local.properties
-build
 .gradle
-# Eclipse project files
-.project
-.settings/
-.classpath
+local.properties
+.idea
+build/
 .DS_Store
+*.iml
+*.apk
+*.aar
+*.zip
+google-services.json
