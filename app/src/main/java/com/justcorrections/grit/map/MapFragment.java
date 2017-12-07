@@ -12,12 +12,14 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.justcorrections.grit.R;
@@ -36,13 +38,13 @@ import static com.justcorrections.grit.utils.GoogleMapUtils.hue;
  * Use the {@link MapFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MapFragment extends Fragment implements OnClickListener{
+public class MapFragment extends Fragment implements OnClickListener, OnMapReadyCallback {
 
     private MapPresenter presenter;
 
     private GoogleMap googleMap; // displays resources
     private FloatingActionButton filterOpenButton; // opens filter menu, disabled when resources are loading
-    private ProgressBar indeterminateProgressBar; // visible until resource data loads
+    private ProgressBar progressBar; // visible until resource data loads
 
     private Map<String, List<Marker>> mapMarkers; // maps: a category's name -> the markers that fall under said category
 
@@ -58,37 +60,31 @@ public class MapFragment extends Fragment implements OnClickListener{
         presenter = new MapPresenter(this);
 
         SupportMapFragment map = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-        map.getMapAsync(new OnMapReadyCallback() {
-            @Override
-            public void onMapReady(GoogleMap googleMap) {
-                MapFragment.this.googleMap = googleMap;
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(40.014190, -83.030914), 4f));
-            }
-        });
+        map.getMapAsync(this);
 
         filterOpenButton = view.findViewById(R.id.map_filter_open_button);
         filterOpenButton.setOnClickListener(this);
         filterOpenButton.setEnabled(false); // disabled until resources are loaded
 
-        mapMarkers = new HashMap<>();
+        progressBar = view.findViewById(R.id.map_progress_bar);
 
-        indeterminateProgressBar = view.findViewById(R.id.map_progress_bar);
+        mapMarkers = new HashMap<>();
 
         return view;
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        presenter.start();
-    }
-
 
     @Override
     public void onClick(View v) {
         if (v.getId() == filterOpenButton.getId()) {
             presenter.onFilterButtonPressed();
         }
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        this.googleMap = googleMap;
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(40.014190, -83.030914), 6f));
+        presenter.start();
     }
 
     public void openFilterMenu(final String[] categories, final boolean[] selected) {
@@ -122,6 +118,7 @@ public class MapFragment extends Fragment implements OnClickListener{
             markers.add(m);
         }
         mapMarkers.put(category.getName(), markers);
+        zoomToFitMarkers();
     }
 
     public void removeMarkers(String category) {
@@ -133,14 +130,25 @@ public class MapFragment extends Fragment implements OnClickListener{
         }
     }
 
+    private void zoomToFitMarkers() {
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
-    public void showProgressBar() {
-        indeterminateProgressBar.setVisibility(View.VISIBLE);
+        for (List<Marker> markers : mapMarkers.values())
+            for (Marker marker : markers)
+                builder.include(marker.getPosition());
+
+        LatLngBounds bounds = builder.build();
+        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 100);
+        googleMap.animateCamera(cu);
+    }
+
+    public void onFilterDataLoading() {
+        progressBar.setVisibility(View.VISIBLE);
         filterOpenButton.setEnabled(false);
     }
-    
-    public void hideProgressBar() {
-        indeterminateProgressBar.setVisibility(View.GONE);
+
+    public void onFilterDataLoaded() {
+        progressBar.setVisibility(View.GONE);
         filterOpenButton.setEnabled(true);
     }
 

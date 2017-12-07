@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Account -->
+    <string name="ACCOUNT_PROFILE_COMPLETED">account_profile_completed</string>
+
+    <!-- Map -->
+    <string name="MAP_FILTER_SELECTED">map_filter_selected</string>
+</resources>
