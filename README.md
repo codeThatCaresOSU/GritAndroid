@@ -10,7 +10,7 @@ https://www.justcorrections.com/
 
 Navigate to the directory you wish to copy the repository and run the command
 
-`git clone https://github.com/gworkman/GRIT.git`
+`git clone https://github.com/codeThatCaresOsu/grit-android.git`
 
 Ask a current contributor for the *google-services.json* file and *api_keys*
 or email *ianwillis98@gmail.com*
