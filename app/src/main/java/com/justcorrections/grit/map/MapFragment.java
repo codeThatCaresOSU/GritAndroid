@@ -138,7 +138,7 @@ public class MapFragment extends Fragment implements OnClickListener, OnMapReady
                 builder.include(marker.getPosition());
 
         LatLngBounds bounds = builder.build();
-        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 100);
+        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 300);
         googleMap.animateCamera(cu);
     }
 
