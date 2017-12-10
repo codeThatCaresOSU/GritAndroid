@@ -22,6 +22,7 @@ import com.justcorrections.grit.account.LoginFragment;
 import com.justcorrections.grit.account.OnAccountRequestListener;
 import com.justcorrections.grit.map.MapFragment;
 import com.justcorrections.grit.mystery.MysteryFragment;
+import com.justcorrections.grit.resource_detail.ResourceDetailFragment;
 import com.justcorrections.grit.utils.DatabaseHelper;
 
 import java.util.ArrayList;
@@ -192,5 +193,10 @@ public class MainActivity extends AppCompatActivity implements OnAccountRequestL
     public void onFail(String message) {
         Snackbar snackbar = Snackbar.make(snackbarView, message, Snackbar.LENGTH_LONG);
         snackbar.show();
+    }
+
+    public void showResourceDetailFragment(String resourceID) {
+        fragments.add(3, ResourceDetailFragment.newInstance(resourceID));
+        setSelected(3);
     }
 }
