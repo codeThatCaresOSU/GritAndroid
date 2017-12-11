@@ -59,15 +59,12 @@ public class ResourceDetailFragment extends Fragment {
 
     public void populateViewsWithResourceDetails(Resource resource) {
 
-        tvURL.setText(getString(R.string.prefix_url) + "\t" + resource.getUrl());
-        tvName.setText(getString(R.string.prefix_name) + "\t" + resource.getName());
-        tvPhone.setText(getString(R.string.prefix_phone) + "\t" + resource.getPhone());
-        tvCategory.setText(getString(R.string.prefix_category) + "\t" + resource.getCategory());
+        tvURL.setText(resource.getUrl());
+        tvName.setText(resource.getName());
+        tvPhone.setText(resource.getPhone());
+        tvCategory.setText(resource.getCategory());
 
-        String addressString = getString(R.string.prefix_location) + "\t" + resource.getAddress()
-                + "\n               "
-                + resource.getCity() + ", " + resource.getState() + " " + resource.getZip();
-
+        String addressString = resource.getAddress() + "\n" + resource.getCity() + ", " + resource.getState() + " " + resource.getZip();
         tvLocation.setText(addressString);
 
     }
