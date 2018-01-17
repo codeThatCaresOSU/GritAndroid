@@ -103,7 +103,7 @@ public class MapFragment extends Fragment implements OnClickListener, OnMapReady
                 })
                 .setNeutralButton("CANCEL", null)
                 .setCancelable(true)
-                .setTitle("Bus Filter")
+                .setTitle("Resource Filter")
                 .create()
                 .show();
     }
