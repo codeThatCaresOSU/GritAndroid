@@ -1,4 +1,4 @@
-package com.justcorrections.grit.resource_detail;
+package com.justcorrections.grit.map;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

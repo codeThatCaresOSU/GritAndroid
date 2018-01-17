@@ -22,7 +22,7 @@ import com.justcorrections.grit.account.LoginFragment;
 import com.justcorrections.grit.account.OnAccountRequestListener;
 import com.justcorrections.grit.map.MapFragment;
 import com.justcorrections.grit.mystery.MysteryFragment;
-import com.justcorrections.grit.resource_detail.ResourceDetailFragment;
+import com.justcorrections.grit.map.ResourceDetailFragment;
 import com.justcorrections.grit.utils.DatabaseHelper;
 
 import java.util.ArrayList;
