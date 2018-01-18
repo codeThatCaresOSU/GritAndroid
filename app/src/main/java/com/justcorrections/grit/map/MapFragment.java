@@ -22,6 +22,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.justcorrections.grit.MainActivity;
 import com.justcorrections.grit.R;
 import com.justcorrections.grit.data.category.Category;
 import com.justcorrections.grit.data.resource.Resource;
@@ -38,7 +39,7 @@ import static com.justcorrections.grit.utils.GoogleMapUtils.hue;
  * Use the {@link MapFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MapFragment extends Fragment implements OnClickListener, OnMapReadyCallback {
+public class MapFragment extends Fragment implements OnClickListener, OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
     private MapPresenter presenter;
 
@@ -47,6 +48,7 @@ public class MapFragment extends Fragment implements OnClickListener, OnMapReady
     private ProgressBar progressBar; // visible until resource data loads
 
     private Map<String, List<Marker>> mapMarkers; // maps: a category's name -> the markers that fall under said category
+    private Map<String, String> resourceIds; // maps: a marker's id -> the id of the resource it represents
 
     public static MapFragment newInstance() {
         return new MapFragment();
@@ -69,6 +71,7 @@ public class MapFragment extends Fragment implements OnClickListener, OnMapReady
         progressBar = view.findViewById(R.id.map_progress_bar);
 
         mapMarkers = new HashMap<>();
+        resourceIds = new HashMap<>();
 
         return view;
     }
@@ -84,6 +87,7 @@ public class MapFragment extends Fragment implements OnClickListener, OnMapReady
     public void onMapReady(GoogleMap googleMap) {
         this.googleMap = googleMap;
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(40.014190, -83.030914), 6f));
+        googleMap.setOnInfoWindowClickListener(this);
         presenter.start();
     }
 
@@ -116,6 +120,7 @@ public class MapFragment extends Fragment implements OnClickListener, OnMapReady
                     .title(r.getName()).icon(BitmapDescriptorFactory.defaultMarker(hue(category.getColor())));
             Marker m = googleMap.addMarker(markerOptions);
             markers.add(m);
+            resourceIds.put(m.getId(), r.getId());
         }
         mapMarkers.put(category.getName(), markers);
         zoomToFitMarkers();
@@ -152,4 +157,10 @@ public class MapFragment extends Fragment implements OnClickListener, OnMapReady
         filterOpenButton.setEnabled(true);
     }
 
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        String markerId = marker.getId();
+        String resourceId = resourceIds.get(markerId);
+        ((MainActivity) getActivity()).showResourceDetailFragment(resourceId);
+    }
 }

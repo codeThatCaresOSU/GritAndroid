@@ -38,4 +38,13 @@
     <string name="error_occurred">An error occurred, try again later</string>
 
 
+    <!-- Strings related to showing resource details -->
+    <string name="no_resource_loaded_label">No Resource Loaded</string>
+    <string name="prefix_name">Name:</string>
+    <string name="prefix_location">Address:</string>
+    <string name="prefix_url">Website:</string>
+    <string name="prefix_category">Category:</string>
+    <string name="prefix_phone">Phone:</string>
+
+
 </resources>
