@@ -34,11 +34,6 @@ import java.util.Map;
 
 import static com.justcorrections.grit.utils.GoogleMapUtils.hue;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link MapFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class MapFragment extends Fragment implements OnClickListener, OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
     private MapPresenter presenter;
@@ -59,10 +54,10 @@ public class MapFragment extends Fragment implements OnClickListener, OnMapReady
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_map, container, false);
 
-        presenter = new MapPresenter(this);
-
         SupportMapFragment map = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         map.getMapAsync(this);
+
+        presenter = new MapPresenter(this);
 
         filterOpenButton = view.findViewById(R.id.map_filter_open_button);
         filterOpenButton.setOnClickListener(this);
@@ -70,12 +65,15 @@ public class MapFragment extends Fragment implements OnClickListener, OnMapReady
 
         progressBar = view.findViewById(R.id.map_progress_bar);
 
-        mapMarkers = new HashMap<>();
-        resourceIds = new HashMap<>();
+        mapMarkers = new HashMap<String, List<Marker>>();
+        resourceIds = new HashMap<String, String>();
 
         return view;
     }
 
+    /*
+     * On click listener for filter button
+     */
     @Override
     public void onClick(View v) {
         if (v.getId() == filterOpenButton.getId()) {
@@ -83,14 +81,21 @@ public class MapFragment extends Fragment implements OnClickListener, OnMapReady
         }
     }
 
+    /*
+     * Callback for get map async
+     * Lets us know when google map is ready to be used
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         this.googleMap = googleMap;
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(40.014190, -83.030914), 6f));
         googleMap.setOnInfoWindowClickListener(this);
-        presenter.start();
+        presenter.start(); // start presenter when map is loaded
     }
 
+    /*
+     * Filter button has been pressed, create and open the filter menu
+     */
     public void openFilterMenu(final String[] categories, final boolean[] selected) {
         new AlertDialog.Builder(getContext())
                 .setMultiChoiceItems(categories, selected, new OnMultiChoiceClickListener() {
@@ -112,6 +117,9 @@ public class MapFragment extends Fragment implements OnClickListener, OnMapReady
                 .show();
     }
 
+    /*
+     * User has selected a category in the filter menu, add the resources to the map
+     */
     public void setMarkers(Category category, List<Resource> resources) {
         List<Marker> markers = new ArrayList<>();
         for (Resource r : resources) {
@@ -126,6 +134,9 @@ public class MapFragment extends Fragment implements OnClickListener, OnMapReady
         zoomToFitMarkers();
     }
 
+    /*
+     * User has deselected a category in the filter menu, remove the resources from the map
+     */
     public void removeMarkers(String category) {
         if (mapMarkers.containsKey(category)) {
             for (Marker m : mapMarkers.get(category))
@@ -135,6 +146,9 @@ public class MapFragment extends Fragment implements OnClickListener, OnMapReady
         }
     }
 
+    /*
+     * New markers have been added to the map, zoom to fit to ensure user can see new markers
+     */
     private void zoomToFitMarkers() {
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
@@ -147,16 +161,29 @@ public class MapFragment extends Fragment implements OnClickListener, OnMapReady
         googleMap.animateCamera(cu);
     }
 
+    /*
+     * Presenter is loading data
+     * Disable the filter menu and showing loading bar
+     */
     public void onFilterDataLoading() {
         progressBar.setVisibility(View.VISIBLE);
         filterOpenButton.setEnabled(false);
     }
 
+    /*
+     * Presenter has loaded the data
+     * Enable the filter menu and hide loading bar
+     */
     public void onFilterDataLoaded() {
         progressBar.setVisibility(View.GONE);
         filterOpenButton.setEnabled(true);
     }
 
+    /*
+     * On click listener for marker info windows
+     * Starts resource detail fragment to display more info about
+     * the resource that was clicked
+     */
     @Override
     public void onInfoWindowClick(Marker marker) {
         String markerId = marker.getId();

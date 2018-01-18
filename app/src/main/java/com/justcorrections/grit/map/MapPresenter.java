@@ -20,33 +20,35 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-/**
- * Created by ianwillis on 11/27/17.
- */
 
 public class MapPresenter {
 
-    private MapFragment mapFragment;
+    private MapFragment view;
 
-    private Category[] categories;
-    private boolean[] selected;
-    private SortedMap<String, List<Resource>> sortedResources; // maps: a category's name -> the resources that fall under said category; sorted a-z by key
+    private Category[] categories; // array of resource categories to be used in filter menu
+    private boolean[] selected; // array stating which categories are selected
+    /*
+     *  maps: a category's name -> the resources that fall under said category; sorted a-z by key
+     *  sorts categories in a-z order for filter menu
+     *  stores resources available for each category
+     */
+    private SortedMap<String, List<Resource>> sortedResources;
 
-    private boolean categoriesHaveLoaded, resourcesHaveLoaded;
+    private boolean categoriesHaveLoaded, resourcesHaveLoaded; // flags; need because we can't return to view until both have loaded
 
     public MapPresenter(MapFragment mapFragment) {
-        this.mapFragment = mapFragment;
+        this.view = mapFragment;
     }
 
     public void start() {
         categoriesHaveLoaded = false;
         resourcesHaveLoaded = false;
-        mapFragment.onFilterDataLoading();
+        view.onFilterDataLoading(); // notify data is loaded
         loadCategories();
         loadResources();
     }
 
-    // TODO: onPause, dereference mapFragment to prevent memory leak? not sure if needed
+    // TODO: onPause, dereference view to prevent memory leak? not sure if needed
 
     public void loadCategories() {
         CategoryDataSource.getInstance().getCategories(new GetCategoriesCallback() {
@@ -58,7 +60,7 @@ public class MapPresenter {
                 categoriesHaveLoaded = true;
                 if (resourcesHaveLoaded) {
                     getFilterSelectedPreference();
-                    mapFragment.onFilterDataLoaded();
+                    view.onFilterDataLoaded(); // notify data finished loading
                 }
             }
 
@@ -78,7 +80,7 @@ public class MapPresenter {
                 resourcesHaveLoaded = true;
                 if (categoriesHaveLoaded) {
                     getFilterSelectedPreference();
-                    mapFragment.onFilterDataLoaded();
+                    view.onFilterDataLoaded(); // notify data finished loading
                 }
             }
 
@@ -106,7 +108,7 @@ public class MapPresenter {
             for (int i = 0; i < this.categories.length; i++)
                 categories[i] = this.categories[i].getName();
             boolean[] selectedCopy = Arrays.copyOf(selected, selected.length); // use copy so original values aren't changed
-            mapFragment.openFilterMenu(categories, selectedCopy);
+            view.openFilterMenu(categories, selectedCopy);
         }
     }
 
@@ -114,9 +116,9 @@ public class MapPresenter {
         boolean[] changes = ArrayUtils.findArrayChanges(selected, updatedSelected);
         for (int i = 0; i < changes.length; i++) {
             if (changes[i] && updatedSelected[i]) {
-                mapFragment.setMarkers(categories[i], sortedResources.get(categoryNames[i]));
+                view.setMarkers(categories[i], sortedResources.get(categoryNames[i]));
             } else if (changes[i] && !updatedSelected[i]) {
-                mapFragment.removeMarkers(categoryNames[i]);
+                view.removeMarkers(categoryNames[i]);
             }
         }
         selected = updatedSelected;
@@ -124,14 +126,14 @@ public class MapPresenter {
     }
 
     private void getFilterSelectedPreference() {
-        Context context = mapFragment.getContext();
+        Context context = view.getContext();
         Set<String> selectedFilters = Preferences.getStringSetPreference(context, context.getString(R.string.MAP_FILTER_SELECTED));
         if (selectedFilters != null) {
             for (int i = 0; i < categories.length; i++) {
                 String categoryName = categories[i].getName();
                 if (selectedFilters.contains(categoryName)) {
                     selected[i] = true;
-                    mapFragment.setMarkers(categories[i], sortedResources.get(categories[i].getName()));
+                    view.setMarkers(categories[i], sortedResources.get(categories[i].getName()));
                 }
             }
         }
@@ -143,7 +145,7 @@ public class MapPresenter {
             if (selected[i])
                 selectedFilters.add(categories[i].getName());
         }
-        Context context = mapFragment.getContext();
+        Context context = view.getContext();
         Preferences.setStringSetPreference(context, context.getString(R.string.MAP_FILTER_SELECTED), selectedFilters);
     }
 }
