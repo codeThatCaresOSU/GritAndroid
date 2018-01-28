@@ -125,7 +125,7 @@ public class MapFragment extends Fragment implements OnClickListener, OnMapReady
         for (Resource r : resources) {
             LatLng latLng = new LatLng(r.getLat(), r.getLng());
             MarkerOptions markerOptions = new MarkerOptions().position(latLng)
-                    .title(r.getName()).icon(BitmapDescriptorFactory.defaultMarker(hue(category.getColor())));
+                    .title(r.getCategory() + ": " + r.getName()).icon(BitmapDescriptorFactory.defaultMarker(hue(category.getColor())));
             Marker m = googleMap.addMarker(markerOptions);
             markers.add(m);
             resourceIds.put(m.getId(), r.getId());
