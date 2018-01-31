@@ -30,6 +30,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements OnAccountRequestListener {
 
+    private NavigationHandler navigationHandler;
     private FirebaseAuth auth;
     private FirebaseAuth.AuthStateListener authStateListener;
     private BottomNavigationView bottomNav;
@@ -46,6 +47,9 @@ public class MainActivity extends AppCompatActivity implements OnAccountRequestL
 
         bottomNav = (BottomNavigationView) findViewById(R.id.main_bottom_nav);
         snackbarView = (CoordinatorLayout) findViewById(R.id.main_snackbar_view);
+
+        navigationHandler = new NavigationHandler(this);
+
         helper = DatabaseHelper.getInstance();
 
         auth = FirebaseAuth.getInstance();
@@ -102,12 +106,23 @@ public class MainActivity extends AppCompatActivity implements OnAccountRequestL
         setSelected(0);
     }
 
+    public void navigateTo(Fragment fragment) {
+        navigationHandler.navigateTo(fragment);
+    }
+
+    @Override
+    public void onBackPressed() {
+        navigationHandler.onBackPressed();
+    }
+
     private void setSelected(int position) {
-        // TODO: add a nice transition using anim resource files
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.main_fragment_holder, fragments.get(position))
-                .commit();
+        if (position == 0) {
+            navigateTo(MapFragment.newInstance());
+        } else if (position == 1) {
+            navigateTo(LoginFragment.newInstance(null));
+        } else {
+            navigateTo(MysteryFragment.newInstance("a", "b"));
+        }
     }
 
     public void setupFragments() {

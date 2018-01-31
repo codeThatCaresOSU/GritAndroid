@@ -49,6 +49,12 @@ public class MapFragment extends Fragment implements OnClickListener, OnMapReady
         return new MapFragment();
     }
 
+    public MapFragment() {
+        presenter = new MapPresenter();
+        mapMarkers = new HashMap<String, List<Marker>>();
+        resourceIds = new HashMap<String, String>();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -57,16 +63,11 @@ public class MapFragment extends Fragment implements OnClickListener, OnMapReady
         SupportMapFragment map = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         map.getMapAsync(this);
 
-        presenter = new MapPresenter(this);
-
         filterOpenButton = view.findViewById(R.id.map_filter_open_button);
         filterOpenButton.setOnClickListener(this);
         filterOpenButton.setEnabled(false); // disabled until resources are loaded
 
         progressBar = view.findViewById(R.id.map_progress_bar);
-
-        mapMarkers = new HashMap<String, List<Marker>>();
-        resourceIds = new HashMap<String, String>();
 
         return view;
     }
@@ -90,7 +91,13 @@ public class MapFragment extends Fragment implements OnClickListener, OnMapReady
         this.googleMap = googleMap;
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(40.014190, -83.030914), 6f));
         googleMap.setOnInfoWindowClickListener(this);
-        presenter.start(); // start presenter when map is loaded
+        presenter.start(this); // start presenter when map is loaded
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        presenter.pause();
     }
 
     /*
@@ -188,6 +195,8 @@ public class MapFragment extends Fragment implements OnClickListener, OnMapReady
     public void onInfoWindowClick(Marker marker) {
         String markerId = marker.getId();
         String resourceId = resourceIds.get(markerId);
-        ((MainActivity) getActivity()).showResourceDetailFragment(resourceId);
+
+        ResourceDetailFragment resourceDetailFragment = ResourceDetailFragment.newInstance(resourceId);
+        ((MainActivity) getActivity()).navigateTo(resourceDetailFragment);
     }
 }

@@ -36,19 +36,26 @@ public class MapPresenter {
 
     private boolean categoriesHaveLoaded, resourcesHaveLoaded; // flags; need because we can't return to view until both have loaded
 
-    public MapPresenter(MapFragment mapFragment) {
+    public MapPresenter() {
+        this.categoriesHaveLoaded = false;
+        this.resourcesHaveLoaded = false;
+
+    }
+
+    public void start(MapFragment mapFragment) {
         this.view = mapFragment;
+        if (!categoriesHaveLoaded && !resourcesHaveLoaded) {
+            view.onFilterDataLoading(); // notify data is loading
+            loadCategories();
+            loadResources();
+        } else {
+            view.onFilterDataLoaded(); // notify data already loaded
+        }
     }
 
-    public void start() {
-        categoriesHaveLoaded = false;
-        resourcesHaveLoaded = false;
-        view.onFilterDataLoading(); // notify data is loaded
-        loadCategories();
-        loadResources();
+    public void pause() {
+        this.view = null; // prevent memory leak
     }
-
-    // TODO: onPause, dereference view to prevent memory leak? not sure if needed
 
     public void loadCategories() {
         CategoryDataSource.getInstance().getCategories(new GetCategoriesCallback() {
@@ -75,7 +82,6 @@ public class MapPresenter {
         ResourcesDataSource.getInstance().getResources(new GetResourcesCallback() {
             @Override
             public void onResourcesLoaded(List<Resource> loadedResources) {
-                resourcesHaveLoaded = true;
                 sortResources(loadedResources);
                 resourcesHaveLoaded = true;
                 if (categoriesHaveLoaded) {
