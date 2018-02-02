@@ -21,8 +21,8 @@ import com.justcorrections.grit.account.AccountFragment;
 import com.justcorrections.grit.account.LoginFragment;
 import com.justcorrections.grit.account.OnAccountRequestListener;
 import com.justcorrections.grit.map.MapFragment;
-import com.justcorrections.grit.mystery.MysteryFragment;
 import com.justcorrections.grit.map.ResourceDetailFragment;
+import com.justcorrections.grit.mystery.MysteryFragment;
 import com.justcorrections.grit.utils.DatabaseHelper;
 
 import java.util.ArrayList;
@@ -87,27 +87,22 @@ public class MainActivity extends AppCompatActivity implements OnAccountRequestL
         bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.menu_map:
-                        setSelected(0);
-                        break;
-                    case R.id.menu_account:
-                        setSelected(1);
-                        break;
-                    case R.id.menu_mystery:
-                        setSelected(2);
-                        break;
+                int id = item.getItemId();
+                if (id == R.id.menu_map) {
+                    navigationHandler.navigateTo(MapFragment.newInstance(), false);
+                } else if (id == R.id.menu_account) {
+                    navigationHandler.navigateTo(LoginFragment.newInstance(null), false);
+                } else if (id == R.id.menu_mystery) {
+                    navigationHandler.navigateTo(MysteryFragment.newInstance("param 1", "param 2"), false);
                 }
-
                 return true;
             }
         });
-
-        setSelected(0);
+        bottomNav.setSelectedItemId(R.id.menu_map);
     }
 
     public void navigateTo(Fragment fragment) {
-        navigationHandler.navigateTo(fragment);
+        navigationHandler.navigateTo(fragment, true);
     }
 
     @Override
