@@ -1,4 +1,4 @@
-package com.justcorrections.grit.account;
+package com.justcorrections.grit.modules.account;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -17,37 +17,34 @@ import com.justcorrections.grit.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link CreateFragment#newInstance} factory method to
+ * Use the {@link LoginFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CreateFragment extends Fragment implements AccountInterface {
+public class LoginFragment extends Fragment implements AccountInterface {
 
     private static final String ARG_EMAIL = "arg_email";
+    // interface
+    OnAccountRequestListener loginRequestListener;
     private String email;
     private String password;
-
-    private OnAccountRequestListener createRequestListener;
-
     // Views
     private TextInputLayout userLayout;
     private TextInputLayout passLayout;
-    private TextInputLayout checkLayout;
     private TextInputEditText userText;
     private TextInputEditText passText;
-    private TextInputEditText checkText;
     private ImageView userIcon;
     private ImageView passIcon;
-    private ImageView checkIcon;
     private ImageView logo;
+    private Button loginButton;
+    private Button forgotButton;
     private Button createButton;
-    private Button backButton;
 
-    public CreateFragment() {
+    public LoginFragment() {
         // Required empty public constructor
     }
 
-    public static CreateFragment newInstance(String email) {
-        CreateFragment fragment = new CreateFragment();
+    public static LoginFragment newInstance(String email) {
+        LoginFragment fragment = new LoginFragment();
         Bundle args = new Bundle();
         args.putString(ARG_EMAIL, email);
         fragment.setArguments(args);
@@ -66,7 +63,7 @@ public class CreateFragment extends Fragment implements AccountInterface {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_create, container, false);
+        return inflater.inflate(R.layout.fragment_login, container, false);
     }
 
     @Override
@@ -74,53 +71,20 @@ public class CreateFragment extends Fragment implements AccountInterface {
         super.onViewCreated(view, savedInstanceState);
 
         // initialize the views for the fragment
-        userLayout = view.findViewById(R.id.create_user_layout);
-        passLayout = view.findViewById(R.id.create_pass_layout);
-        checkLayout = view.findViewById(R.id.create_check_layout);
-        userText = view.findViewById(R.id.create_user_input);
-        passText = view.findViewById(R.id.create_pass_input);
-        checkText = view.findViewById(R.id.create_check_input);
-        userIcon = view.findViewById(R.id.create_user_icon);
-        passIcon = view.findViewById(R.id.create_pass_icon);
-        checkIcon = view.findViewById(R.id.create_check_icon);
-        logo = view.findViewById(R.id.create_logo);
-        createButton = view.findViewById(R.id.create_account_button);
-        backButton = view.findViewById(R.id.create_registered_button);
+        userLayout = view.findViewById(R.id.login_user_layout);
+        passLayout = view.findViewById(R.id.login_pass_layout);
+        userText = view.findViewById(R.id.login_user_input);
+        passText = view.findViewById(R.id.login_pass_input);
+        userIcon = view.findViewById(R.id.login_user_icon);
+        passIcon = view.findViewById(R.id.login_pass_icon);
+        logo = view.findViewById(R.id.login_logo);
+        loginButton = view.findViewById(R.id.login_login_button);
+        forgotButton = view.findViewById(R.id.login_forgot_password_button);
+        createButton = view.findViewById(R.id.login_signup_button);
 
         userText.setText(email);
 
         setButtonListeners();
-    }
-
-    private void setButtonListeners() {
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getFragmentManager().popBackStack();
-            }
-        });
-
-        createButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                email = userText.getText().toString();
-                password = passText.getText().toString();
-                String check = checkText.getText().toString();
-                if (isValidEmail(email)) {
-                    if (isValidPassword(password)) {
-                        if (password.equals(check)) {
-                            createRequestListener.onCreateRequest(email, password);
-                        } else {
-                            createRequestListener.onFail("Passwords must match");
-                        }
-                    } else {
-                        createRequestListener.onFail("Password must be 8 characters and contain lowercase, uppercase, numbers and special characters (!@#$%^&*)");
-                    }
-                } else {
-                    createRequestListener.onFail("Not a valid email address");
-                }
-            }
-        });
     }
 
     private boolean isValidEmail(String email) {
@@ -128,21 +92,53 @@ public class CreateFragment extends Fragment implements AccountInterface {
                 Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
-    private boolean isValidPassword(String password) {
-        return password.length() > 7 && password.matches(".*[a-z].*[A-Z].*")
-                && password.matches(".*\\d.*") && password.matches(".*[!@#$%^&*].*");
+    private void setButtonListeners() {
+        forgotButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.main_fragment_holder, ResetFragment.newInstance(userText.getText().toString()))
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+
+        createButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.main_fragment_holder, CreateFragment.newInstance(userText.getText().toString()))
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                email = userText.getText().toString();
+                password = passText.getText().toString();
+                if (isValidEmail(email)) {
+                    loginRequestListener.onLoginRequest(email, password);
+                } else {
+                    loginRequestListener.onFail("Not a valid email address");
+                }
+            }
+        });
     }
 
     @Override
     public int getType() {
-        return TYPE_CREATE;
+        return TYPE_LOGIN;
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnAccountRequestListener) {
-            createRequestListener = (OnAccountRequestListener) context;
+            loginRequestListener = (OnAccountRequestListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnAccountRequestListener");
@@ -152,6 +148,6 @@ public class CreateFragment extends Fragment implements AccountInterface {
     @Override
     public void onDetach() {
         super.onDetach();
-        createRequestListener = null;
+        loginRequestListener = null;
     }
 }

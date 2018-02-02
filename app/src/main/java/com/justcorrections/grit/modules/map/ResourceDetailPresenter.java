@@ -1,4 +1,4 @@
-package com.justcorrections.grit.map;
+package com.justcorrections.grit.modules.map;
 
 import com.justcorrections.grit.data.resource.Resource;
 import com.justcorrections.grit.data.resource.ResourcesDataSource;

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.justcorrections.grit.map.ResourceDetailFragment">
+    tools:context=".modules.map.ResourceDetailFragment">
 
     <TextView
         android:id="@+id/tv_name"

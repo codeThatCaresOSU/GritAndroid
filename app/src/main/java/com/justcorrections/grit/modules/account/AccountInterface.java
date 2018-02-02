@@ -1,4 +1,4 @@
-package com.justcorrections.grit.account;
+package com.justcorrections.grit.modules.account;
 
 /**
  * Created by Gus on 9/26/2017.

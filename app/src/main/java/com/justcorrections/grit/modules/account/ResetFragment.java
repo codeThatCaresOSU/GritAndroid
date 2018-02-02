@@ -1,4 +1,4 @@
-package com.justcorrections.grit.account;
+package com.justcorrections.grit.modules.account;
 
 import android.content.Context;
 import android.os.Bundle;

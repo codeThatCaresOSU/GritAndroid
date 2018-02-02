@@ -1,4 +1,4 @@
-package com.justcorrections.grit.mystery;
+package com.justcorrections.grit.modules.mystery;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

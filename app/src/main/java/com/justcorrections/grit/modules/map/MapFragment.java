@@ -1,4 +1,4 @@
-package com.justcorrections.grit.map;
+package com.justcorrections.grit.modules.map;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
