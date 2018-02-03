@@ -55,6 +55,7 @@ public class MapPresenter {
 
     public void pause() {
         this.view = null; // prevent memory leak
+        //TODO: preferences should be set here
     }
 
     public void loadCategories() {

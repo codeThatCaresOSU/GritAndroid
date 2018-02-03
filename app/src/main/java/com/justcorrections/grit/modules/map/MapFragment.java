@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnMultiChoiceClickListener;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -48,8 +49,11 @@ public class MapFragment extends Fragment implements OnClickListener, OnMapReady
     public static MapFragment newInstance() {
         return new MapFragment();
     }
+    
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-    public MapFragment() {
         presenter = new MapPresenter();
         mapMarkers = new HashMap<String, List<Marker>>();
         resourceIds = new HashMap<String, String>();
@@ -197,6 +201,6 @@ public class MapFragment extends Fragment implements OnClickListener, OnMapReady
         String resourceId = resourceIds.get(markerId);
 
         ResourceDetailFragment resourceDetailFragment = ResourceDetailFragment.newInstance(resourceId);
-        ((MainActivity) getActivity()).navigateTo(resourceDetailFragment);
+        ((MainActivity) getActivity()).navigateTo(resourceDetailFragment, true);
     }
 }

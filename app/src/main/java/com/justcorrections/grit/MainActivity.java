@@ -1,14 +1,11 @@
 package com.justcorrections.grit;
 
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
@@ -16,26 +13,18 @@ import com.justcorrections.grit.modules.account.LoginFragment;
 import com.justcorrections.grit.modules.map.MapFragment;
 import com.justcorrections.grit.modules.mystery.MysteryFragment;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     private NavigationHandler navigationHandler;
-    private BottomNavigationView bottomNav;
     private CoordinatorLayout snackbarView;
-    private List<Fragment> fragments = new ArrayList<>();
-    private AlertDialog status;
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
-        navigationHandler = new NavigationHandler(this);
-    }
+    private BottomNavigationView bottomNav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        navigationHandler = new NavigationHandler(this);
+
         setContentView(R.layout.activity_main);
 
         snackbarView = (CoordinatorLayout) findViewById(R.id.main_snackbar_view);
@@ -80,17 +69,17 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.menu_map) {
-            navigationHandler.navigateTo(MapFragment.newInstance(), false);
+            navigateTo(MapFragment.newInstance(), false);
         } else if (id == R.id.menu_account) {
-            navigationHandler.navigateTo(LoginFragment.newInstance(null), false);
+            navigateTo(LoginFragment.newInstance(null), false);
         } else if (id == R.id.menu_mystery) {
-            navigationHandler.navigateTo(MysteryFragment.newInstance("param 1", "param 2"), false);
+            navigateTo(MysteryFragment.newInstance("param 1", "param 2"), false);
         }
         return true;
     }
 
-    public void navigateTo(Fragment fragment) {
-        navigationHandler.navigateTo(fragment, true);
+    public void navigateTo(Fragment fragment, boolean saveTransactionToBackStack) {
+        navigationHandler.navigateTo(fragment, saveTransactionToBackStack);
     }
 
     @Override
