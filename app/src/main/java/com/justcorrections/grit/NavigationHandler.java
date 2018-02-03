@@ -1,4 +1,4 @@
-package com.justcorrections.grit.utils;
+package com.justcorrections.grit;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
