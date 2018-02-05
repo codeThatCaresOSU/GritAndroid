@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.justcorrections.grit.MainActivity;
 import com.justcorrections.grit.R;
 
 /**
@@ -137,11 +138,11 @@ public class LoginFragment extends Fragment implements AccountInterface {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnAccountRequestListener) {
-            loginRequestListener = (OnAccountRequestListener) context;
+        if (context instanceof MainActivity) {
+            loginRequestListener = ((MainActivity) context).getAuthHandler();
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnAccountRequestListener");
+                    + " must be instance of MainActivity");
         }
     }
 

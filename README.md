@@ -15,6 +15,10 @@ Navigate to the directory you wish to copy the repository and run the command
 Ask a current contributor for the *google-services.json* file and *api_keys*
 or email *ianwillis98@gmail.com*
 
+Add these API keys to the global gradle.properties file, found at [HOME]/.gradle/gradle.properties
+like so:
+`GRIT_MAPS_KEY=[INSERT_KEY_HERE]`
+
 ### Installing
 
 Download Android Studio and open the project you just cloned from github.
