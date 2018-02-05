@@ -11,6 +11,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        resValue "string", "google_map_api_key", (project.findProperty("GRIT_MAPS_KEY") ?: "")
     }
     buildTypes {
         release {
