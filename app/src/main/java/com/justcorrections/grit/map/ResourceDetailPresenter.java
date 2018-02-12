@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
 
+import com.crashlytics.android.Crashlytics;
 import com.justcorrections.grit.R;
 import com.justcorrections.grit.data.resource.Resource;
 import com.justcorrections.grit.data.resource.ResourcesDataSource;
