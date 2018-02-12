@@ -1,10 +1,14 @@
 package com.justcorrections.grit.map;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.justcorrections.grit.R;
@@ -22,6 +26,7 @@ public class ResourceDetailFragment extends Fragment {
     private ResourceDetailPresenter presenter;
 
     private TextView tvLocation, tvURL, tvName, tvPhone, tvCategory;
+    private ImageView ivStreetviewPic;
 
     public static ResourceDetailFragment newInstance(String resourceID) {
         ResourceDetailFragment fragment = new ResourceDetailFragment();
@@ -50,6 +55,7 @@ public class ResourceDetailFragment extends Fragment {
         tvURL = view.findViewById(R.id.tv_url);
         tvName = view.findViewById(R.id.tv_name);
         tvCategory = view.findViewById(R.id.tv_category);
+        ivStreetviewPic = view.findViewById(R.id.iv_streetview);
 
         presenter = new ResourceDetailPresenter(this, mResourceID);
         presenter.start();
@@ -67,6 +73,10 @@ public class ResourceDetailFragment extends Fragment {
         String addressString = resource.getAddress() + "\n" + resource.getCity() + ", " + resource.getState() + " " + resource.getZip();
         tvLocation.setText(addressString);
 
+    }
+
+    public void updateStreetViewImage(Bitmap image) {
+        ivStreetviewPic.setImageBitmap(image);
     }
 
 }
