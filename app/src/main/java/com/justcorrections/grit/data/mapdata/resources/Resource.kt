@@ -1,4 +1,4 @@
-package com.justcorrections.grit.data.resource
+package com.justcorrections.grit.data.mapdata.resources
 
 /**
  * Created by ianwillis on 11/19/17.

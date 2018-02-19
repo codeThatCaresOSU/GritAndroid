@@ -1,4 +1,4 @@
-package com.justcorrections.grit.data.resource;
+package com.justcorrections.grit.data.mapdata.resources;
 
 import android.support.annotation.NonNull;
 
@@ -84,7 +84,7 @@ public class ResourcesDataSource {
                         r.setId(child.getKey());
                         resources.add(r);
                     }
-                    resourceCache = resources;
+                    resourceCache = new ArrayList<>(resources);
                     callback.onResourcesLoaded(resources);
                 }
 

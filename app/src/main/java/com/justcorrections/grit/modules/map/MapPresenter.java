@@ -3,12 +3,12 @@ package com.justcorrections.grit.modules.map;
 import android.content.Context;
 
 import com.justcorrections.grit.R;
-import com.justcorrections.grit.data.category.Category;
-import com.justcorrections.grit.data.category.CategoryDataSource;
-import com.justcorrections.grit.data.category.CategoryDataSource.GetCategoriesCallback;
-import com.justcorrections.grit.data.resource.Resource;
-import com.justcorrections.grit.data.resource.ResourcesDataSource;
-import com.justcorrections.grit.data.resource.ResourcesDataSource.GetResourcesCallback;
+import com.justcorrections.grit.data.mapdata.categories.Category;
+import com.justcorrections.grit.data.mapdata.categories.CategoryDataSource;
+import com.justcorrections.grit.data.mapdata.categories.CategoryDataSource.GetCategoriesCallback;
+import com.justcorrections.grit.data.mapdata.resources.Resource;
+import com.justcorrections.grit.data.mapdata.resources.ResourcesDataSource;
+import com.justcorrections.grit.data.mapdata.resources.ResourcesDataSource.GetResourcesCallback;
 import com.justcorrections.grit.utils.ArrayUtils;
 import com.justcorrections.grit.utils.Preferences;
 

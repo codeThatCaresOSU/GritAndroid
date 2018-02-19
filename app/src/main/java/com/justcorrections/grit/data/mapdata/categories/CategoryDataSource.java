@@ -1,4 +1,4 @@
-package com.justcorrections.grit.data.category;
+package com.justcorrections.grit.data.mapdata.categories;
 
 import android.support.annotation.NonNull;
 

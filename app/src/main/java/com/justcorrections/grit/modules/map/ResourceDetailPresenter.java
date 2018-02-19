@@ -1,7 +1,7 @@
 package com.justcorrections.grit.modules.map;
 
-import com.justcorrections.grit.data.resource.Resource;
-import com.justcorrections.grit.data.resource.ResourcesDataSource;
+import com.justcorrections.grit.data.mapdata.resources.Resource;
+import com.justcorrections.grit.data.mapdata.resources.ResourcesDataSource;
 
 /**
  * Created by Andrew Davis on 12/9/2017.

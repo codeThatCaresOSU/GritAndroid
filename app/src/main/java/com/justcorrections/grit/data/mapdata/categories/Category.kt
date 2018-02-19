@@ -1,4 +1,4 @@
-package com.justcorrections.grit.data.category
+package com.justcorrections.grit.data.mapdata.categories
 
 /**
  * Created by ianwillis on 11/27/17.
