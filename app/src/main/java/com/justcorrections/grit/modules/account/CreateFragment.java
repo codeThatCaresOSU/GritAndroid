@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.justcorrections.grit.MainActivity;
 import com.justcorrections.grit.R;
 
 /**
@@ -129,8 +130,7 @@ public class CreateFragment extends Fragment implements AccountInterface {
     }
 
     private boolean isValidPassword(String password) {
-        return password.length() > 7 && password.matches(".*[a-z].*[A-Z].*")
-                && password.matches(".*\\d.*") && password.matches(".*[!@#$%^&*].*");
+        return password.length() > 7;
     }
 
     @Override
@@ -141,11 +141,11 @@ public class CreateFragment extends Fragment implements AccountInterface {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnAccountRequestListener) {
-            createRequestListener = (OnAccountRequestListener) context;
+        if (context instanceof MainActivity) {
+            createRequestListener = ((MainActivity) context).getAuthHandler();
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnAccountRequestListener");
+                    + " must be instance of MainActivity");
         }
     }
 
