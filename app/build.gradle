@@ -12,6 +12,8 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        resValue "string", "google_map_api_key", (project.findProperty("GRIT_MAPS_KEY") ?: "")
+        resValue "string", "google_street_view_api_key", (project.findProperty("GRIT_STREET_VIEW_KEY") ?: "")
     }
     buildTypes {
         release {

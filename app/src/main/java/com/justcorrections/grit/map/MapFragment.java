@@ -165,7 +165,11 @@ public class MapFragment extends Fragment implements OnClickListener, OnMapReady
 
         LatLngBounds bounds = builder.build();
         CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 300);
-        googleMap.animateCamera(cu);
+        try {
+            googleMap.animateCamera(cu);
+        } catch (Exception e) {
+            System.out.println("Ian " + e.getClass());
+        }
     }
 
     /*
