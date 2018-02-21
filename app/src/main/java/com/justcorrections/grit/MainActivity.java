@@ -7,13 +7,11 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.justcorrections.grit.auth.AuthenticationHandler;
 import com.justcorrections.grit.modules.account.LoginFragment;
 import com.justcorrections.grit.modules.map.MapFragment;
 import com.justcorrections.grit.modules.map.ResourceDetailFragment;
 import com.justcorrections.grit.modules.mystery.MysteryFragment;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +20,6 @@ public class MainActivity extends AppCompatActivity {
 
     private NavigationHandler navigationHandler;
     private AuthenticationHandler authHandler;
-    private FirebaseAuth auth;
-    private FirebaseAuth.AuthStateListener authStateListener;
     private BottomNavigationView bottomNav;
     private List<Fragment> fragments = new ArrayList<>();
 

@@ -129,7 +129,7 @@ public class MapFragment extends Fragment implements OnClickListener, OnMapReady
     }
 
     /*
-     * User has selected a category in the filter menu, add the resources to the map
+     * GritUser has selected a category in the filter menu, add the resources to the map
      */
     public void setMarkers(Category category, List<Resource> resources) {
         List<Marker> markers = new ArrayList<>();
@@ -146,7 +146,7 @@ public class MapFragment extends Fragment implements OnClickListener, OnMapReady
     }
 
     /*
-     * User has deselected a category in the filter menu, remove the resources from the map
+     * GritUser has deselected a category in the filter menu, remove the resources from the map
      */
     public void removeMarkers(String category) {
         if (mapMarkers.containsKey(category)) {
