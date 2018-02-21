@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -21,7 +22,6 @@ import com.justcorrections.grit.account.AccountFragment;
 import com.justcorrections.grit.account.LoginFragment;
 import com.justcorrections.grit.account.OnAccountRequestListener;
 import com.justcorrections.grit.map.MapFragment;
-import com.justcorrections.grit.map.ResourceDetailFragment;
 import com.justcorrections.grit.mystery.MysteryFragment;
 import com.justcorrections.grit.utils.DatabaseHelper;
 
@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements OnAccountRequestL
     private CoordinatorLayout snackbarView;
     private List<Fragment> fragments = new ArrayList<>();
     private AlertDialog status;
+    private TextView errorText;
 
     private DatabaseHelper helper;
 
@@ -51,6 +52,9 @@ public class MainActivity extends AppCompatActivity implements OnAccountRequestL
         navigationHandler = new NavigationHandler(this);
 
         helper = DatabaseHelper.getInstance();
+
+        errorText = (TextView) findViewById(R.id.error_textview);
+        errorText.setVisibility(View.INVISIBLE);
 
         auth = FirebaseAuth.getInstance();
         // onAuthStateChanged gets called when AuthStateListener is registered
@@ -205,8 +209,21 @@ public class MainActivity extends AppCompatActivity implements OnAccountRequestL
         snackbar.show();
     }
 
-    public void showResourceDetailFragment(String resourceID) {
-        fragments.add(3, ResourceDetailFragment.newInstance(resourceID));
-        setSelected(3);
+    /**
+     * Shows an error messsage at the top of the main activity.
+     * @param message
+     *          The error message to show.
+     */
+    public void showErrorText(String message) {
+        errorText.setText(message);
+        errorText.setVisibility(View.VISIBLE);
     }
+
+    /**
+     * Hides the error message from the main activity.
+     */
+    public void hideErrorText() {
+        errorText.setVisibility(View.INVISIBLE);
+    }
+
 }

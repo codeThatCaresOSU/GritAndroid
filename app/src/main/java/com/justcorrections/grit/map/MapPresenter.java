@@ -73,7 +73,7 @@ public class MapPresenter {
 
             @Override
             public void onDataNotAvailable() {
-                //TODO: err handling
+                view.mainActivity.showErrorText("Categories could not be loaded. Please check your connection and try again later.");
             }
         });
     }
@@ -92,7 +92,7 @@ public class MapPresenter {
 
             @Override
             public void onDataNotAvailable() {
-                //TODO: err handling
+                view.mainActivity.showErrorText("Resources could not be loaded. Please check your connection and try again later.");
             }
         });
     }

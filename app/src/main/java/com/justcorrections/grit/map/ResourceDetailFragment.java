@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.justcorrections.grit.MainActivity;
 import com.justcorrections.grit.R;
 import com.justcorrections.grit.data.resource.Resource;
 
@@ -24,6 +25,7 @@ public class ResourceDetailFragment extends Fragment {
     private static final String ARG_RESOURCE_ID = "arg_id";
     private String mResourceID;
     private ResourceDetailPresenter presenter;
+    public MainActivity mainActivity;
 
     private TextView tvLocation, tvURL, tvName, tvPhone, tvCategory;
     private ImageView ivStreetviewPic;
@@ -56,6 +58,9 @@ public class ResourceDetailFragment extends Fragment {
         tvName = view.findViewById(R.id.tv_name);
         tvCategory = view.findViewById(R.id.tv_category);
         ivStreetviewPic = view.findViewById(R.id.iv_streetview);
+
+        mainActivity = (MainActivity) getActivity();
+        mainActivity.hideErrorText();
 
         presenter = new ResourceDetailPresenter(this, mResourceID);
         presenter.start();

@@ -37,6 +37,7 @@ import static com.justcorrections.grit.utils.GoogleMapUtils.hue;
 public class MapFragment extends Fragment implements OnClickListener, OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
     private MapPresenter presenter;
+    public MainActivity mainActivity;
 
     private GoogleMap googleMap; // displays resources
     private FloatingActionButton filterOpenButton; // opens filter menu, disabled when resources are loading
@@ -69,6 +70,9 @@ public class MapFragment extends Fragment implements OnClickListener, OnMapReady
 
         progressBar = view.findViewById(R.id.map_progress_bar);
 
+        mainActivity = (MainActivity) getActivity();
+        mainActivity.hideErrorText();
+
         return view;
     }
 
@@ -93,6 +97,8 @@ public class MapFragment extends Fragment implements OnClickListener, OnMapReady
         googleMap.setOnInfoWindowClickListener(this);
         presenter.start(this); // start presenter when map is loaded
     }
+
+
 
     @Override
     public void onPause() {
