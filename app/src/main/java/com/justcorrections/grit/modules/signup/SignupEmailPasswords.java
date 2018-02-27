@@ -100,15 +100,22 @@ public class SignupEmailPasswords extends Fragment {
      * Navigates to the next signup screen
      */
     private void goNext() {
-        if (isValidInput()) {
+        if (!noEmptyFields()) {
+            Toast.makeText(getContext(), R.string.empty_fields_error, Toast.LENGTH_LONG).show();
+        } else if (!passwordsMatch()) {
+            Toast.makeText(getContext(), R.string.password_match_error, Toast.LENGTH_LONG).show();
+        } else {
             Bundle signUpBundle = createBundleFromThis();
             ((MainActivity) getActivity()).navigateTo(SignupConfirm.newInstance(signUpBundle));
-        } else {
-            Toast.makeText(getContext(), "Passwords Don't Match", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private boolean isValidInput() {
+    private boolean noEmptyFields() {
+        return !passwordEditText.getText().toString().isEmpty()
+                && !emailEditText.getText().toString().isEmpty();
+    }
+
+    private boolean passwordsMatch() {
         return passwordEditText.getText().toString()
                 .equals(confirmPasswordEditText.getText().toString());
     }

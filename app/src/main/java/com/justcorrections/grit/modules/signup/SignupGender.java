@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import com.justcorrections.grit.MainActivity;
 import com.justcorrections.grit.R;
@@ -111,8 +112,17 @@ public class SignupGender extends Fragment {
      * Navigates to the next signup screen
      */
     private void goNext() {
-        Bundle signUpBundle = createBundleFromThis();
-        ((MainActivity) getActivity()).navigateTo(SignupLocation.newInstance(signUpBundle));
+        if (!validInput()) {
+            Toast.makeText(getContext(), R.string.empty_fields_error, Toast.LENGTH_LONG).show();
+        } else {
+            Bundle signUpBundle = createBundleFromThis();
+            ((MainActivity) getActivity()).navigateTo(SignupLocation.newInstance(signUpBundle));
+        }
+
+    }
+
+    private boolean validInput() {
+        return !otherEditText.getText().toString().isEmpty() || !otherRB.isChecked();
     }
 
     /*

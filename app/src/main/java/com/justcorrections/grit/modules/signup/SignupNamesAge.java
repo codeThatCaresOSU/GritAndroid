@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.justcorrections.grit.MainActivity;
 import com.justcorrections.grit.R;
@@ -22,7 +23,8 @@ public class SignupNamesAge extends Fragment {
     private String firstName, lastName, city, address, zip, bio, email, password, gender;
     private EditText firstNameEditText, lastNameEditText, ageEditText;
 
-    public SignupNamesAge() {}
+    public SignupNamesAge() {
+    }
 
     /**
      * Use this factory method to create a new instance of
@@ -85,8 +87,25 @@ public class SignupNamesAge extends Fragment {
      * Navigates to the next signup screen
      */
     private void goNext() {
-        Bundle signUpBundle = createBundleFromThis();
-        ((MainActivity) getActivity()).navigateTo(SignupGender.newInstance(signUpBundle));
+        if (!noEmptyFields()) {
+            Toast.makeText(getContext(), R.string.empty_fields_error, Toast.LENGTH_LONG).show();
+        } else if (!ageOver18()) {
+            Toast.makeText(getContext(), R.string.over_18_error, Toast.LENGTH_LONG).show();
+        } else {
+            Bundle signUpBundle = createBundleFromThis();
+            ((MainActivity) getActivity()).navigateTo(SignupGender.newInstance(signUpBundle));
+        }
+
+    }
+
+    private boolean noEmptyFields() {
+        return !ageEditText.getText().toString().isEmpty()
+                && !lastNameEditText.getText().toString().isEmpty()
+                && !firstNameEditText.getText().toString().isEmpty();
+    }
+
+    private boolean ageOver18() {
+        return Integer.parseInt(ageEditText.getText().toString()) >= 18;
     }
 
     /*
