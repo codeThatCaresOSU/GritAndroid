@@ -46,5 +46,33 @@
     <string name="prefix_category">Category:</string>
     <string name="prefix_phone">Phone:</string>
 
+    <!-- Strings for Signup -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="name_age_title">We need a few details...</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="age">Age (Years)</string>
+    <string name="back">Back</string>
+    <string name="next">Next</string>
+    <string name="bio_hint">Who are you? What do you do?</string>
+    <string name="bio_title">Tell us a bit about yourself</string>
+    <string name="confirm_title">Did we get all that right?</string>
+    <string name="gender">Gender</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="email">Email</string>
+    <string name="email_password_title">Okay, last thing</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="other_prefix">Other_</string>
+    <string name="other_specify_below">Other (Specify Below)</string>
+    <string name="other_gender_hint">Other gender</string>
+    <string name="gender_title">You are</string>
+    <string name="zip">Zip</string>
+    <string name="city">City</string>
+    <string name="street_address">Street Address</string>
+    <string name="location_title">Where do you live?</string>
+    <string name="bio">Bio</string>
+    <string name="confirm">Confirm</string>
+
 
 </resources>

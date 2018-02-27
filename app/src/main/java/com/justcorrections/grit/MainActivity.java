@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -13,6 +14,7 @@ import com.justcorrections.grit.modules.account.LoginFragment;
 import com.justcorrections.grit.modules.map.MapFragment;
 import com.justcorrections.grit.modules.map.ResourceDetailFragment;
 import com.justcorrections.grit.modules.mystery.MysteryFragment;
+import com.justcorrections.grit.modules.signup.SignupNamesAge;
 import com.justcorrections.grit.utils.DatabaseHelper;
 import com.justcorrections.grit.utils.NavigationHandler;
 
@@ -50,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
                 } else if (id == R.id.menu_account) {
                     navigationHandler.navigateTo(LoginFragment.newInstance(null), false);
                 } else if (id == R.id.menu_mystery) {
-                    navigationHandler.navigateTo(MysteryFragment.newInstance("param 1", "param 2"), false);
+                    navigationHandler.navigateTo(SignupNamesAge.newInstance(new Bundle()), false);
                 }
                 return true;
             }
@@ -73,22 +75,17 @@ public class MainActivity extends AppCompatActivity {
         } else if (position == 1) {
             navigateTo(LoginFragment.newInstance(null));
         } else {
-            navigateTo(MysteryFragment.newInstance("a", "b"));
+            navigateTo(SignupNamesAge.newInstance(new Bundle()));
         }
     }
 
     public void setupFragments() {
         fragments.add(0, MapFragment.newInstance());
         fragments.add(1, LoginFragment.newInstance(null));
-        fragments.add(2, MysteryFragment.newInstance("Parameter 1", "Parameter 2"));
+        fragments.add(2, SignupNamesAge.newInstance(new Bundle()));
     }
 
     public AuthenticationHandler getAuthHandler() {
         return this.authHandler;
-    }
-
-    public void showResourceDetailFragment(String resourceID) {
-        fragments.add(3, ResourceDetailFragment.newInstance(resourceID));
-        setSelected(3);
     }
 }
