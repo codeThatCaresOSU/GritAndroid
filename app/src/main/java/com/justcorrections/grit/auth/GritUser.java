@@ -1,6 +1,7 @@
 package com.justcorrections.grit.auth;
 
 import com.google.firebase.auth.FirebaseUser;
+import com.justcorrections.grit.auth.AuthHandler.FirebaseCreateUserListener;
 import com.justcorrections.grit.auth.AuthHandler.FirebaseLoginListener;
 
 /**
@@ -41,14 +42,39 @@ public class GritUser {
         });
     }
 
+
+    public interface GritLoginListener {
+        void onSuccess(GritUser user);
+        void onFailure(String errorMessage);
+    }
+
     public void signOut() {
         auth.signOut();
         firebaseUser = null;
     }
 
-    public interface GritLoginListener {
+    public void createUser(String email, String password, final GritCreateUserListener createUserListener) {
+        auth.createUser(email, password, new FirebaseCreateUserListener() {
+            @Override
+            public void onSuccess(FirebaseUser user) {
+                firebaseUser = user;
+                createUserListener.onSuccess(GritUser.this);
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                createUserListener.onFailure(errorMessage);
+            }
+        });
+    }
+
+    public interface GritCreateUserListener {
         void onSuccess(GritUser user);
         void onFailure(String errorMessage);
+    }
+
+    public void sendPasswordResetEmail(String email) {
+
     }
 
 }

@@ -46,12 +46,46 @@ public class AuthHandler {
         });
     }
 
+    public interface FirebaseLoginListener {
+        void onSuccess(FirebaseUser user);
+
+        void onFailure(String errorMessage);
+    }
+
     public void signOut() {
         firebaseAuth.signOut();
     }
 
-    public interface FirebaseLoginListener {
+    public void createUser(String email, String password, final FirebaseCreateUserListener createUserListener) {
+        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    createUserListener.onSuccess(getCurrentUser());
+                } else {
+                    createUserListener.onFailure(task.getResult().toString());
+                }
+            }
+        });
+    }
+
+    public interface FirebaseCreateUserListener {
         void onSuccess(FirebaseUser user);
+
         void onFailure(String errorMessage);
     }
+
+    public void sendPasswordResetEmail(String email) {
+        firebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+
+                } else {
+
+                }
+            }
+        });
+    }
+
 }
