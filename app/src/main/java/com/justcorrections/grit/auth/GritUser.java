@@ -3,6 +3,7 @@ package com.justcorrections.grit.auth;
 import com.google.firebase.auth.FirebaseUser;
 import com.justcorrections.grit.auth.AuthHandler.FirebaseCreateUserListener;
 import com.justcorrections.grit.auth.AuthHandler.FirebaseLoginListener;
+import com.justcorrections.grit.auth.AuthHandler.FirebasePasswordResetListener;
 
 /**
  * Created by ianwillis on 2/21/18.
@@ -27,6 +28,10 @@ public class GritUser {
         firebaseUser = auth.getCurrentUser();
     }
 
+    public boolean isLoggedIn() {
+        return auth.getCurrentUser() != null;
+    }
+
     public void login(String email, String password, final GritLoginListener gritLoginListener) {
         auth.login(email, password, new FirebaseLoginListener() {
             @Override
@@ -45,6 +50,7 @@ public class GritUser {
 
     public interface GritLoginListener {
         void onSuccess(GritUser user);
+
         void onFailure(String errorMessage);
     }
 
@@ -70,11 +76,35 @@ public class GritUser {
 
     public interface GritCreateUserListener {
         void onSuccess(GritUser user);
+
         void onFailure(String errorMessage);
     }
 
-    public void sendPasswordResetEmail(String email) {
+    public void sendPasswordResetEmail(String email, final GritPasswordResetListener passwordResetListener) {
+        auth.sendPasswordResetEmail(email, new FirebasePasswordResetListener() {
+            @Override
+            public void onSuccess() {
+                passwordResetListener.onSuccess();
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                passwordResetListener.onFailure(errorMessage);
+            }
+        });
+    }
+
+    public interface GritPasswordResetListener {
+        void onSuccess();
+
+        void onFailure(String errorMessage);
+    }
+
+    public void addOnLoginStateChangeListener(OnLoginStateChangeListener onLoginStateChangeListener) {
 
     }
 
+    public interface OnLoginStateChangeListener {
+
+    }
 }

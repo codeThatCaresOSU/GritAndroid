@@ -6,6 +6,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuth.AuthStateListener;
 import com.google.firebase.auth.FirebaseUser;
 
 /**
@@ -31,6 +32,15 @@ public class AuthHandler {
 
     public FirebaseUser getCurrentUser() {
         return firebaseAuth.getCurrentUser();
+    }
+
+    public void addLoginListener() {
+        firebaseAuth.addAuthStateListener(new AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+
+            }
+        });
     }
 
     public void login(String email, String password, final FirebaseLoginListener loginListener) {
@@ -75,17 +85,23 @@ public class AuthHandler {
         void onFailure(String errorMessage);
     }
 
-    public void sendPasswordResetEmail(String email) {
+    public void sendPasswordResetEmail(String email, final FirebasePasswordResetListener passwordResetListener) {
         firebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-
+                    passwordResetListener.onSuccess();
                 } else {
-
+                    passwordResetListener.onFailure(task.getResult().toString());
                 }
             }
         });
+    }
+
+    public interface FirebasePasswordResetListener {
+        void onSuccess();
+
+        void onFailure(String errorMessage);
     }
 
 }
