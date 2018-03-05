@@ -6,7 +6,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuth.AuthStateListener;
 import com.google.firebase.auth.FirebaseUser;
 
 /**
@@ -30,21 +29,8 @@ public class GritAuthentication {
         firebaseAuth = FirebaseAuth.getInstance();
     }
 
-    public FirebaseUser getCurrentUser() {
-        return firebaseAuth.getCurrentUser();
-    }
+    public void GritUser getCurrentUser() {
 
-    public void addAuthStateChangeListener(final AuthStateChangeListener authStateChangeListener) {
-        firebaseAuth.addAuthStateListener(new AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                authStateChangeListener.onAuthStateChange(getInstance());
-            }
-        });
-    }
-
-    public interface AuthStateChangeListener {
-        void onAuthStateChange(GritAuthentication gritAuthentication);
     }
 
     public void login(String email, String password, final FirebaseLoginListener loginListener) {
@@ -52,7 +38,7 @@ public class GritAuthentication {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    loginListener.onSuccess(getCurrentUser());
+                    loginListener.onSuccess(GritUser.login(task.getResult().getUser()));
                 } else {
                     loginListener.onFailure(task.getResult().toString());
                 }
@@ -61,7 +47,7 @@ public class GritAuthentication {
     }
 
     public interface FirebaseLoginListener {
-        void onSuccess(FirebaseUser user);
+        void onSuccess(GritUser user);
 
         void onFailure(String errorMessage);
     }
@@ -75,7 +61,7 @@ public class GritAuthentication {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    createUserListener.onSuccess(getCurrentUser());
+                    createUserListener.onSuccess(task.getResult().getUser());
                 } else {
                     createUserListener.onFailure(task.getResult().toString());
                 }
