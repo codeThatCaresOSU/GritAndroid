@@ -1,9 +1,9 @@
 package com.justcorrections.grit.auth;
 
 import com.google.firebase.auth.FirebaseUser;
-import com.justcorrections.grit.auth.AuthHandler.FirebaseCreateUserListener;
-import com.justcorrections.grit.auth.AuthHandler.FirebaseLoginListener;
-import com.justcorrections.grit.auth.AuthHandler.FirebasePasswordResetListener;
+import com.justcorrections.grit.auth.GritAuthentication.FirebaseCreateUserListener;
+import com.justcorrections.grit.auth.GritAuthentication.FirebaseLoginListener;
+import com.justcorrections.grit.auth.GritAuthentication.FirebasePasswordResetListener;
 
 /**
  * Created by ianwillis on 2/21/18.
@@ -13,8 +13,8 @@ public class GritUser {
 
     private static GritUser INSTANCE;
 
-    private AuthHandler auth;
-    private FirebaseUser firebaseUser;
+    private GritAuthentication auth;
+    private FirebaseUser user;
 
     public static GritUser getInstance() {
         if (INSTANCE == null) {
@@ -24,8 +24,8 @@ public class GritUser {
     }
 
     public GritUser() {
-        auth = AuthHandler.getInstance();
-        firebaseUser = auth.getCurrentUser();
+        auth = GritAuthentication.getInstance();
+        user = auth.getCurrentUser();
     }
 
     public boolean isLoggedIn() {
@@ -36,7 +36,7 @@ public class GritUser {
         auth.login(email, password, new FirebaseLoginListener() {
             @Override
             public void onSuccess(FirebaseUser user) {
-                firebaseUser = user;
+                GritUser.this.user = user;
                 gritLoginListener.onSuccess(GritUser.this);
             }
 
@@ -47,7 +47,6 @@ public class GritUser {
         });
     }
 
-
     public interface GritLoginListener {
         void onSuccess(GritUser user);
 
@@ -56,14 +55,14 @@ public class GritUser {
 
     public void signOut() {
         auth.signOut();
-        firebaseUser = null;
+        user = null;
     }
 
     public void createUser(String email, String password, final GritCreateUserListener createUserListener) {
         auth.createUser(email, password, new FirebaseCreateUserListener() {
             @Override
             public void onSuccess(FirebaseUser user) {
-                firebaseUser = user;
+                GritUser.this.user = user;
                 createUserListener.onSuccess(GritUser.this);
             }
 
@@ -100,11 +99,4 @@ public class GritUser {
         void onFailure(String errorMessage);
     }
 
-    public void addOnLoginStateChangeListener(OnLoginStateChangeListener onLoginStateChangeListener) {
-
-    }
-
-    public interface OnLoginStateChangeListener {
-
-    }
 }

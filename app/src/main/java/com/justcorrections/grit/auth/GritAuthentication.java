@@ -13,20 +13,20 @@ import com.google.firebase.auth.FirebaseUser;
  * Created by ianwillis on 2/21/18.
  */
 
-public class AuthHandler {
+public class GritAuthentication {
 
-    private static AuthHandler INSTANCE;
+    private static GritAuthentication INSTANCE;
 
     private FirebaseAuth firebaseAuth;
 
-    public static AuthHandler getInstance() {
+    public static GritAuthentication getInstance() {
         if (INSTANCE == null) {
-            INSTANCE = new AuthHandler();
+            INSTANCE = new GritAuthentication();
         }
         return INSTANCE;
     }
 
-    private AuthHandler() {
+    private GritAuthentication() {
         firebaseAuth = FirebaseAuth.getInstance();
     }
 
@@ -34,13 +34,17 @@ public class AuthHandler {
         return firebaseAuth.getCurrentUser();
     }
 
-    public void addLoginListener() {
+    public void addAuthStateChangeListener(final AuthStateChangeListener authStateChangeListener) {
         firebaseAuth.addAuthStateListener(new AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-
+                authStateChangeListener.onAuthStateChange(getInstance());
             }
         });
+    }
+
+    public interface AuthStateChangeListener {
+        void onAuthStateChange(GritAuthentication gritAuthentication);
     }
 
     public void login(String email, String password, final FirebaseLoginListener loginListener) {
