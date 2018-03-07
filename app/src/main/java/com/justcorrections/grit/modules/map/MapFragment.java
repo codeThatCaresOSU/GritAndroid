@@ -24,8 +24,8 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.justcorrections.grit.MainActivity;
 import com.justcorrections.grit.R;
-import com.justcorrections.grit.data.category.Category;
-import com.justcorrections.grit.data.resource.Resource;
+import com.justcorrections.grit.data.model.Category;
+import com.justcorrections.grit.data.model.Resource;
 
 import java.util.ArrayList;
 import java.util.HashMap;

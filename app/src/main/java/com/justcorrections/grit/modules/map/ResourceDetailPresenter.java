@@ -1,7 +1,7 @@
 package com.justcorrections.grit.modules.map;
 
-import com.justcorrections.grit.data.resource.Resource;
-import com.justcorrections.grit.data.resource.ResourcesDataSource;
+import com.justcorrections.grit.data.model.Resource;
+import com.justcorrections.grit.data.remote.ResourcesDataSource;
 
 /**
  * Created by Andrew Davis on 12/9/2017.
@@ -24,10 +24,10 @@ public class ResourceDetailPresenter {
 
     private void loadResource() {
 
-        ResourcesDataSource.getInstance().getResource(Integer.parseInt(mResourceID), new ResourcesDataSource.GetResourceCallback() {
+        ResourcesDataSource.getInstance().getItem(mResourceID, new ResourcesDataSource.GetItemCallback<Resource>() {
 
             @Override
-            public void onResourceLoaded(Resource resource) {
+            public void onItemLoaded(Resource resource) {
                 resourceDetailFragment.populateViewsWithResourceDetails(resource);
             }
 
