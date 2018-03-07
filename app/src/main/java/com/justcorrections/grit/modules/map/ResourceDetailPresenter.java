@@ -1,4 +1,4 @@
-package com.justcorrections.grit.map;
+package com.justcorrections.grit.modules.map;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,8 +8,9 @@ import android.util.Log;
 import com.crashlytics.android.Crashlytics;
 import com.justcorrections.grit.MainActivity;
 import com.justcorrections.grit.R;
-import com.justcorrections.grit.data.resource.Resource;
-import com.justcorrections.grit.data.resource.ResourcesDataSource;
+
+import com.justcorrections.grit.data.model.Resource;
+import com.justcorrections.grit.data.remote.ResourcesDataSource;
 
 import java.io.InputStream;
 
@@ -34,10 +35,10 @@ public class ResourceDetailPresenter {
 
     private void loadResource() {
 
-        ResourcesDataSource.getInstance().getResource(Integer.parseInt(mResourceID), new ResourcesDataSource.GetResourceCallback() {
+        ResourcesDataSource.getInstance().getItem(mResourceID, new ResourcesDataSource.GetItemCallback<Resource>() {
 
             @Override
-            public void onResourceLoaded(Resource resource) {
+            public void onItemLoaded(Resource resource) {
                 resourceDetailFragment.populateViewsWithResourceDetails(resource);
                 new DownloadStreetviewImageTask().execute(resource.getAddress());
             }

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    tools:context="com.justcorrections.grit.account.LoginFragment">
+    tools:context=".modules.account.LoginFragment">
 
     <ImageView
         android:layout_width="match_parent"

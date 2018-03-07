@@ -1,4 +1,4 @@
-package com.justcorrections.grit.account;
+package com.justcorrections.grit.modules.account;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.justcorrections.grit.MainActivity;
 import com.justcorrections.grit.R;
 
 /**
@@ -112,11 +113,11 @@ public class ResetFragment extends Fragment implements AccountInterface {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnAccountRequestListener) {
-            resetRequestListener = (OnAccountRequestListener) context;
+        if (context instanceof MainActivity) {
+            resetRequestListener = ((MainActivity) context).getAuthHandler();
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnAccountRequestListener");
+                    + " must be instance of MainActivity");
         }
     }
 

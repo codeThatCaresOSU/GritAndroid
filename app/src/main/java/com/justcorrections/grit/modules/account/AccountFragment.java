@@ -1,4 +1,4 @@
-package com.justcorrections.grit.account;
+package com.justcorrections.grit.modules.account;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

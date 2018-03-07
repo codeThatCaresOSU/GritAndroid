@@ -1,4 +1,4 @@
-package com.justcorrections.grit.map;
+package com.justcorrections.grit.modules.map;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.justcorrections.grit.MainActivity;
 import com.justcorrections.grit.R;
-import com.justcorrections.grit.data.resource.Resource;
+import com.justcorrections.grit.data.model.Resource;
 
 /**
  * A simple {@link Fragment} subclass.
