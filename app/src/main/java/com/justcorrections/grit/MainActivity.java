@@ -17,6 +17,7 @@ import com.justcorrections.grit.modules.account.AccountFragment;
 import com.justcorrections.grit.modules.account.LoginFragment;
 import com.justcorrections.grit.modules.map.MapFragment;
 import com.justcorrections.grit.modules.mystery.MysteryFragment;
+import com.justcorrections.grit.modules.signup.SignupNamesAge;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                 } else if (id == R.id.menu_account) {
                     navigationHandler.navigateTo(LoginFragment.newInstance(null), false);
                 } else if (id == R.id.menu_mystery) {
-                    navigationHandler.navigateTo(MysteryFragment.newInstance("param 1", "param 2"), false);
+                    navigationHandler.navigateTo(SignupNamesAge.newInstance(new Bundle()), false);
                 }
                 return true;
             }
@@ -94,8 +95,8 @@ public class MainActivity extends AppCompatActivity {
         bottomNav.setSelectedItemId(R.id.menu_map);
     }
 
-    public void navigateTo(Fragment fragment) {
-        navigationHandler.navigateTo(fragment, true);
+    public void navigateTo(Fragment fragment, boolean saveTransactionToBackStack) {
+        navigationHandler.navigateTo(fragment, saveTransactionToBackStack);
     }
 
     @Override
@@ -105,18 +106,18 @@ public class MainActivity extends AppCompatActivity {
 
     public void setSelected(int position) {
         if (position == 0) {
-            navigateTo(MapFragment.newInstance());
+            navigateTo(MapFragment.newInstance(), false);
         } else if (position == 1) {
-            navigateTo(LoginFragment.newInstance(null));
+            navigateTo(LoginFragment.newInstance(null), false);
         } else {
-            navigateTo(MysteryFragment.newInstance("a", "b"));
+            navigateTo(SignupNamesAge.newInstance(new Bundle()), false);
         }
     }
 
     public void setupFragments() {
         fragments.add(0, MapFragment.newInstance());
         fragments.add(1, LoginFragment.newInstance(null));
-        fragments.add(2, MysteryFragment.newInstance("Parameter 1", "Parameter 2"));
+        fragments.add(2, SignupNamesAge.newInstance(new Bundle()));
     }
 
     public AuthenticationHandler getAuthHandler() {
@@ -125,8 +126,8 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Shows an error messsage at the top of the main activity.
-     * @param message
-     *          The error message to show.
+     *
+     * @param message The error message to show.
      */
     public void showErrorText(String message) {
         errorText.setText(message);
