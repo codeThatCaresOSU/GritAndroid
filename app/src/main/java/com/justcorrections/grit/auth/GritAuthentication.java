@@ -6,7 +6,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.justcorrections.grit.auth.GritUser.GritUserType;
 
 /**
  * Created by ianwillis on 2/21/18.
@@ -17,6 +17,7 @@ public class GritAuthentication {
     private static GritAuthentication INSTANCE;
 
     private FirebaseAuth firebaseAuth;
+    private GritUser gritUser;
 
     public static GritAuthentication getInstance() {
         if (INSTANCE == null) {
@@ -27,18 +28,26 @@ public class GritAuthentication {
 
     private GritAuthentication() {
         firebaseAuth = FirebaseAuth.getInstance();
+        gritUser = null;
     }
 
-    public void GritUser getCurrentUser() {
-
+    public GritUser getCurrentUser() {
+        if (firebaseAuth.getCurrentUser() == null) {
+            return null;
+        } else if (firebaseAuth.getCurrentUser() != null && gritUser == null) {
+            gritUser = new GritUser(firebaseAuth.getCurrentUser(), GritUserType.MENTEE);
+            return gritUser;
+        } else {
+            return gritUser;
+        }
     }
 
-    public void login(String email, String password, final FirebaseLoginListener loginListener) {
+    public void login(String email, String password, final GritLoginListener loginListener) {
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    loginListener.onSuccess(GritUser.login(task.getResult().getUser()));
+                    loginListener.onSuccess(getCurrentUser());
                 } else {
                     loginListener.onFailure(task.getResult().toString());
                 }
@@ -46,22 +55,12 @@ public class GritAuthentication {
         });
     }
 
-    public interface FirebaseLoginListener {
-        void onSuccess(GritUser user);
-
-        void onFailure(String errorMessage);
-    }
-
-    public void signOut() {
-        firebaseAuth.signOut();
-    }
-
-    public void createUser(String email, String password, final FirebaseCreateUserListener createUserListener) {
+    public void createUser(String email, String password, final GritCreateUserListener createUserListener) {
         firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    createUserListener.onSuccess(task.getResult().getUser());
+                    createUserListener.onSuccess(getCurrentUser());
                 } else {
                     createUserListener.onFailure(task.getResult().toString());
                 }
@@ -69,13 +68,8 @@ public class GritAuthentication {
         });
     }
 
-    public interface FirebaseCreateUserListener {
-        void onSuccess(FirebaseUser user);
 
-        void onFailure(String errorMessage);
-    }
-
-    public void sendPasswordResetEmail(String email, final FirebasePasswordResetListener passwordResetListener) {
+    public void sendPasswordResetEmail(String email, final GritPasswordResetListener passwordResetListener) {
         firebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -88,7 +82,23 @@ public class GritAuthentication {
         });
     }
 
-    public interface FirebasePasswordResetListener {
+    public void signOut() {
+        firebaseAuth.signOut();
+    }
+
+    public interface GritLoginListener {
+        void onSuccess(GritUser user);
+
+        void onFailure(String errorMessage);
+    }
+
+    public interface GritCreateUserListener {
+        void onSuccess(GritUser user);
+
+        void onFailure(String errorMessage);
+    }
+
+    public interface GritPasswordResetListener {
         void onSuccess();
 
         void onFailure(String errorMessage);

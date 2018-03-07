@@ -69,6 +69,13 @@ public class MenteeDataSource {
         }
     }
 
+    public interface GetMenteeCallback {
+
+        void onMenteeLoaded(Mentee mentee);
+
+        void onDataNotAvailable();
+    }
+
     public void getMentees(@NonNull final GetMenteesCallback callback) {
         if (menteeCache != null) {
             callback.onMenteesLoaded(menteeCache);
@@ -94,12 +101,6 @@ public class MenteeDataSource {
         }
     }
 
-    public interface GetMenteeCallback {
-
-        void onMenteeLoaded(Mentee mentee);
-
-        void onDataNotAvailable();
-    }
 
     public interface GetMenteesCallback {
 
