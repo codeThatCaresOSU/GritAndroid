@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion 26
@@ -13,6 +14,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         resValue "string", "google_map_api_key", (project.findProperty("GRIT_MAPS_KEY") ?: "")
         resValue "string", "google_street_view_api_key", (project.findProperty("GRIT_STREET_VIEW_KEY") ?: "")
+
     }
     buildTypes {
         release {
@@ -40,6 +42,11 @@ dependencies {
     compile 'com.google.firebase:firebase-crash:11.8.0'
     testCompile 'junit:junit:4.12'
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:1.2.10"
+
+    compile('com.crashlytics.sdk.android:crashlytics:2.9.0@aar') {
+        transitive = true
+    }
+    compile 'com.google.firebase:firebase-core:11.8.0'
 }
 apply plugin: 'com.google.gms.google-services'
 repositories {

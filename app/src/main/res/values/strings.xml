@@ -45,6 +45,7 @@
     <string name="prefix_url">Website:</string>
     <string name="prefix_category">Category:</string>
     <string name="prefix_phone">Phone:</string>
+    <string name="loading_error">Loading Error. Please try again later.</string>
 
 
 </resources>
