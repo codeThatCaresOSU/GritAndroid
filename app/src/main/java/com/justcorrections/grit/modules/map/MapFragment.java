@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnMultiChoiceClickListener;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -25,8 +24,8 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.justcorrections.grit.MainActivity;
 import com.justcorrections.grit.R;
-import com.justcorrections.grit.data.mapdata.categories.Category;
-import com.justcorrections.grit.data.mapdata.resources.Resource;
+import com.justcorrections.grit.data.model.Category;
+import com.justcorrections.grit.data.model.Resource;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,11 +48,8 @@ public class MapFragment extends Fragment implements OnClickListener, OnMapReady
     public static MapFragment newInstance() {
         return new MapFragment();
     }
-    
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
+    public MapFragment() {
         presenter = new MapPresenter();
         mapMarkers = new HashMap<String, List<Marker>>();
         resourceIds = new HashMap<String, String>();
@@ -129,7 +125,7 @@ public class MapFragment extends Fragment implements OnClickListener, OnMapReady
     }
 
     /*
-     * GritUser has selected a category in the filter menu, add the resources to the map
+     * User has selected a category in the filter menu, add the resources to the map
      */
     public void setMarkers(Category category, List<Resource> resources) {
         List<Marker> markers = new ArrayList<>();
@@ -146,7 +142,7 @@ public class MapFragment extends Fragment implements OnClickListener, OnMapReady
     }
 
     /*
-     * GritUser has deselected a category in the filter menu, remove the resources from the map
+     * User has deselected a category in the filter menu, remove the resources from the map
      */
     public void removeMarkers(String category) {
         if (mapMarkers.containsKey(category)) {
@@ -201,6 +197,6 @@ public class MapFragment extends Fragment implements OnClickListener, OnMapReady
         String resourceId = resourceIds.get(markerId);
 
         ResourceDetailFragment resourceDetailFragment = ResourceDetailFragment.newInstance(resourceId);
-        ((MainActivity) getActivity()).navigateTo(resourceDetailFragment, true);
+        ((MainActivity) getActivity()).navigateTo(resourceDetailFragment);
     }
 }

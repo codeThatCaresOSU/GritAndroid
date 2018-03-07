@@ -3,12 +3,11 @@ package com.justcorrections.grit.modules.map;
 import android.content.Context;
 
 import com.justcorrections.grit.R;
-import com.justcorrections.grit.data.mapdata.categories.Category;
-import com.justcorrections.grit.data.mapdata.categories.CategoryDataSource;
-import com.justcorrections.grit.data.mapdata.categories.CategoryDataSource.GetCategoriesCallback;
-import com.justcorrections.grit.data.mapdata.resources.Resource;
-import com.justcorrections.grit.data.mapdata.resources.ResourcesDataSource;
-import com.justcorrections.grit.data.mapdata.resources.ResourcesDataSource.GetResourcesCallback;
+import com.justcorrections.grit.data.model.Category;
+import com.justcorrections.grit.data.model.Resource;
+import com.justcorrections.grit.data.remote.CategoryDataSource;
+import com.justcorrections.grit.data.remote.FirebaseDataSource.GetItemsCallback;
+import com.justcorrections.grit.data.remote.ResourcesDataSource;
 import com.justcorrections.grit.utils.ArrayUtils;
 import com.justcorrections.grit.utils.Preferences;
 
@@ -55,16 +54,15 @@ public class MapPresenter {
 
     public void pause() {
         this.view = null; // prevent memory leak
-        //TODO: preferences should be set here
     }
 
     public void loadCategories() {
-        CategoryDataSource.getInstance().getCategories(new GetCategoriesCallback() {
+        CategoryDataSource.getInstance().getItems(new GetItemsCallback<Category>() {
             @Override
-            public void onCategoriesLoaded(List<Category> loadedCategories) {
-                categories = new Category[loadedCategories.size()];
-                loadedCategories.toArray(categories);
-                selected = new boolean[loadedCategories.size()];
+            public void onItemsLoaded(List<Category> items) {
+                categories = new Category[items.size()];
+                items.toArray(categories);
+                selected = new boolean[items.size()];
                 categoriesHaveLoaded = true;
                 if (resourcesHaveLoaded) {
                     getFilterSelectedPreference();
@@ -80,10 +78,10 @@ public class MapPresenter {
     }
 
     public void loadResources() {
-        ResourcesDataSource.getInstance().getResources(new GetResourcesCallback() {
+        ResourcesDataSource.getInstance().getItems(new GetItemsCallback<Resource>() {
             @Override
-            public void onResourcesLoaded(List<Resource> loadedResources) {
-                sortResources(loadedResources);
+            public void onItemsLoaded(List<Resource> items) {
+                sortResources(items);
                 resourcesHaveLoaded = true;
                 if (categoriesHaveLoaded) {
                     getFilterSelectedPreference();

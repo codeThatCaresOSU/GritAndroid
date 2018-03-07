@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.justcorrections.grit.R;
-import com.justcorrections.grit.data.mapdata.resources.Resource;
+import com.justcorrections.grit.data.model.Resource;
 
 /**
  * A simple {@link Fragment} subclass.
