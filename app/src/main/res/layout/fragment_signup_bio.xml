@@ -1,55 +1,68 @@
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:scrollbars="vertical"
     tools:context="com.justcorrections.grit.modules.signup.SignupNamesAge">
 
-
-    <TextView
-        android:id="@+id/tv_bio_title"
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="90dp"
-        android:maxWidth="400dp"
-        android:text="@string/bio_title"
-        android:textAlignment="center"
-        android:textSize="40sp"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/et_bio"
-        android:layout_width="300dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="40dp"
-        android:ems="10"
-        android:hint="@string/bio_hint"
-        android:inputType="textMultiLine"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_bio_title"
-        android:gravity="top|start"
-        android:scrollbars="vertical"/>
+        <TextView
+            android:id="@+id/tv_bio_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="90dp"
+            android:maxWidth="400dp"
+            android:text="@string/bio_title"
+            android:textAlignment="center"
+            android:textSize="40sp"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/button_bio_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/back"
-        android:layout_marginBottom="20dp"
-        android:layout_marginStart="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"/>
+        <EditText
+            android:id="@+id/et_bio"
+            android:layout_width="300dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="40dp"
+            android:ems="10"
+            android:gravity="top|start"
+            android:hint="@string/bio_hint"
+            android:inputType="textMultiLine"
+            android:scrollbars="vertical"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_bio_title" />
 
-    <Button
-        android:id="@+id/button_bio_next"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/next"
-        android:layout_marginBottom="20dp"
-        android:layout_marginEnd="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+        <Button
+            android:id="@+id/button_bio_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/back"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="@id/et_bio"
+            app:layout_constraintTop_toBottomOf="@id/et_bio" />
 
+        <Button
+            android:id="@+id/button_bio_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/next"
+            app:layout_constraintEnd_toEndOf="@id/et_bio"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/et_bio" />
 
-</android.support.constraint.ConstraintLayout>
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/button_bio_back" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</ScrollView>
