@@ -17,8 +17,6 @@ import com.justcorrections.grit.modules.account.AccountFragment;
 import com.justcorrections.grit.modules.account.LoginFragment;
 import com.justcorrections.grit.modules.map.MapFragment;
 import com.justcorrections.grit.modules.mystery.MysteryFragment;
-import com.justcorrections.grit.utils.DatabaseHelper;
-import com.justcorrections.grit.utils.NavigationHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,8 +33,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView errorText;
 
 
-    private DatabaseHelper helper;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
 
         bottomNav = findViewById(R.id.main_bottom_nav);
         navigationHandler = new NavigationHandler(this);
-        helper = DatabaseHelper.getInstance();
 
         errorText = (TextView) findViewById(R.id.error_textview);
         errorText.setVisibility(View.INVISIBLE);
