@@ -1,4 +1,4 @@
-package com.justcorrections.grit.modules.account;
+package com.justcorrections.grit.modules.login;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -63,7 +63,7 @@ public class CreateFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_create, container, false);
+        return inflater.inflate(R.layout.fragment_login, container, false);
     }
 
     @Override
@@ -71,17 +71,17 @@ public class CreateFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // initialize the views for the fragment
-        userLayout = view.findViewById(R.id.account_email_layout);
-        passLayout = view.findViewById(R.id.account_password_layout);
-        checkLayout = view.findViewById(R.id.account_password_confirm_layout);
-        userText = view.findViewById(R.id.account_email_input);
-        passText = view.findViewById(R.id.account_password_input);
-        checkText = view.findViewById(R.id.account_password_confirm_input);
-        userIcon = view.findViewById(R.id.account_email_icon);
-        passIcon = view.findViewById(R.id.account_password_icon);
-        checkIcon = view.findViewById(R.id.account_password_confirm_icon);
-        createButton = view.findViewById(R.id.account_create_button);
-        backButton = view.findViewById(R.id.create_registered_button);
+//        userLayout = view.findViewById(R.id.account_email_layout);
+//        passLayout = view.findViewById(R.id.account_password_layout);
+//        checkLayout = view.findViewById(R.id.account_password_confirm_layout);
+//        userText = view.findViewById(R.id.account_email_input);
+//        passText = view.findViewById(R.id.account_password_input);
+//        checkText = view.findViewById(R.id.account_password_confirm_input);
+//        userIcon = view.findViewById(R.id.account_email_icon);
+//        passIcon = view.findViewById(R.id.account_password_icon);
+//        checkIcon = view.findViewById(R.id.account_password_confirm_icon);
+//        createButton = view.findViewById(R.id.account_create_button);
+//        backButton = view.findViewById(R.id.create_registered_button);
 
         userText.setText(email);
 

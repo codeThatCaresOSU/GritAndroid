@@ -1,32 +1,22 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    tools:context=".modules.account.LoginFragment">
+    tools:context=".modules.login.LoginFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:animateLayoutChanges="true">
-
-        <!-- image or logo -->
-
-        <ImageView
-            android:id="@+id/login_logo"
-            android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:background="@android:color/white"
-            android:contentDescription="@string/logo_description"
-            android:transitionName="logo" />
+        android:layout_gravity="center_vertical">
 
         <!-- username input -->
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/login_user_layout"
+            android:id="@+id/login_email_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/login_logo"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginTop="16dp"
@@ -38,11 +28,11 @@
             android:transitionName="user_layout">
 
             <android.support.design.widget.TextInputEditText
-                android:id="@+id/login_user_input"
+                android:id="@+id/login_email_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/email_address"
-                android:inputType="textEmailAddress" />
+                android:inputType="textEmailAddress"/>
 
         </android.support.design.widget.TextInputLayout>
 
@@ -50,10 +40,10 @@
         <!-- password input -->
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/login_pass_layout"
+            android:id="@+id/login_password_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/login_user_layout"
+            android:layout_below="@id/login_email_layout"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginTop="16dp"
@@ -65,11 +55,11 @@
             android:transitionName="pass_layout">
 
             <android.support.design.widget.TextInputEditText
-                android:id="@+id/login_pass_input"
+                android:id="@+id/login_password_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/password"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"/>
 
         </android.support.design.widget.TextInputLayout>
 
@@ -79,25 +69,24 @@
             android:id="@+id/login_user_icon"
             android:layout_width="42dp"
             android:layout_height="42dp"
-            android:layout_below="@id/login_logo"
             android:layout_marginStart="20dp"
             android:layout_marginTop="24dp"
             android:contentDescription="@string/user_icon_description"
             android:src="@drawable/ic_user"
-            android:transitionName="user_icon" />
+            android:transitionName="user_icon"/>
 
         <!-- key icon -->
 
         <ImageView
-            android:id="@+id/login_pass_icon"
+            android:id="@+id/login_password_icon"
             android:layout_width="42dp"
             android:layout_height="42dp"
-            android:layout_below="@id/login_user_layout"
+            android:layout_below="@id/login_email_layout"
             android:layout_marginStart="20dp"
             android:layout_marginTop="24dp"
             android:contentDescription="@string/password_icon_description"
             android:src="@drawable/ic_key"
-            android:transitionName="pass_icon" />
+            android:transitionName="pass_icon"/>
 
         <!-- login button -->
 
@@ -105,14 +94,14 @@
             android:id="@+id/login_login_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/login_pass_layout"
+            android:layout_below="@id/login_password_layout"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginTop="16dp"
             android:background="@color/colorAccent"
             android:text="@string/log_in"
             android:textColor="@android:color/white"
-            android:transitionName="login_button" />
+            android:transitionName="login_button"/>
 
         <!-- forgot password button -->
 
@@ -126,12 +115,12 @@
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:text="@string/forgot_your_password"
             android:textColor="@android:color/white"
-            android:textSize="12sp" />
+            android:textSize="12sp"/>
 
         <!-- create account button -->
 
         <Button
-            android:id="@+id/login_signup_button"
+            android:id="@+id/login_create_account_button"
             style="@style/Base.Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -140,7 +129,7 @@
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:text="@string/create_an_account"
             android:textColor="@android:color/white"
-            android:textSize="12sp" />
+            android:textSize="12sp"/>
 
     </RelativeLayout>
 

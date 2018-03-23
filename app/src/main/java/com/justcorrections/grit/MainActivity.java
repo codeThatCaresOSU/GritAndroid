@@ -7,7 +7,8 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-import com.justcorrections.grit.modules.account.AccountFragment;
+import com.justcorrections.grit.auth.GritAuthentication;
+import com.justcorrections.grit.modules.login.LoginFragment;
 import com.justcorrections.grit.modules.map.MapFragment;
 import com.justcorrections.grit.modules.mystery.MysteryFragment;
 
@@ -33,7 +34,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         if (id == R.id.menu_map) {
             navigateTo(MapFragment.newInstance(), false);
         } else if (id == R.id.menu_account) {
-            navigateTo(AccountFragment.newInstance(), false);
+            if (GritAuthentication.getInstance().getCurrentUser() == null)
+                navigateTo(LoginFragment.newInstance(), false);
+            else
+                System.out.println("need to add details fragment here");
         } else if (id == R.id.menu_mystery) {
             navigateTo(MysteryFragment.newInstance("param 1", "param 2"), false);
         }

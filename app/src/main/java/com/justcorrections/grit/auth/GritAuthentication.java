@@ -49,7 +49,7 @@ public class GritAuthentication {
                 if (task.isSuccessful()) {
                     loginListener.onSuccess(getCurrentUser());
                 } else {
-                    loginListener.onFailure(task.getResult().toString());
+                    loginListener.onFailure(task.getException().getMessage());
                 }
             }
         });
@@ -62,7 +62,7 @@ public class GritAuthentication {
                 if (task.isSuccessful()) {
                     createUserListener.onSuccess(getCurrentUser());
                 } else {
-                    createUserListener.onFailure(task.getResult().toString());
+                    createUserListener.onFailure(task.getException().getMessage());
                 }
             }
         });
@@ -76,7 +76,7 @@ public class GritAuthentication {
                 if (task.isSuccessful()) {
                     passwordResetListener.onSuccess();
                 } else {
-                    passwordResetListener.onFailure(task.getResult().toString());
+                    passwordResetListener.onFailure(task.getException().getMessage());
                 }
             }
         });
