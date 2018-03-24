@@ -19,8 +19,8 @@ import com.justcorrections.grit.R;
  */
 public class SignupNamesAge extends Fragment {
 
-    private int age;
-    private String firstName, lastName, city, address, zip, bio, email, password, gender;
+    private SignupInfo signupInfo;
+
     private EditText firstNameEditText, lastNameEditText, ageEditText;
 
     public SignupNamesAge() {
@@ -30,12 +30,12 @@ public class SignupNamesAge extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param signupInfo a bundle of the signup details.
+     * @param bundle a bundle of the signup details.
      * @return A new instance of fragment SignupNamesAge.
      */
-    public static SignupNamesAge newInstance(Bundle signupInfo) {
+    public static SignupNamesAge newInstance(Bundle bundle) {
         SignupNamesAge fragment = new SignupNamesAge();
-        fragment.setArguments(signupInfo);
+        fragment.setArguments(bundle);
         return fragment;
     }
 
@@ -67,16 +67,16 @@ public class SignupNamesAge extends Fragment {
         /*
          * Populate views with data if it already exists
          */
-        if (firstName != null && !firstName.isEmpty()) {
-            firstNameEditText.setText(firstName);
+        if (signupInfo.firstName != null && !signupInfo.firstName.isEmpty()) {
+            firstNameEditText.setText(signupInfo.firstName);
         }
 
-        if (lastName != null && !lastName.isEmpty()) {
-            lastNameEditText.setText(lastName);
+        if (signupInfo.lastName != null && !signupInfo.lastName.isEmpty()) {
+            lastNameEditText.setText(signupInfo.lastName);
         }
 
-        if (age != 0) {
-            ageEditText.setText(String.valueOf(age));
+        if (signupInfo.age != 0) {
+            ageEditText.setText(String.valueOf(signupInfo.age));
         }
 
         // Inflate the layout for this fragment
@@ -93,7 +93,7 @@ public class SignupNamesAge extends Fragment {
             Toast.makeText(getContext(), R.string.over_18_error, Toast.LENGTH_LONG).show();
         } else {
             Bundle signUpBundle = createBundleFromThis();
-            ((MainActivity) getActivity()).navigateTo(SignupGender.newInstance(signUpBundle));
+            ((MainActivity) getActivity()).navigateTo(SignupMentorMentee.newInstance(signUpBundle));
         }
 
     }
@@ -113,48 +113,27 @@ public class SignupNamesAge extends Fragment {
      * and views.
      */
     private Bundle createBundleFromThis() {
-        Bundle signupInfo = new Bundle();
 
         // Update instance variables based on user input
         try {
-            this.age = Integer.parseInt(this.ageEditText.getText().toString());
+            signupInfo.age = Integer.parseInt(this.ageEditText.getText().toString());
         } catch (NumberFormatException e) {
-            this.age = 0;
+            signupInfo.age = 0;
         }
-        this.lastName = this.lastNameEditText.getText().toString();
-        this.firstName = this.firstNameEditText.getText().toString();
+        signupInfo.lastName = this.lastNameEditText.getText().toString();
+        signupInfo.firstName = this.firstNameEditText.getText().toString();
 
-        // Put all the info in the bundle
-        signupInfo.putInt(getString(R.string.age), age);
-        signupInfo.putString(getString(R.string.first_name), firstName);
-        signupInfo.putString(getString(R.string.last_name), lastName);
-        signupInfo.putString(getString(R.string.email), email);
-        signupInfo.putString(getString(R.string.city), city);
-        signupInfo.putString(getString(R.string.street_address), address);
-        signupInfo.putString(getString(R.string.zip), zip);
-        signupInfo.putString(getString(R.string.bio), bio);
-        signupInfo.putString(getString(R.string.password), password);
-        signupInfo.putString(getString(R.string.gender), gender);
+        // Write to a bundle
+        Bundle bundle = SignupInfo.writeToBundle(signupInfo, this.getContext());
 
         // return the bundle
-        return signupInfo;
+        return bundle;
     }
 
     /*
      * updates instance variables to match the information contained in the given bundle.
      */
     private void readFromArguments() {
-        if (getArguments() != null) {
-            firstName = getArguments().getString(getString(R.string.first_name), "");
-            lastName = getArguments().getString(getString(R.string.last_name), "");
-            city = getArguments().getString(getString(R.string.city), "");
-            address = getArguments().getString(getString(R.string.street_address), "");
-            zip = getArguments().getString(getString(R.string.zip), "");
-            bio = getArguments().getString(getString(R.string.bio), "");
-            email = getArguments().getString(getString(R.string.email), "");
-            password = getArguments().getString(getString(R.string.password), "");
-            age = getArguments().getInt(getString(R.string.age), 0);
-            gender = getArguments().getString(getString(R.string.gender), "");
-        }
+        signupInfo = SignupInfo.readFromBundle(getArguments(), this.getContext());
     }
 }

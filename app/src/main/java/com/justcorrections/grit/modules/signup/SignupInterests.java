@@ -2,41 +2,49 @@ package com.justcorrections.grit.modules.signup;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.justcorrections.grit.MainActivity;
 import com.justcorrections.grit.R;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link SignupNamesAge#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SignupEmailPasswords extends Fragment {
-
+public class SignupInterests extends Fragment {
 
     private SignupInfo signupInfo;
+    private ListView interestsLV;
+    boolean[] checked;
+    private String[] allInterests = new String[]{"Welding", "Building", "Programming", "Other"};
 
-    private EditText emailEditText, passwordEditText, confirmPasswordEditText;
-
-    public SignupEmailPasswords() {}
+    public SignupInterests() {
+    }
 
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
      * @param signupInfo a bundle of the signup details.
-     * @return A new instance of fragment SignupEmailPasswords.
+     * @return A new instance of fragment SignupNamesAge.
      */
-    public static SignupEmailPasswords newInstance(Bundle signupInfo) {
-        SignupEmailPasswords fragment = new SignupEmailPasswords();
+    public static SignupInterests newInstance(Bundle signupInfo) {
+        SignupInterests fragment = new SignupInterests();
         fragment.setArguments(signupInfo);
         return fragment;
     }
@@ -51,16 +59,13 @@ public class SignupEmailPasswords extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_signup_email_passwords, container, false);
+        View view = inflater.inflate(R.layout.fragment_signup_interests, container, false);
 
         // find the views
-        Button backButton = view.findViewById(R.id.button_email_password_back);
-        Button nextButton = view.findViewById(R.id.button_email_password_next);
-        emailEditText = view.findViewById(R.id.et_email);
-        passwordEditText = view.findViewById(R.id.et_password);
-        confirmPasswordEditText = view.findViewById(R.id.et_password_confirm);
+        Button nextButton = view.findViewById(R.id.button_interests_next);
+        Button backButton = view.findViewById(R.id.button_interests_back);
+        interestsLV = view.findViewById(R.id.lv_interests);
 
-        // Set on click listeners
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,13 +82,13 @@ public class SignupEmailPasswords extends Fragment {
         /*
          * Populate views with data if it already exists
          */
-        if (signupInfo.email != null && !signupInfo.email.isEmpty()) {
-            emailEditText.setText(signupInfo.email);
+        checked = new boolean[allInterests.length];
+        for (int i = 0; i < allInterests.length; i++) {
+            checked[i] = signupInfo.interests.contains(allInterests[i]);
         }
-        if (signupInfo.password != null && !signupInfo.password.isEmpty()) {
-            passwordEditText.setText(signupInfo.password);
-            confirmPasswordEditText.setText(signupInfo.password);
-        }
+        BaseAdapter adapter = new InterestAdapter(getContext(), allInterests, checked);
+        interestsLV.setAdapter(adapter);
+        interestsLV.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
         // Inflate the layout for this fragment
         return view;
@@ -93,34 +98,18 @@ public class SignupEmailPasswords extends Fragment {
      * Navigates to the previous signup screen
      */
     private void goBack() {
-
         Bundle signUpBundle = createBundleFromThis();
-        ((MainActivity) getActivity()).navigateTo(SignupInterests.newInstance(signUpBundle));
+        ((MainActivity) getActivity()).navigateTo(SignupBio.newInstance(signUpBundle));
     }
 
     /*
      * Navigates to the next signup screen
      */
     private void goNext() {
-        if (!noEmptyFields()) {
-            Toast.makeText(getContext(), R.string.empty_fields_error, Toast.LENGTH_LONG).show();
-        } else if (!passwordsMatch()) {
-            Toast.makeText(getContext(), R.string.password_match_error, Toast.LENGTH_LONG).show();
-        } else {
-            Bundle signUpBundle = createBundleFromThis();
-            ((MainActivity) getActivity()).navigateTo(SignupConfirm.newInstance(signUpBundle));
-        }
+        Bundle signUpBundle = createBundleFromThis();
+        ((MainActivity) getActivity()).navigateTo(SignupEmailPasswords.newInstance(signUpBundle));
     }
 
-    private boolean noEmptyFields() {
-        return !passwordEditText.getText().toString().isEmpty()
-                && !emailEditText.getText().toString().isEmpty();
-    }
-
-    private boolean passwordsMatch() {
-        return passwordEditText.getText().toString()
-                .equals(confirmPasswordEditText.getText().toString());
-    }
 
     /*
      * Creates a Bundle with all of the signup information contained in this fragment's instance variables
@@ -129,8 +118,12 @@ public class SignupEmailPasswords extends Fragment {
     private Bundle createBundleFromThis() {
 
         // Update instance variables based on user input
-        signupInfo.email = emailEditText.getText().toString();
-        signupInfo.password = passwordEditText.getText().toString();
+        signupInfo.interests = new ArrayList<>();
+        for (int i = 0; i < checked.length; i++) {
+            if (checked[i]) {
+                signupInfo.interests.add(allInterests[i]);
+            }
+        }
 
         // Write to a bundle
         Bundle bundle = SignupInfo.writeToBundle(signupInfo, this.getContext());
@@ -145,4 +138,6 @@ public class SignupEmailPasswords extends Fragment {
     private void readFromArguments() {
         signupInfo = SignupInfo.readFromBundle(getArguments(), this.getContext());
     }
+
+
 }

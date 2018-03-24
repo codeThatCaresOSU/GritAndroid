@@ -14,6 +14,7 @@ import com.justcorrections.grit.modules.account.LoginFragment;
 import com.justcorrections.grit.modules.map.MapFragment;
 import com.justcorrections.grit.modules.map.ResourceDetailFragment;
 import com.justcorrections.grit.modules.mystery.MysteryFragment;
+import com.justcorrections.grit.modules.signup.SignupInterests;
 import com.justcorrections.grit.modules.signup.SignupNamesAge;
 import com.justcorrections.grit.utils.DatabaseHelper;
 import com.justcorrections.grit.utils.NavigationHandler;

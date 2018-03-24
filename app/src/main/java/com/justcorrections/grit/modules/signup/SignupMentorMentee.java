@@ -2,11 +2,13 @@ package com.justcorrections.grit.modules.signup;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.justcorrections.grit.MainActivity;
@@ -19,24 +21,24 @@ import java.util.ArrayList;
  * Use the {@link SignupNamesAge#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SignupEmailPasswords extends Fragment {
-
+public class SignupMentorMentee extends Fragment {
 
     private SignupInfo signupInfo;
 
-    private EditText emailEditText, passwordEditText, confirmPasswordEditText;
+    private RadioButton rbMentor, rbMentee;
 
-    public SignupEmailPasswords() {}
+    public SignupMentorMentee() {
+    }
 
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
      * @param signupInfo a bundle of the signup details.
-     * @return A new instance of fragment SignupEmailPasswords.
+     * @return A new instance of fragment SignupNamesAge.
      */
-    public static SignupEmailPasswords newInstance(Bundle signupInfo) {
-        SignupEmailPasswords fragment = new SignupEmailPasswords();
+    public static SignupMentorMentee newInstance(Bundle signupInfo) {
+        SignupMentorMentee fragment = new SignupMentorMentee();
         fragment.setArguments(signupInfo);
         return fragment;
     }
@@ -51,16 +53,14 @@ public class SignupEmailPasswords extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_signup_email_passwords, container, false);
+        View view = inflater.inflate(R.layout.fragment_signup_mentor_mentee, container, false);
 
         // find the views
-        Button backButton = view.findViewById(R.id.button_email_password_back);
-        Button nextButton = view.findViewById(R.id.button_email_password_next);
-        emailEditText = view.findViewById(R.id.et_email);
-        passwordEditText = view.findViewById(R.id.et_password);
-        confirmPasswordEditText = view.findViewById(R.id.et_password_confirm);
+        Button nextButton = view.findViewById(R.id.button_mentor_mentee_next);
+        Button backButton = view.findViewById(R.id.button_mentor_mentee_back);
+        rbMentor = view.findViewById(R.id.rb_mentor);
+        rbMentee = view.findViewById(R.id.rb_mentee);
 
-        // Set on click listeners
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,13 +77,7 @@ public class SignupEmailPasswords extends Fragment {
         /*
          * Populate views with data if it already exists
          */
-        if (signupInfo.email != null && !signupInfo.email.isEmpty()) {
-            emailEditText.setText(signupInfo.email);
-        }
-        if (signupInfo.password != null && !signupInfo.password.isEmpty()) {
-            passwordEditText.setText(signupInfo.password);
-            confirmPasswordEditText.setText(signupInfo.password);
-        }
+
 
         // Inflate the layout for this fragment
         return view;
@@ -93,44 +87,25 @@ public class SignupEmailPasswords extends Fragment {
      * Navigates to the previous signup screen
      */
     private void goBack() {
-
         Bundle signUpBundle = createBundleFromThis();
-        ((MainActivity) getActivity()).navigateTo(SignupInterests.newInstance(signUpBundle));
+        ((MainActivity) getActivity()).navigateTo(SignupNamesAge.newInstance(signUpBundle));
     }
 
     /*
      * Navigates to the next signup screen
      */
     private void goNext() {
-        if (!noEmptyFields()) {
-            Toast.makeText(getContext(), R.string.empty_fields_error, Toast.LENGTH_LONG).show();
-        } else if (!passwordsMatch()) {
-            Toast.makeText(getContext(), R.string.password_match_error, Toast.LENGTH_LONG).show();
-        } else {
-            Bundle signUpBundle = createBundleFromThis();
-            ((MainActivity) getActivity()).navigateTo(SignupConfirm.newInstance(signUpBundle));
-        }
+        Bundle signUpBundle = createBundleFromThis();
+        ((MainActivity) getActivity()).navigateTo(SignupGender.newInstance(signUpBundle));
     }
 
-    private boolean noEmptyFields() {
-        return !passwordEditText.getText().toString().isEmpty()
-                && !emailEditText.getText().toString().isEmpty();
-    }
-
-    private boolean passwordsMatch() {
-        return passwordEditText.getText().toString()
-                .equals(confirmPasswordEditText.getText().toString());
-    }
 
     /*
      * Creates a Bundle with all of the signup information contained in this fragment's instance variables
      * and views.
      */
     private Bundle createBundleFromThis() {
-
         // Update instance variables based on user input
-        signupInfo.email = emailEditText.getText().toString();
-        signupInfo.password = passwordEditText.getText().toString();
 
         // Write to a bundle
         Bundle bundle = SignupInfo.writeToBundle(signupInfo, this.getContext());

@@ -11,6 +11,8 @@ import android.widget.TextView;
 import com.justcorrections.grit.MainActivity;
 import com.justcorrections.grit.R;
 
+import java.util.ArrayList;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link SignupNamesAge#newInstance} factory method to
@@ -18,9 +20,9 @@ import com.justcorrections.grit.R;
  */
 public class SignupConfirm extends Fragment {
 
-    private int age;
-    private String firstName, lastName, city, address, zip, bio, email, password, gender;
-    private TextView tvFirstName, tvLastName, tvAge, tvCity, tvAddress, tvZip, tvBio, tvEmail, tvGender;
+    private SignupInfo signupInfo;
+
+    private TextView tvFirstName, tvLastName, tvAge, tvCity, tvAddress, tvZip, tvBio, tvEmail, tvGender, tvInterests;
 
     public SignupConfirm() {}
 
@@ -62,7 +64,7 @@ public class SignupConfirm extends Fragment {
         tvBio = view.findViewById(R.id.tv_confirm_bio_value);
         tvEmail = view.findViewById(R.id.tv_confirm_email_value);
         tvGender = view.findViewById(R.id.tv_confirm_gender_value);
-
+        tvInterests = view.findViewById(R.id.tv_confirm_interests_value);
 
         // Set on click listeners
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -81,24 +83,34 @@ public class SignupConfirm extends Fragment {
         /*
          * Populate views with data if it already exists
          */
-        tvAddress.setText(address);
-        tvCity.setText(city);
-        tvZip.setText(zip);
-        tvFirstName.setText(firstName);
-        tvLastName.setText(lastName);
-        tvBio.setText(bio);
-        tvEmail.setText(email);
+        tvAddress.setText(signupInfo.address);
+        tvCity.setText(signupInfo.city);
+        tvZip.setText(signupInfo.zip);
+        tvFirstName.setText(signupInfo.firstName);
+        tvLastName.setText(signupInfo.lastName);
+        tvBio.setText(signupInfo.bio);
+        tvEmail.setText(signupInfo.email);
 
-        if (age == 0) {
+        String interestsValue = "";
+        for (String interest : signupInfo.interests) {
+            interestsValue = interestsValue + interest + "\n";
+        }
+        if (signupInfo.interests.size() > 0) {
+            // get rid of the last \n
+            interestsValue = interestsValue.substring(0, interestsValue.length() - 1);
+        }
+        tvInterests.setText(interestsValue);
+
+        if (signupInfo.age == 0) {
             tvAge.setText("");
         } else {
-            tvAge.setText(String.valueOf(age));
+            tvAge.setText(String.valueOf(signupInfo.age));
         }
 
-        if (!gender.contains(getString(R.string.other_prefix))) {
-            tvGender.setText(gender);
+        if (!signupInfo.gender.contains(getString(R.string.other_prefix))) {
+            tvGender.setText(signupInfo.gender);
         } else {
-            tvGender.setText(gender.substring(6));
+            tvGender.setText(signupInfo.gender.substring(6));
         }
 
 
@@ -127,41 +139,20 @@ public class SignupConfirm extends Fragment {
      * and views.
      */
     private Bundle createBundleFromThis() {
-        Bundle signupInfo = new Bundle();
 
         // Update instance variables based on user input
 
-        // Put all the info in the bundle
-        signupInfo.putInt(getString(R.string.age), age);
-        signupInfo.putString(getString(R.string.first_name), firstName);
-        signupInfo.putString(getString(R.string.last_name), lastName);
-        signupInfo.putString(getString(R.string.email), email);
-        signupInfo.putString(getString(R.string.city), city);
-        signupInfo.putString(getString(R.string.street_address), address);
-        signupInfo.putString(getString(R.string.zip), zip);
-        signupInfo.putString(getString(R.string.bio), bio);
-        signupInfo.putString(getString(R.string.password), password);
-        signupInfo.putString(getString(R.string.gender), gender);
+        // Write to a bundle
+        Bundle bundle = SignupInfo.writeToBundle(signupInfo, this.getContext());
 
         // return the bundle
-        return signupInfo;
+        return bundle;
     }
 
     /*
      * updates instance variables to match the information contained in the given bundle.
      */
     private void readFromArguments() {
-        if (getArguments() != null) {
-            firstName = getArguments().getString(getString(R.string.first_name), "");
-            lastName = getArguments().getString(getString(R.string.last_name), "");
-            city = getArguments().getString(getString(R.string.city), "");
-            address = getArguments().getString(getString(R.string.street_address), "");
-            zip = getArguments().getString(getString(R.string.zip), "");
-            bio = getArguments().getString(getString(R.string.bio), "");
-            email = getArguments().getString(getString(R.string.email), "");
-            password = getArguments().getString(getString(R.string.password), "");
-            age = getArguments().getInt(getString(R.string.age), 0);
-            gender = getArguments().getString(getString(R.string.gender), "");
-        }
+        signupInfo = SignupInfo.readFromBundle(getArguments(), this.getContext());
     }
 }

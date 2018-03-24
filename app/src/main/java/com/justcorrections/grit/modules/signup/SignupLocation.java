@@ -12,6 +12,8 @@ import android.widget.Toast;
 import com.justcorrections.grit.MainActivity;
 import com.justcorrections.grit.R;
 
+import java.util.ArrayList;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link SignupNamesAge#newInstance} factory method to
@@ -19,8 +21,8 @@ import com.justcorrections.grit.R;
  */
 public class SignupLocation extends Fragment {
 
-    private int age;
-    private String firstName, lastName, city, address, zip, bio, email, password, gender;
+    private SignupInfo signupInfo;
+
     private EditText addressEditText, cityEditText, zipEditText;
 
     public SignupLocation() {}
@@ -75,14 +77,14 @@ public class SignupLocation extends Fragment {
         /*
          * Populate views with data if it already exists
          */
-        if (addressEditText != null && !address.isEmpty()) {
-            addressEditText.setText(address);
+        if (addressEditText != null && !signupInfo.address.isEmpty()) {
+            addressEditText.setText(signupInfo.address);
         }
-        if (city != null && !city.isEmpty()) {
-            cityEditText.setText(city);
+        if (signupInfo.city != null && !signupInfo.city.isEmpty()) {
+            cityEditText.setText(signupInfo.city);
         }
-        if (zip != null && !zip.isEmpty()) {
-            zipEditText.setText(zip);
+        if (signupInfo.zip != null && !signupInfo.zip.isEmpty()) {
+            zipEditText.setText(signupInfo.zip);
         }
 
         // Inflate the layout for this fragment
@@ -120,44 +122,23 @@ public class SignupLocation extends Fragment {
      * and views.
      */
     private Bundle createBundleFromThis() {
-        Bundle signupInfo = new Bundle();
 
         // Update instance variables based on user input
-        city = cityEditText.getText().toString();
-        address = addressEditText.getText().toString();
-        zip = zipEditText.getText().toString();
+        signupInfo.city = cityEditText.getText().toString();
+        signupInfo.address = addressEditText.getText().toString();
+        signupInfo.zip = zipEditText.getText().toString();
 
-        // Put all the info in the bundle
-        signupInfo.putInt(getString(R.string.age), age);
-        signupInfo.putString(getString(R.string.first_name), firstName);
-        signupInfo.putString(getString(R.string.last_name), lastName);
-        signupInfo.putString(getString(R.string.email), email);
-        signupInfo.putString(getString(R.string.city), city);
-        signupInfo.putString(getString(R.string.street_address), address);
-        signupInfo.putString(getString(R.string.zip), zip);
-        signupInfo.putString(getString(R.string.bio), bio);
-        signupInfo.putString(getString(R.string.password), password);
-        signupInfo.putString(getString(R.string.gender), gender);
+        // Write to a bundle
+        Bundle bundle = SignupInfo.writeToBundle(signupInfo, this.getContext());
 
         // return the bundle
-        return signupInfo;
+        return bundle;
     }
 
     /*
      * updates instance variables to match the information contained in the given bundle.
      */
     private void readFromArguments() {
-        if (getArguments() != null) {
-            firstName = getArguments().getString(getString(R.string.first_name), "");
-            lastName = getArguments().getString(getString(R.string.last_name), "");
-            city = getArguments().getString(getString(R.string.city), "");
-            address = getArguments().getString(getString(R.string.street_address), "");
-            zip = getArguments().getString(getString(R.string.zip), "");
-            bio = getArguments().getString(getString(R.string.bio), "");
-            email = getArguments().getString(getString(R.string.email), "");
-            password = getArguments().getString(getString(R.string.password), "");
-            age = getArguments().getInt(getString(R.string.age), 0);
-            gender = getArguments().getString(getString(R.string.gender), "");
-        }
+        signupInfo = SignupInfo.readFromBundle(getArguments(), this.getContext());
     }
 }
