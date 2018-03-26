@@ -31,7 +31,7 @@ public class SignupInterests extends Fragment {
     private SignupInfo signupInfo;
     private ListView interestsLV;
     boolean[] checked;
-    private String[] allInterests = new String[]{"Welding", "Building", "Programming", "Other"};
+    private String[] allInterests = new String[]{"Welding", "Building", "Programming", "Cooking", "Sports", "Having fun", "Partying", "Teaching", "Other"};
 
     public SignupInterests() {
     }
