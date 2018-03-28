@@ -26,11 +26,12 @@ public class LoginPresenter {
     }
 
     public void onLoginButtonPressed(String email, String password) {
-        System.out.println("Ian " + email + " " + password);
+        System.out.println("Ian working on it " + auth.getCurrentUser());
         auth.login(email, password, new GritLoginListener() {
             @Override
             public void onSuccess(GritUser user) {
                 // switch fragment
+                System.out.println("Ian it worked " + auth.getCurrentUser());
             }
 
             @Override

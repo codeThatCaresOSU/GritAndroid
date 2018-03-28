@@ -13,7 +13,6 @@ import com.justcorrections.grit.auth.GritAuthentication;
 import com.justcorrections.grit.modules.login.LoginFragment;
 import com.justcorrections.grit.modules.map.MapFragment;
 import com.justcorrections.grit.modules.mystery.MysteryFragment;
-import com.justcorrections.grit.modules.signup.SignupNamesAge;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -34,10 +33,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         errorText = findViewById(R.id.error_textview);
         errorText.setVisibility(View.INVISIBLE);
 
-    }
+        GritAuthentication.getInstance().signOut();
 
-    public void navigateTo(Fragment fragment, boolean saveTransactionToBackStack) {
-        navigationHandler.navigateTo(fragment, saveTransactionToBackStack);
     }
 
     @Override
@@ -59,6 +56,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     public void onBackPressed() {
         navigationHandler.onBackPressed();
+    }
+
+    public void navigateTo(Fragment fragment, boolean saveTransactionToBackStack) {
+        navigationHandler.navigateTo(fragment, saveTransactionToBackStack);
     }
 
     /**

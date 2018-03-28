@@ -32,14 +32,9 @@ public class GritAuthentication {
     }
 
     public GritUser getCurrentUser() {
-        if (firebaseAuth.getCurrentUser() == null) {
-            return null;
-        } else if (firebaseAuth.getCurrentUser() != null && gritUser == null) {
+        if (firebaseAuth.getCurrentUser() != null && gritUser == null)
             gritUser = new GritUser(firebaseAuth.getCurrentUser(), GritUserType.MENTEE);
-            return gritUser;
-        } else {
-            return gritUser;
-        }
+        return gritUser;
     }
 
     public void login(String email, String password, final GritLoginListener loginListener) {
