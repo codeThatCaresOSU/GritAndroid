@@ -32,44 +32,41 @@ public class GritAuthentication {
     }
 
     public GritUser getCurrentUser() {
-        if (firebaseAuth.getCurrentUser() == null) {
-            return null;
-        } else if (firebaseAuth.getCurrentUser() != null && gritUser == null) {
+        if (firebaseAuth.getCurrentUser() != null && gritUser == null)
             gritUser = new GritUser(firebaseAuth.getCurrentUser(), GritUserType.MENTEE);
-            return gritUser;
-        } else {
-            return gritUser;
-        }
+        
+        return gritUser;
+
     }
 
-    public void login(String email, String password, final GritLoginListener loginListener) {
+    public void login(String email, String password, final GritAuthCallback callback) {
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    loginListener.onSuccess(getCurrentUser());
+                    callback.onSuccess();
                 } else {
-                    loginListener.onFailure(task.getResult().toString());
+                    callback.onFailure(task.getResult().toString());
                 }
             }
         });
     }
 
-    public void createUser(String email, String password, final GritCreateUserListener createUserListener) {
+    public void createUser(String email, String password, final GritAuthCallback callback) {
         firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    createUserListener.onSuccess(getCurrentUser());
+                    callback.onSuccess();
                 } else {
-                    createUserListener.onFailure(task.getResult().toString());
+                    callback.onFailure(task.getResult().toString());
                 }
             }
         });
     }
 
 
-    public void sendPasswordResetEmail(String email, final GritPasswordResetListener passwordResetListener) {
+    public void sendPasswordResetEmail(String email, final GritAuthCallback passwordResetListener) {
         firebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -86,19 +83,7 @@ public class GritAuthentication {
         firebaseAuth.signOut();
     }
 
-    public interface GritLoginListener {
-        void onSuccess(GritUser user);
-
-        void onFailure(String errorMessage);
-    }
-
-    public interface GritCreateUserListener {
-        void onSuccess(GritUser user);
-
-        void onFailure(String errorMessage);
-    }
-
-    public interface GritPasswordResetListener {
+    public interface GritAuthCallback {
         void onSuccess();
 
         void onFailure(String errorMessage);
