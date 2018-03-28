@@ -1,4 +1,4 @@
-package com.justcorrections.grit.modules.login;
+package com.justcorrections.grit.modules.signin;
 
 import com.justcorrections.grit.auth.GritAuthentication;
 import com.justcorrections.grit.auth.GritAuthentication.GritLoginListener;
@@ -8,16 +8,16 @@ import com.justcorrections.grit.auth.GritUser;
  * Created by ianwillis on 3/9/18.
  */
 
-public class LoginPresenter {
+public class SigninPresenter {
 
-    private LoginFragment view;
+    private SigninFragment view;
     private GritAuthentication auth;
 
-    public LoginPresenter(GritAuthentication auth) {
+    public SigninPresenter(GritAuthentication auth) {
         this.auth = auth;
     }
 
-    public void attachTo(LoginFragment view) {
+    public void attachTo(SigninFragment view) {
         this.view = view;
     }
 
@@ -25,7 +25,7 @@ public class LoginPresenter {
         view = null;
     }
 
-    public void onLoginButtonPressed(String email, String password) {
+    public void onSigninButtonPressed(String email, String password) {
         System.out.println("Ian working on it " + auth.getCurrentUser());
         auth.login(email, password, new GritLoginListener() {
             @Override

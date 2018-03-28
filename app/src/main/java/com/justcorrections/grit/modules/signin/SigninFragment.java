@@ -1,4 +1,4 @@
-package com.justcorrections.grit.modules.login;
+package com.justcorrections.grit.modules.signin;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,43 +13,43 @@ import android.widget.Button;
 import com.justcorrections.grit.R;
 import com.justcorrections.grit.auth.GritAuthentication;
 
-public class LoginFragment extends Fragment implements View.OnClickListener {
+public class SigninFragment extends Fragment implements View.OnClickListener {
 
-    private LoginPresenter presenter;
+    private SigninPresenter presenter;
 
     private TextInputLayout emailLayout;
     private TextInputLayout passwordLayout;
     private TextInputEditText emailInput;
     private TextInputEditText passwordInput;
 
-    public static LoginFragment newInstance() {
-        return new LoginFragment();
+    public static SigninFragment newInstance() {
+        return new SigninFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new LoginPresenter(GritAuthentication.getInstance());
+        presenter = new SigninPresenter(GritAuthentication.getInstance());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_login, container, false);
+        return inflater.inflate(R.layout.fragment_signin, container, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        emailLayout = view.findViewById(R.id.login_email_layout);
-        passwordLayout = view.findViewById(R.id.login_password_layout);
-        emailInput = view.findViewById(R.id.login_email_input);
-        passwordInput = view.findViewById(R.id.login_password_input);
-        Button loginButton = view.findViewById(R.id.login_login_button);
-        Button createAccountButton = view.findViewById(R.id.login_create_account_button);
+        emailLayout = view.findViewById(R.id.signin_email_layout);
+        passwordLayout = view.findViewById(R.id.signin_password_layout);
+        emailInput = view.findViewById(R.id.signin_email_input);
+        passwordInput = view.findViewById(R.id.signin_password_input);
+        Button signinButton = view.findViewById(R.id.signin_signin_button);
+        Button createAccountButton = view.findViewById(R.id.signin_create_account_button);
 
         emailInput.setOnClickListener(this);
         passwordInput.setOnClickListener(this);
-        loginButton.setOnClickListener(this);
+        signinButton.setOnClickListener(this);
         createAccountButton.setOnClickListener(this);
     }
 
@@ -62,15 +62,15 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.login_login_button:
+            case R.id.signin_signin_button:
                 String email = emailInput.getText().toString();
                 String password = passwordInput.getText().toString();
-                presenter.onLoginButtonPressed(email, password);
+                presenter.onSigninButtonPressed(email, password);
                 break;
-            case R.id.login_create_account_button:
+            case R.id.signin_create_account_button:
                 presenter.onCreateAccountButtonPressed();
                 break;
-            case R.id.login_forgot_password_button:
+            case R.id.signin_forgot_password_button:
                 presenter.onForgotPasswordButtonPressed();
                 break;
         }

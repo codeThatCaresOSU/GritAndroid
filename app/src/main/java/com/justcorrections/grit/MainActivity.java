@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.justcorrections.grit.auth.GritAuthentication;
-import com.justcorrections.grit.modules.login.LoginFragment;
+import com.justcorrections.grit.modules.signin.SigninFragment;
 import com.justcorrections.grit.modules.map.MapFragment;
 import com.justcorrections.grit.modules.mystery.MysteryFragment;
 
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             navigateTo(MapFragment.newInstance(), false);
         } else if (id == R.id.menu_account) {
             if (GritAuthentication.getInstance().getCurrentUser() == null)
-                navigateTo(LoginFragment.newInstance(), false);
+                navigateTo(SigninFragment.newInstance(), false);
             else
                 System.out.println("need to add details fragment here");
         } else if (id == R.id.menu_mystery) {
