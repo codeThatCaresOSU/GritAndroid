@@ -2,7 +2,7 @@
 
 An Android application created by students in the Code That Cares Club at The Ohio State University
 
-https://www.justcorrections.com/
+https:/www.backgroundmenot.com/
 
 "Just Corrections LLC was created by Harley Blakeman his senior year at The Ohio State University. His mission was simple - Prepare men and women to rebuild their lives after incarceration."
 
