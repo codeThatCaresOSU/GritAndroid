@@ -22,11 +22,11 @@
     <string name="password">Password</string>
     <string name="user_icon_description">A user icon</string>
     <string name="password_icon_description">a password icon</string>
-    <string name="log_in">Log in</string>
+    <string name="sign_in">Sign in</string>
     <string name="forgot_your_password">Forgot your password?</string>
     <string name="create_an_account">Create an account</string>
     <string name="create_account">Create Account</string>
-    <string name="already_have_an_account">Already Have an Account?</string>
+    <string name="dont_have_an_account">Don\'t have an account?</string>
     <string name="back_to_login_page">Back to Login Page</string>
     <string name="reset_email_sent">Reset email sent. Check your email to recover your password.</string>
     <string name="reset_email_failed">Reset email failed to send. Try again later.</string>

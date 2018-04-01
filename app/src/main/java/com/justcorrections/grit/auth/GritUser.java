@@ -9,20 +9,13 @@ import com.google.firebase.auth.FirebaseUser;
 public class GritUser {
 
     private FirebaseUser user;
-    private GritUserType gritUserType;
 
-    GritUser(FirebaseUser user, GritUserType gritUserType) {
+    GritUser(FirebaseUser user) {
         this.user = user;
-        this.gritUserType = gritUserType;
     }
 
     public String getUid() {
         return user.getUid();
-    }
-
-
-    public enum GritUserType {
-        MENTOR, MENTEE
     }
 
 }

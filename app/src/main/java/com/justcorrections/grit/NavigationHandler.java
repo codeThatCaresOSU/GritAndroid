@@ -35,11 +35,4 @@ public class NavigationHandler {
         }
     }
 
-    public void clearBackStack() {
-        FragmentManager manager = activity.getSupportFragmentManager();
-        if (manager.getBackStackEntryCount() > 0) {
-            FragmentManager.BackStackEntry first = manager.getBackStackEntryAt(0);
-            manager.popBackStack(first.getId(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        }
-    }
 }
