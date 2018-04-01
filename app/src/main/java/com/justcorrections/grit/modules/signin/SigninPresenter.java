@@ -1,8 +1,7 @@
 package com.justcorrections.grit.modules.signin;
 
 import com.justcorrections.grit.auth.GritAuthentication;
-import com.justcorrections.grit.auth.GritAuthentication.GritLoginListener;
-import com.justcorrections.grit.auth.GritUser;
+import com.justcorrections.grit.auth.GritAuthentication.GritAuthCallback;
 
 /**
  * Created by ianwillis on 3/9/18.
@@ -27,9 +26,9 @@ public class SigninPresenter {
 
     public void onSigninButtonPressed(String email, String password) {
         System.out.println("Ian working on it " + auth.getCurrentUser());
-        auth.login(email, password, new GritLoginListener() {
+        auth.login(email, password, new GritAuthCallback() {
             @Override
-            public void onSuccess(GritUser user) {
+            public void onSuccess() {
                 // switch fragment
                 System.out.println("Ian it worked " + auth.getCurrentUser());
             }
