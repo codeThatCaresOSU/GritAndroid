@@ -105,7 +105,7 @@ public class SignupGender extends Fragment {
      */
     private void goBack() {
         Bundle signUpBundle = createBundleFromThis();
-        ((MainActivity) getActivity()).navigateTo(SignupNamesAge.newInstance(signUpBundle));
+        ((MainActivity) getActivity()).navigateTo(SignupNamesAge.newInstance(signUpBundle), true);
     }
 
     /*
@@ -116,7 +116,7 @@ public class SignupGender extends Fragment {
             Toast.makeText(getContext(), R.string.empty_fields_error, Toast.LENGTH_LONG).show();
         } else {
             Bundle signUpBundle = createBundleFromThis();
-            ((MainActivity) getActivity()).navigateTo(SignupLocation.newInstance(signUpBundle));
+            ((MainActivity) getActivity()).navigateTo(SignupLocation.newInstance(signUpBundle), true);
         }
 
     }

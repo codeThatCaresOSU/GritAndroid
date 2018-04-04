@@ -3,12 +3,11 @@ package com.justcorrections.grit.modules.map;
 import android.content.Context;
 
 import com.justcorrections.grit.R;
-import com.justcorrections.grit.data.category.Category;
-import com.justcorrections.grit.data.category.CategoryDataSource;
-import com.justcorrections.grit.data.category.CategoryDataSource.GetCategoriesCallback;
-import com.justcorrections.grit.data.resource.Resource;
-import com.justcorrections.grit.data.resource.ResourcesDataSource;
-import com.justcorrections.grit.data.resource.ResourcesDataSource.GetResourcesCallback;
+import com.justcorrections.grit.data.model.Category;
+import com.justcorrections.grit.data.model.Resource;
+import com.justcorrections.grit.data.remote.CategoryDataSource;
+import com.justcorrections.grit.data.remote.FirebaseDataSource.GetItemsCallback;
+import com.justcorrections.grit.data.remote.ResourcesDataSource;
 import com.justcorrections.grit.utils.ArrayUtils;
 import com.justcorrections.grit.utils.Preferences;
 
@@ -58,12 +57,12 @@ public class MapPresenter {
     }
 
     public void loadCategories() {
-        CategoryDataSource.getInstance().getCategories(new GetCategoriesCallback() {
+        CategoryDataSource.getInstance().getItems(new GetItemsCallback<Category>() {
             @Override
-            public void onCategoriesLoaded(List<Category> loadedCategories) {
-                categories = new Category[loadedCategories.size()];
-                loadedCategories.toArray(categories);
-                selected = new boolean[loadedCategories.size()];
+            public void onItemsLoaded(List<Category> items) {
+                categories = new Category[items.size()];
+                items.toArray(categories);
+                selected = new boolean[items.size()];
                 categoriesHaveLoaded = true;
                 if (resourcesHaveLoaded) {
                     getFilterSelectedPreference();
@@ -73,16 +72,16 @@ public class MapPresenter {
 
             @Override
             public void onDataNotAvailable() {
-                //TODO: err handling
+                view.mainActivity.showErrorText("Categories could not be loaded. Please check your connection and try again later.");
             }
         });
     }
 
     public void loadResources() {
-        ResourcesDataSource.getInstance().getResources(new GetResourcesCallback() {
+        ResourcesDataSource.getInstance().getItems(new GetItemsCallback<Resource>() {
             @Override
-            public void onResourcesLoaded(List<Resource> loadedResources) {
-                sortResources(loadedResources);
+            public void onItemsLoaded(List<Resource> items) {
+                sortResources(items);
                 resourcesHaveLoaded = true;
                 if (categoriesHaveLoaded) {
                     getFilterSelectedPreference();
@@ -92,7 +91,7 @@ public class MapPresenter {
 
             @Override
             public void onDataNotAvailable() {
-                //TODO: err handling
+                view.mainActivity.showErrorText("Resources could not be loaded. Please check your connection and try again later.");
             }
         });
     }

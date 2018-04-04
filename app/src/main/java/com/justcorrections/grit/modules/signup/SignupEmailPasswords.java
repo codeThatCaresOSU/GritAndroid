@@ -93,7 +93,7 @@ public class SignupEmailPasswords extends Fragment {
     private void goBack() {
 
         Bundle signUpBundle = createBundleFromThis();
-        ((MainActivity) getActivity()).navigateTo(SignupBio.newInstance(signUpBundle));
+        ((MainActivity) getActivity()).navigateTo(SignupBio.newInstance(signUpBundle), true);
     }
 
     /*
@@ -106,7 +106,7 @@ public class SignupEmailPasswords extends Fragment {
             Toast.makeText(getContext(), R.string.password_match_error, Toast.LENGTH_LONG).show();
         } else {
             Bundle signUpBundle = createBundleFromThis();
-            ((MainActivity) getActivity()).navigateTo(SignupConfirm.newInstance(signUpBundle));
+            ((MainActivity) getActivity()).navigateTo(SignupConfirm.newInstance(signUpBundle), true);
         }
     }
 

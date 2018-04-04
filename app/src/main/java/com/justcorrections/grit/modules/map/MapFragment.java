@@ -24,8 +24,8 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.justcorrections.grit.MainActivity;
 import com.justcorrections.grit.R;
-import com.justcorrections.grit.data.category.Category;
-import com.justcorrections.grit.data.resource.Resource;
+import com.justcorrections.grit.data.model.Category;
+import com.justcorrections.grit.data.model.Resource;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,6 +37,7 @@ import static com.justcorrections.grit.utils.GoogleMapUtils.hue;
 public class MapFragment extends Fragment implements OnClickListener, OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
     private MapPresenter presenter;
+    public MainActivity mainActivity;
 
     private GoogleMap googleMap; // displays resources
     private FloatingActionButton filterOpenButton; // opens filter menu, disabled when resources are loading
@@ -69,6 +70,9 @@ public class MapFragment extends Fragment implements OnClickListener, OnMapReady
 
         progressBar = view.findViewById(R.id.map_progress_bar);
 
+        mainActivity = (MainActivity) getActivity();
+        mainActivity.hideErrorText();
+
         return view;
     }
 
@@ -93,6 +97,8 @@ public class MapFragment extends Fragment implements OnClickListener, OnMapReady
         googleMap.setOnInfoWindowClickListener(this);
         presenter.start(this); // start presenter when map is loaded
     }
+
+
 
     @Override
     public void onPause() {
@@ -165,7 +171,11 @@ public class MapFragment extends Fragment implements OnClickListener, OnMapReady
 
         LatLngBounds bounds = builder.build();
         CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 300);
-        googleMap.animateCamera(cu);
+        try {
+            googleMap.animateCamera(cu);
+        } catch (Exception e) {
+            System.out.println("Ian " + e.getClass());
+        }
     }
 
     /*
@@ -197,6 +207,6 @@ public class MapFragment extends Fragment implements OnClickListener, OnMapReady
         String resourceId = resourceIds.get(markerId);
 
         ResourceDetailFragment resourceDetailFragment = ResourceDetailFragment.newInstance(resourceId);
-        ((MainActivity) getActivity()).navigateTo(resourceDetailFragment);
+        ((MainActivity) getActivity()).navigateTo(resourceDetailFragment, true);
     }
 }

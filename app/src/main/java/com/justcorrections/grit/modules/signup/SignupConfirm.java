@@ -111,7 +111,7 @@ public class SignupConfirm extends Fragment {
      */
     private void goBack() {
         Bundle signUpBundle = createBundleFromThis();
-        ((MainActivity) getActivity()).navigateTo(SignupEmailPasswords.newInstance(signUpBundle));
+        ((MainActivity) getActivity()).navigateTo(SignupEmailPasswords.newInstance(signUpBundle), true);
     }
 
     /*

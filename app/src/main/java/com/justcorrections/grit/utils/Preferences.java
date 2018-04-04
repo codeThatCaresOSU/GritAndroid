@@ -9,7 +9,9 @@ import java.util.Set;
 
 /**
  * Created by Gus on 11/30/2017. Used as a manager for all of the SharedPreferences keys
- * based off https://github.com/esripdx/Android-Static-Utils/blob/master/src/com/esri/android/util/SharedPrefsUtils.java
+ * Based off https://github.com/esripdx/Android-Static-Utils/blob/master/src/com/esri/android/util/SharedPrefsUtils.java
+ *
+ * Place keys in res/values/preference_keys.xml
  */
 
 public class Preferences {

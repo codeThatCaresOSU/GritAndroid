@@ -86,7 +86,7 @@ public class SignupBio extends Fragment {
      */
     private void goBack() {
         Bundle signUpBundle = createBundleFromThis();
-        ((MainActivity) getActivity()).navigateTo(SignupLocation.newInstance(signUpBundle));
+        ((MainActivity) getActivity()).navigateTo(SignupLocation.newInstance(signUpBundle), true);
     }
 
     /*
@@ -97,7 +97,7 @@ public class SignupBio extends Fragment {
             Toast.makeText(getContext(), R.string.empty_fields_error, Toast.LENGTH_LONG).show();
         } else {
             Bundle signUpBundle = createBundleFromThis();
-            ((MainActivity) getActivity()).navigateTo(SignupEmailPasswords.newInstance(signUpBundle));
+            ((MainActivity) getActivity()).navigateTo(SignupEmailPasswords.newInstance(signUpBundle), true);
         }
     }
 

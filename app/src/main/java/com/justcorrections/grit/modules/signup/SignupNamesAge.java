@@ -93,7 +93,7 @@ public class SignupNamesAge extends Fragment {
             Toast.makeText(getContext(), R.string.over_18_error, Toast.LENGTH_LONG).show();
         } else {
             Bundle signUpBundle = createBundleFromThis();
-            ((MainActivity) getActivity()).navigateTo(SignupGender.newInstance(signUpBundle));
+            ((MainActivity) getActivity()).navigateTo(SignupGender.newInstance(signUpBundle), true);
         }
 
     }
