@@ -26,7 +26,7 @@ public class SigninPresenter {
 
     public void onSigninButtonPressed(String email, String password) {
         System.out.println("Ian working on it " + auth.getCurrentUser());
-        auth.login(email, password, new GritAuthCallback() {
+        auth.signin(email, password, new GritAuthCallback() {
             @Override
             public void onSuccess() {
                 // switch fragment
