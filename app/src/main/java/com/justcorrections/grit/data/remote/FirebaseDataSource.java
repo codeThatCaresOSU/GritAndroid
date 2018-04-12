@@ -90,6 +90,14 @@ public abstract class FirebaseDataSource<T extends FirebaseDataModel> {
         }
     }
 
+    public void addItem(T item) {
+        data.push().setValue(item);
+    }
+
+    public void updateItem(T item, String id) {
+        DatabaseReference object = data.child(id);
+        object.setValue(item);
+    }
 
     public interface GetItemsCallback<T> {
         void onItemsLoaded(List<T> items);
