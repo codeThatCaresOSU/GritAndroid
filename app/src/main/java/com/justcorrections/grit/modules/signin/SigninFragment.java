@@ -30,6 +30,7 @@ public class SigninFragment extends Fragment implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         presenter = new SigninPresenter(GritAuthentication.getInstance());
+        presenter.attachTo(this);
     }
 
     @Override
