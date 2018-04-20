@@ -10,7 +10,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
-import com.justcorrections.grit.MainActivity;
+import com.justcorrections.grit.modules.hompage.HomepageActivity;
 import com.justcorrections.grit.R;
 
 /**
@@ -105,7 +105,7 @@ public class SignupGender extends Fragment {
      */
     private void goBack() {
         Bundle signUpBundle = createBundleFromThis();
-        ((MainActivity) getActivity()).navigateTo(SignupNamesAge.newInstance(signUpBundle), true);
+        ((HomepageActivity) getActivity()).navigateTo(SignupNamesAge.newInstance(signUpBundle), true);
     }
 
     /*
@@ -116,7 +116,7 @@ public class SignupGender extends Fragment {
             Toast.makeText(getContext(), R.string.empty_fields_error, Toast.LENGTH_LONG).show();
         } else {
             Bundle signUpBundle = createBundleFromThis();
-            ((MainActivity) getActivity()).navigateTo(SignupLocation.newInstance(signUpBundle), true);
+            ((HomepageActivity) getActivity()).navigateTo(SignupLocation.newInstance(signUpBundle), true);
         }
 
     }

@@ -72,7 +72,7 @@ public class MapPresenter {
 
             @Override
             public void onDataNotAvailable() {
-                view.mainActivity.showErrorText("Categories could not be loaded. Please check your connection and try again later.");
+                view.homepageActivity.showErrorText("Categories could not be loaded. Please check your connection and try again later.");
             }
         });
     }
@@ -91,7 +91,7 @@ public class MapPresenter {
 
             @Override
             public void onDataNotAvailable() {
-                view.mainActivity.showErrorText("Resources could not be loaded. Please check your connection and try again later.");
+                view.homepageActivity.showErrorText("Resources could not be loaded. Please check your connection and try again later.");
             }
         });
     }

@@ -21,7 +21,7 @@
         android:layout_alignParentEnd="true"
         android:layout_margin="16dp"
         android:src="@drawable/ic_filter_white"
-        android:tint="@color/colorAccent"
+        android:tint="@color/accent"
         app:backgroundTint="@color/map_filter_open_button"/>
 
     <!-- Enabled until resource data loads -->

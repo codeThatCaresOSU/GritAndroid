@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.justcorrections.grit.MainActivity;
+import com.justcorrections.grit.modules.hompage.HomepageActivity;
 import com.justcorrections.grit.R;
 
 /**
@@ -93,7 +93,7 @@ public class SignupEmailPasswords extends Fragment {
     private void goBack() {
 
         Bundle signUpBundle = createBundleFromThis();
-        ((MainActivity) getActivity()).navigateTo(SignupBio.newInstance(signUpBundle), true);
+        ((HomepageActivity) getActivity()).navigateTo(SignupBio.newInstance(signUpBundle), true);
     }
 
     /*
@@ -106,7 +106,7 @@ public class SignupEmailPasswords extends Fragment {
             Toast.makeText(getContext(), R.string.password_match_error, Toast.LENGTH_LONG).show();
         } else {
             Bundle signUpBundle = createBundleFromThis();
-            ((MainActivity) getActivity()).navigateTo(SignupConfirm.newInstance(signUpBundle), true);
+            ((HomepageActivity) getActivity()).navigateTo(SignupConfirm.newInstance(signUpBundle), true);
         }
     }
 

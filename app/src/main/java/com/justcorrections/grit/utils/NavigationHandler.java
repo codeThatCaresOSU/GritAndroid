@@ -1,9 +1,11 @@
-package com.justcorrections.grit;
+package com.justcorrections.grit.utils;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+
+import com.justcorrections.grit.R;
 
 /**
  * Created by ianwillis on 1/31/18.

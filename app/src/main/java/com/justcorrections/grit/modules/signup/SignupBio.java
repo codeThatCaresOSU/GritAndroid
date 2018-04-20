@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.justcorrections.grit.MainActivity;
+import com.justcorrections.grit.modules.hompage.HomepageActivity;
 import com.justcorrections.grit.R;
 
 /**
@@ -86,7 +86,7 @@ public class SignupBio extends Fragment {
      */
     private void goBack() {
         Bundle signUpBundle = createBundleFromThis();
-        ((MainActivity) getActivity()).navigateTo(SignupLocation.newInstance(signUpBundle), true);
+        ((HomepageActivity) getActivity()).navigateTo(SignupLocation.newInstance(signUpBundle), true);
     }
 
     /*
@@ -97,7 +97,7 @@ public class SignupBio extends Fragment {
             Toast.makeText(getContext(), R.string.empty_fields_error, Toast.LENGTH_LONG).show();
         } else {
             Bundle signUpBundle = createBundleFromThis();
-            ((MainActivity) getActivity()).navigateTo(SignupEmailPasswords.newInstance(signUpBundle), true);
+            ((HomepageActivity) getActivity()).navigateTo(SignupEmailPasswords.newInstance(signUpBundle), true);
         }
     }
 

@@ -2,16 +2,14 @@ package com.justcorrections.grit.modules.map;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.justcorrections.grit.MainActivity;
+import com.justcorrections.grit.modules.hompage.HomepageActivity;
 import com.justcorrections.grit.R;
 import com.justcorrections.grit.data.model.Resource;
 
@@ -25,7 +23,7 @@ public class ResourceDetailFragment extends Fragment {
     private static final String ARG_RESOURCE_ID = "arg_id";
     private String mResourceID;
     private ResourceDetailPresenter presenter;
-    public MainActivity mainActivity;
+    public HomepageActivity homepageActivity;
 
     private TextView tvLocation, tvURL, tvName, tvPhone, tvCategory;
     private ImageView ivStreetviewPic;
@@ -59,8 +57,8 @@ public class ResourceDetailFragment extends Fragment {
         tvCategory = view.findViewById(R.id.tv_category);
         ivStreetviewPic = view.findViewById(R.id.iv_streetview);
 
-        mainActivity = (MainActivity) getActivity();
-        mainActivity.hideErrorText();
+        homepageActivity = (HomepageActivity) getActivity();
+        homepageActivity.hideErrorText();
 
         presenter = new ResourceDetailPresenter(this, mResourceID);
         presenter.start();

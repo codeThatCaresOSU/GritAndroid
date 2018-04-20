@@ -5,8 +5,6 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.crashlytics.android.Crashlytics;
-import com.justcorrections.grit.MainActivity;
 import com.justcorrections.grit.R;
 
 import com.justcorrections.grit.data.model.Resource;
@@ -45,7 +43,7 @@ public class ResourceDetailPresenter {
 
             @Override
             public void onDataNotAvailable() {
-                resourceDetailFragment.mainActivity.showErrorText("Details could not be loaded. Please check your connection and try again later.");
+                resourceDetailFragment.homepageActivity.showErrorText("Details could not be loaded. Please check your connection and try again later.");
             }
         });
     }
@@ -71,7 +69,7 @@ public class ResourceDetailPresenter {
                 downloadedImage = BitmapFactory.decodeStream(in);
             } catch (Exception e) {
                 Log.e("Error", e.getMessage());
-                resourceDetailFragment.mainActivity.showErrorText("Google Streetview Image could not be loaded. Please check your connection and try again later.");
+                resourceDetailFragment.homepageActivity.showErrorText("Google Streetview Image could not be loaded. Please check your connection and try again later.");
                 e.printStackTrace();
             }
 

@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.justcorrections.grit.MainActivity;
+import com.justcorrections.grit.modules.hompage.HomepageActivity;
 import com.justcorrections.grit.R;
 
 /**
@@ -111,7 +111,7 @@ public class SignupConfirm extends Fragment {
      */
     private void goBack() {
         Bundle signUpBundle = createBundleFromThis();
-        ((MainActivity) getActivity()).navigateTo(SignupEmailPasswords.newInstance(signUpBundle), true);
+        ((HomepageActivity) getActivity()).navigateTo(SignupEmailPasswords.newInstance(signUpBundle), true);
     }
 
     /*

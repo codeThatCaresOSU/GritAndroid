@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.justcorrections.grit.MainActivity">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="com.justcorrections.grit.modules.hompage.HomepageActivity">
 
 
     <FrameLayout
         android:id="@+id/main_fragment_holder"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/main_bottom_nav" />
+        android:layout_above="@+id/main_bottom_nav"/>
 
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/main_snackbar_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/main_bottom_nav" >
+        android:layout_above="@id/main_bottom_nav">
 
     </android.support.design.widget.CoordinatorLayout>
 
@@ -28,10 +28,10 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:background="@color/gray3"
+        android:padding="2dp"
         android:text="@string/loading_error"
         android:textAlignment="center"
         android:textColor="@color/white"
-        android:padding="2dp"
         android:visibility="invisible"/>
 
     <android.support.design.widget.BottomNavigationView
@@ -39,9 +39,9 @@
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:layout_alignParentBottom="true"
-        android:background="@color/colorPrimaryDark"
+        android:background="@color/primaryDark"
         app:itemIconTint="@android:color/white"
         app:itemTextColor="@android:color/white"
-        app:menu="@menu/menu_bottom_nav" />
+        app:menu="@menu/menu_bottom_nav"/>
 
 </RelativeLayout>

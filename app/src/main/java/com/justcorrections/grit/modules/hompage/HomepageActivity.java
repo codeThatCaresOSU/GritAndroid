@@ -1,5 +1,6 @@
-package com.justcorrections.grit;
+package com.justcorrections.grit.modules.hompage;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -9,12 +10,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.justcorrections.grit.auth.GritAuthentication;
+import com.justcorrections.grit.utils.NavigationHandler;
+import com.justcorrections.grit.R;
 import com.justcorrections.grit.modules.signin.SigninFragment;
-import com.justcorrections.grit.modules.map.MapFragment;
-import com.justcorrections.grit.modules.mystery.MysteryFragment;
 
-public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+public class HomepageActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     private NavigationHandler navigationHandler;
     private TextView errorText;
@@ -24,33 +24,24 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        navigationHandler = new NavigationHandler(this);
-
-        BottomNavigationView bottomNav = findViewById(R.id.main_bottom_nav);
-        bottomNav.setOnNavigationItemSelectedListener(this);
-        bottomNav.setSelectedItemId(R.id.menu_map);
-
-        errorText = findViewById(R.id.error_textview);
-        errorText.setVisibility(View.INVISIBLE);
-
-        GritAuthentication.getInstance().signOut();
+        Intent intent = new Intent(this, SigninFragment.class);
+        startActivity(intent);
+//        navigationHandler = new NavigationHandler(this);
+//
+//        BottomNavigationView bottomNav = findViewById(R.id.main_bottom_nav);
+//        bottomNav.setOnNavigationItemSelectedListener(this);
+//        bottomNav.setSelectedItemId(R.id.menu_map);
+//
+//        errorText = findViewById(R.id.error_textview);
+//        errorText.setVisibility(View.INVISIBLE);
+//
+//        GritAuthentication.getInstance().signOut();
 
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.menu_map) {
-            navigateTo(MapFragment.newInstance(), false);
-        } else if (id == R.id.menu_account) {
-            if (GritAuthentication.getInstance().getCurrentUser() == null)
-                navigateTo(SigninFragment.newInstance(), false);
-            else
-                System.out.println("need to add details fragment here");
-        } else if (id == R.id.menu_mystery) {
-            navigateTo(MysteryFragment.newInstance("param 1", "param 2"), false);
-        }
-        return true;
+        return false;
     }
 
     @Override
