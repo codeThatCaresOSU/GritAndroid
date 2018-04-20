@@ -38,7 +38,7 @@
         </activity>
 
         <activity
-            android:name=".modules.signin.SigninFragment"
+            android:name=".modules.signin.SigninActivity"
             android:windowSoftInputMode="stateHidden">
         </activity>
     </application>

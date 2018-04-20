@@ -25,7 +25,8 @@ public class SignupGender extends Fragment {
     private RadioButton maleRB, femaleRB, otherRB;
     private EditText otherEditText;
 
-    public SignupGender() {}
+    public SignupGender() {
+    }
 
     /**
      * Use this factory method to create a new instance of
@@ -137,7 +138,7 @@ public class SignupGender extends Fragment {
             gender = getString(R.string.male);
         } else if (femaleRB.isChecked()) {
             gender = getString(R.string.female);
-        } else if (otherRB.isChecked()){
+        } else if (otherRB.isChecked()) {
             gender = getString(R.string.other_prefix) + otherEditText.getText().toString();
         }
 
@@ -150,7 +151,7 @@ public class SignupGender extends Fragment {
         signupInfo.putString(getString(R.string.street_address), address);
         signupInfo.putString(getString(R.string.zip), zip);
         signupInfo.putString(getString(R.string.bio), bio);
-        signupInfo.putString(getString(R.string.password), password);
+        signupInfo.putString("Password", password);
         signupInfo.putString(getString(R.string.gender), gender);
 
         // return the bundle
@@ -169,7 +170,7 @@ public class SignupGender extends Fragment {
             zip = getArguments().getString(getString(R.string.zip), "");
             bio = getArguments().getString(getString(R.string.bio), "");
             email = getArguments().getString(getString(R.string.email), "");
-            password = getArguments().getString(getString(R.string.password), "");
+            password = getArguments().getString("Password", "");
             age = getArguments().getInt(getString(R.string.age), 0);
             gender = getArguments().getString(getString(R.string.gender), "");
         }

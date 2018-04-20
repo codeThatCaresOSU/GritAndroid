@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "631078638021",
+    "firebase_url": "https://grit-f9d52.firebaseio.com",
+    "project_id": "grit-f9d52",
+    "storage_bucket": "grit-f9d52.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:631078638021:android:41aea094b7f1a9b7",
+        "android_client_info": {
+          "package_name": "com.justcorrections.grit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "631078638021-l8tocr9jadf6h07bnefpo6v2kb7dnunv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.justcorrections.grit",
+            "certificate_hash": "c44e3f98ad97fa96756f97a161532c73217bd6ce"
+          }
+        },
+        {
+          "client_id": "631078638021-7la0uvjufflcnlp07bpnul4enc2hr2nv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfrqd4Msw7pxzl-CFaXukG6mnTsDbZM6w"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "631078638021-aga3cn5apfma20rorbjpj58p188ghrnk.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.codethatcares.GRIT"
+              }
+            },
+            {
+              "client_id": "631078638021-7la0uvjufflcnlp07bpnul4enc2hr2nv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

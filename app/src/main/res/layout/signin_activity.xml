@@ -3,7 +3,7 @@
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".modules.signin.SigninFragment">
+            tools:context=".modules.signin.SigninActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,15 +12,17 @@
         android:layout_marginStart="24dp"
         android:orientation="vertical">
 
+        <!-- backgroundmenot logo image -->
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="72dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="48dp"
+            android:contentDescription="@null"
             android:src="@drawable/grit_website_logo"
             android:tint="@color/primary"/>
 
-        <!--  Email Label -->
+        <!--  email input -->
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -30,11 +32,11 @@
                 android:id="@+id/input_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Email"
+                android:hint="@string/signin_email"
                 android:inputType="textEmailAddress"/>
         </android.support.design.widget.TextInputLayout>
 
-        <!--  Password Label -->
+        <!--  password input -->
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -45,34 +47,37 @@
                 android:id="@+id/input_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Password"
+                android:hint="@string/signin_password"
                 android:inputType="textPassword"/>
         </android.support.design.widget.TextInputLayout>
 
+        <!-- signin button -->
         <Button
             android:id="@+id/grit_signin_button"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:padding="12dp"
-            android:text="Sign in"/>
+            android:text="@string/signin_sign_in"/>
 
+        <!-- signup link -->
         <TextView
             android:id="@+id/grit_link_signup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:gravity="center"
-            android:text="Sign up for a new account"
+            android:text="@string/signin_sign_up"
             android:textSize="16sp"/>
 
+        <!-- forgot password link -->
         <TextView
             android:id="@+id/grit_link_forgot_password"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:gravity="center"
-            android:text="Forgot password?"
+            android:text="@string/signin_forgot_password"
             android:textSize="16sp"/>
 
     </LinearLayout>

@@ -2,40 +2,12 @@
     <string name="app_name">GRIT</string>
     <string name="title_activity_login">Sign in</string>
 
-    <!-- Strings related to signin -->
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password (optional)</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
-    <string name="map">Map</string>
-    <string name="my_account">My Account</string>
-
-    <string name="logo_description">A logo for the login page</string>
-    <string name="email_address">Email Address</string>
-    <string name="password">Password</string>
-    <string name="user_icon_description">A user icon</string>
-    <string name="password_icon_description">a password icon</string>
-    <string name="sign_in">Sign in</string>
-    <string name="forgot_your_password">Forgot your password?</string>
-    <string name="create_an_account">Create an account</string>
-    <string name="create_account">Create Account</string>
-    <string name="dont_have_an_account">Don\'t have an account?</string>
-    <string name="back_to_login_page">Back to Login Page</string>
-    <string name="reset_email_sent">Reset email sent. Check your email to recover your password.</string>
-    <string name="reset_email_failed">Reset email failed to send. Try again later.</string>
-    <string name="sending_password_reset_email">Sending password reset email</string>
-    <string name="reset_password">Reset Password</string>
-    <string name="signing_in">Signing in</string>
-    <string name="invalid_credentials">Invalid username or password</string>
-    <string name="creating_account">Creating account</string>
-    <string name="error_occurred">An error occurred, try again later</string>
+    <!-- signin -->
+    <string name="signin_email">Email</string>
+    <string name="signin_password">Password</string>
+    <string name="signin_sign_in">Sign in</string>
+    <string name="signin_sign_up">Sign up for a new account</string>
+    <string name="signin_forgot_password">Forgot password?</string>
 
     <!-- Strings related to showing resource details -->
     <string name="no_resource_loaded_label">No Resource Loaded</string>
@@ -72,9 +44,11 @@
     <string name="street_address">Street Address</string>
     <string name="location_title">Where do you live?</string>
     <string name="bio">Bio</string>
+    <string name="password">Password</string>
     <string name="confirm">Confirm</string>
     <string name="empty_fields_error">Please make sure to fill out each field</string>
     <string name="over_18_error">You must be 18 or over</string>
     <string name="password_match_error">Passwords must match</string>
+    <string name="sign_up_for_a_new_account">Sign up for a new account</string>
 
 </resources>

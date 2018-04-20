@@ -23,7 +23,8 @@ public class SignupBio extends Fragment {
     private String firstName, lastName, city, address, zip, bio, email, password, gender;
     private EditText bioEditText;
 
-    public SignupBio() {}
+    public SignupBio() {
+    }
 
     /**
      * Use this factory method to create a new instance of
@@ -124,7 +125,7 @@ public class SignupBio extends Fragment {
         signupInfo.putString(getString(R.string.street_address), address);
         signupInfo.putString(getString(R.string.zip), zip);
         signupInfo.putString(getString(R.string.bio), bio);
-        signupInfo.putString(getString(R.string.password), password);
+        signupInfo.putString("Password", password);
         signupInfo.putString(getString(R.string.gender), gender);
 
         // return the bundle
@@ -143,7 +144,7 @@ public class SignupBio extends Fragment {
             zip = getArguments().getString(getString(R.string.zip), "");
             bio = getArguments().getString(getString(R.string.bio), "");
             email = getArguments().getString(getString(R.string.email), "");
-            password = getArguments().getString(getString(R.string.password), "");
+            password = getArguments().getString("Password", "");
             age = getArguments().getInt(getString(R.string.age), 0);
             gender = getArguments().getString(getString(R.string.gender), "");
         }

@@ -1,4 +1,4 @@
-package com.justcorrections.grit.utils;
+package com.justcorrections.grit.modules.map;
 
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 
@@ -6,9 +6,9 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
  * Created by ianwillis on 12/4/17.
  */
 
-public class GoogleMapUtils {
+class GoogleMapUtils {
 
-    public static float hue(String color) {
+    static float hue(String color) {
         switch (color) {
             case "RED":
                 return BitmapDescriptorFactory.HUE_RED;

@@ -9,7 +9,7 @@ import android.view.View;
 import com.justcorrections.grit.R;
 import com.justcorrections.grit.auth.GritAuthentication;
 
-public class SigninFragment extends AppCompatActivity implements View.OnClickListener {
+public class SigninActivity extends AppCompatActivity implements View.OnClickListener {
 
     private SigninPresenter presenter;
 
@@ -18,14 +18,14 @@ public class SigninFragment extends AppCompatActivity implements View.OnClickLis
     private TextInputEditText emailInput;
     private TextInputEditText passwordInput;
 
-    public static SigninFragment newInstance() {
-        return new SigninFragment();
+    public static SigninActivity newInstance() {
+        return new SigninActivity();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_signin);
+        setContentView(R.layout.signin_activity);
 
         presenter = new SigninPresenter(GritAuthentication.getInstance());
 

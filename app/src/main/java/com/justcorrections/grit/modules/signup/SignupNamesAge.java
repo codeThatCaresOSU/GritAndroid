@@ -152,7 +152,7 @@ public class SignupNamesAge extends Fragment {
             zip = getArguments().getString(getString(R.string.zip), "");
             bio = getArguments().getString(getString(R.string.bio), "");
             email = getArguments().getString(getString(R.string.email), "");
-            password = getArguments().getString(getString(R.string.password), "");
+            password = getArguments().getString("Password", "");
             age = getArguments().getInt(getString(R.string.age), 0);
             gender = getArguments().getString(getString(R.string.gender), "");
         }

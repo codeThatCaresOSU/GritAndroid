@@ -9,14 +9,14 @@ import com.justcorrections.grit.auth.GritAuthentication.GritAuthCallback;
 
 public class SigninPresenter {
 
-    private SigninFragment view;
+    private SigninActivity view;
     private GritAuthentication auth;
 
     public SigninPresenter(GritAuthentication auth) {
         this.auth = auth;
     }
 
-    public void attachTo(SigninFragment view) {
+    public void attachTo(SigninActivity view) {
         this.view = view;
     }
 

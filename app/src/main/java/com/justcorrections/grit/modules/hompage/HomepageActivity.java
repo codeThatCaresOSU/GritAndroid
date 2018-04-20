@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.justcorrections.grit.utils.NavigationHandler;
 import com.justcorrections.grit.R;
-import com.justcorrections.grit.modules.signin.SigninFragment;
+import com.justcorrections.grit.modules.signin.SigninActivity;
 
 public class HomepageActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -24,7 +24,7 @@ public class HomepageActivity extends AppCompatActivity implements BottomNavigat
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent intent = new Intent(this, SigninFragment.class);
+        Intent intent = new Intent(this, SigninActivity.class);
         startActivity(intent);
 //        navigationHandler = new NavigationHandler(this);
 //

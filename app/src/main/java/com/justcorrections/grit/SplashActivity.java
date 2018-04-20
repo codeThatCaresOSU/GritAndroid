@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.justcorrections.grit.auth.GritAuthentication;
 import com.justcorrections.grit.modules.hompage.HomepageActivity;
-import com.justcorrections.grit.modules.signin.SigninFragment;
+import com.justcorrections.grit.modules.signin.SigninActivity;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -35,7 +35,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void startSigninActivity() {
-        Intent intent = new Intent(this, SigninFragment.class);
+        Intent intent = new Intent(this, SigninActivity.class);
         startActivity(intent);
         finish();
     }
