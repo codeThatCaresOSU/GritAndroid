@@ -24,12 +24,13 @@
 
         <!--  email input -->
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/signin_email_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp">
 
-            <EditText
-                android:id="@+id/input_email"
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/signin_email_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/signin_email"
@@ -38,13 +39,14 @@
 
         <!--  password input -->
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/signin_password_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp">
 
-            <EditText
-                android:id="@+id/input_password"
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/signin_password_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/signin_password"
@@ -53,16 +55,16 @@
 
         <!-- signin button -->
         <Button
-            android:id="@+id/grit_signin_button"
+            android:id="@+id/signin_sign_in_button"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:padding="12dp"
             android:text="@string/signin_sign_in"/>
 
-        <!-- signup link -->
+        <!-- signup button -->
         <TextView
-            android:id="@+id/grit_link_signup"
+            android:id="@+id/signin_sign_up_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
@@ -70,9 +72,9 @@
             android:text="@string/signin_sign_up"
             android:textSize="16sp"/>
 
-        <!-- forgot password link -->
+        <!-- forgot password button -->
         <TextView
-            android:id="@+id/grit_link_forgot_password"
+            android:id="@+id/signin_forgot_password_button"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
