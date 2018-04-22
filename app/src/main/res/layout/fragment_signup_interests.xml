@@ -19,6 +19,7 @@
             android:maxWidth="400dp"
             android:text="@string/interests_title"
             android:textAlignment="center"
+            android:textColor="@color/black"
             android:textSize="40sp"
             app:layout_constraintTop_toTopOf="parent" />
 

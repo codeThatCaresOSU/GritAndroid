@@ -77,6 +77,8 @@ public class SignupMentorMentee extends Fragment {
         /*
          * Populate views with data if it already exists
          */
+        rbMentor.setChecked(signupInfo.isMentor);
+        rbMentee.setChecked(!signupInfo.isMentor);
 
 
         // Inflate the layout for this fragment
@@ -106,6 +108,7 @@ public class SignupMentorMentee extends Fragment {
      */
     private Bundle createBundleFromThis() {
         // Update instance variables based on user input
+        signupInfo.isMentor = this.rbMentor.isChecked();
 
         // Write to a bundle
         Bundle bundle = SignupInfo.writeToBundle(signupInfo, this.getContext());
