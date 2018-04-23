@@ -5,19 +5,19 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-import com.justcorrections.grit.auth.GritAuthentication;
+import com.justcorrections.grit.auth.GritAuth;
 import com.justcorrections.grit.modules.hompage.HomepageActivity;
 import com.justcorrections.grit.modules.signin.SigninActivity;
 
 public class SplashActivity extends AppCompatActivity {
 
-    private GritAuthentication auth;
+    private GritAuth auth;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        auth = GritAuthentication.getInstance();
+        auth = GritAuth.getInstance();
 
         switchToCorrectActivity();
     }

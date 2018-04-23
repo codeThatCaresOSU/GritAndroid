@@ -6,10 +6,9 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.justcorrections.grit.R;
-import com.justcorrections.grit.auth.GritAuthentication;
+import com.justcorrections.grit.auth.GritAuth;
 
 public class SigninActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -29,15 +28,18 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signin_activity);
 
-        presenter = new SigninPresenter(GritAuthentication.getInstance());
+        presenter = new SigninPresenter(GritAuth.getInstance());
 
         emailLayout = findViewById(R.id.signin_email_layout);
         passwordLayout = findViewById(R.id.signin_password_layout);
         emailInput = findViewById(R.id.signin_email_input);
         passwordInput = findViewById(R.id.signin_password_input);
         Button signinButton = findViewById(R.id.signin_sign_in_button);
-        TextView signupButton = findViewById(R.id.signin_sign_up_button);
-        TextView forgotPasswordButton = findViewById(R.id.signin_forgot_password_button);
+        Button signupButton = findViewById(R.id.signin_sign_up_button);
+        Button forgotPasswordButton = findViewById(R.id.signin_forgot_password_button);
+
+        System.out.println("Ianaa " + signupButton.getPaddingTop() + " " + signupButton.getPaddingRight());
+        System.out.println("Ianaa " + forgotPasswordButton.getPaddingTop() + " " + forgotPasswordButton.getPaddingRight());
 
         signinButton.setOnClickListener(this);
         signupButton.setOnClickListener(this);
@@ -80,6 +82,11 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
 
     public void setPasswordLayoutError(String errorMessage) {
         passwordLayout.setError(errorMessage);
+    }
+
+    public void clearErrorText() {
+        emailLayout.setError("");
+        passwordLayout.setError("");
     }
 
 }

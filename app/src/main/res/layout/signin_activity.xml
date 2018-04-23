@@ -63,23 +63,28 @@
             android:text="@string/signin_sign_in"/>
 
         <!-- signup button -->
-        <TextView
+        <Button
             android:id="@+id/signin_sign_up_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:background="?android:attr/selectableItemBackground"
             android:text="@string/signin_sign_up"
+            android:textAllCaps="false"
+            android:textColor="@color/gray9"
             android:textSize="16sp"/>
 
         <!-- forgot password button -->
-        <TextView
+        <Button
             android:id="@+id/signin_forgot_password_button"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:background="?android:attr/selectableItemBackground"
             android:text="@string/signin_forgot_password"
+            android:textAllCaps="false"
+            android:textColor="@color/gray9"
             android:textSize="16sp"/>
 
     </LinearLayout>

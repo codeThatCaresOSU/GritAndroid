@@ -1,7 +1,11 @@
 package com.justcorrections.grit.modules.signin;
 
-import com.justcorrections.grit.auth.GritAuthentication;
-import com.justcorrections.grit.auth.GritAuthentication.GritAuthCallback;
+import android.content.Intent;
+import android.text.TextUtils;
+
+import com.justcorrections.grit.auth.GritAuth;
+import com.justcorrections.grit.auth.GritAuth.GritAuthCallback;
+import com.justcorrections.grit.modules.hompage.HomepageActivity;
 
 /**
  * Created by ianwillis on 3/9/18.
@@ -10,9 +14,9 @@ import com.justcorrections.grit.auth.GritAuthentication.GritAuthCallback;
 public class SigninPresenter {
 
     private SigninActivity view;
-    private GritAuthentication auth;
+    private GritAuth auth;
 
-    public SigninPresenter(GritAuthentication auth) {
+    public SigninPresenter(GritAuth auth) {
         this.auth = auth;
     }
 
@@ -24,27 +28,46 @@ public class SigninPresenter {
         view = null;
     }
 
-    public void onSigninButtonPressed(String email, String password) {
-        System.out.println("Ian working on it " + auth.getCurrentUser());
-        auth.signin(email, password, new GritAuthCallback() {
-            @Override
-            public void onSuccess() {
-                // switch fragment
-                System.out.println("Ian it worked " + auth.getCurrentUser());
-            }
+    public boolean isAttachedToView() {
+        return view != null;
+    }
 
-            @Override
-            public void onFailure(String errorMessage) {
-                view.setEmailInputError(errorMessage);
-            }
-        });
+    public void onSigninButtonPressed(String email, String password) {
+        view.clearErrorText();
+        if (TextUtils.isEmpty(email)) {
+            view.setEmailInputError("Email cannot be empty");
+        } else if (TextUtils.isEmpty(password)) {
+            view.setPasswordLayoutError("Password cannot be empty");
+        } else {
+            auth.signin(email, password, new GritAuthCallback() {
+                @Override
+                public void onSuccess() {
+                    if (isAttachedToView()) {
+                        navigateToHomepage();
+                    }
+                }
+
+                @Override
+                public void onFailure(Exception e) {
+                    if (isAttachedToView()) {
+                        view.setEmailInputError(e.getMessage());
+                    }
+                }
+            });
+        }
     }
 
     public void onCreateAccountButtonPressed() {
-
+        System.out.println("Ian here2");
     }
 
     public void onForgotPasswordButtonPressed() {
+        System.out.println("Ian here2");
+    }
 
+    private void navigateToHomepage() {
+        Intent intent = new Intent(view, HomepageActivity.class);
+        view.startActivity(intent);
+        view.finish();
     }
 }

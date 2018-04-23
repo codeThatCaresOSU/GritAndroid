@@ -35,7 +35,7 @@ public class HomepageActivity extends AppCompatActivity implements BottomNavigat
 //        errorText = findViewById(R.id.error_textview);
 //        errorText.setVisibility(View.INVISIBLE);
 //
-//        GritAuthentication.getInstance().signOut();
+//        GritAuth.getInstance().signOut();
 
     }
 
