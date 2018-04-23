@@ -5,10 +5,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.Toast;
+import android.widget.ListView;
 
 import com.justcorrections.grit.MainActivity;
 import com.justcorrections.grit.R;
@@ -20,14 +19,14 @@ import java.util.ArrayList;
  * Use the {@link SignupNamesAge#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SignupGender extends Fragment {
+public class SignupInterests extends Fragment {
 
     private SignupInfo signupInfo;
+    private ListView interestsLV;
+    boolean[] checked;
+    private String[] allInterests = new String[]{"Welding", "Building", "Programming", "Cooking", "Sports", "Having fun", "Partying", "Teaching", "Other"};
 
-    private RadioButton maleRB, femaleRB, otherRB;
-    private EditText otherEditText;
-
-    public SignupGender() {
+    public SignupInterests() {
     }
 
     /**
@@ -37,8 +36,8 @@ public class SignupGender extends Fragment {
      * @param signupInfo a bundle of the signup details.
      * @return A new instance of fragment SignupNamesAge.
      */
-    public static SignupGender newInstance(Bundle signupInfo) {
-        SignupGender fragment = new SignupGender();
+    public static SignupInterests newInstance(Bundle signupInfo) {
+        SignupInterests fragment = new SignupInterests();
         fragment.setArguments(signupInfo);
         return fragment;
     }
@@ -53,24 +52,19 @@ public class SignupGender extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_signup_gender, container, false);
+        View view = inflater.inflate(R.layout.fragment_signup_interests, container, false);
 
         // find the views
-        maleRB = view.findViewById(R.id.rb_gender_male);
-        femaleRB = view.findViewById(R.id.rb_gender_female);
-        otherRB = view.findViewById(R.id.rb_gender_other);
-        Button backButton = view.findViewById(R.id.button_gender_back);
-        Button nextButton = view.findViewById(R.id.button_gender_next);
-        otherEditText = view.findViewById(R.id.et_other_gender);
+        Button nextButton = view.findViewById(R.id.button_interests_next);
+        Button backButton = view.findViewById(R.id.button_interests_back);
+        interestsLV = view.findViewById(R.id.lv_interests);
 
-        // Set on click listeners
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 goBack();
             }
         });
-
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,26 +72,16 @@ public class SignupGender extends Fragment {
             }
         });
 
-        otherEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                otherRB.toggle();
-            }
-        });
-
         /*
          * Populate views with data if it already exists
          */
-        if (signupInfo.gender != null && !signupInfo.gender.isEmpty()) {
-            if (signupInfo.gender.equals(getString(R.string.male))) {
-                maleRB.toggle();
-            } else if (signupInfo.gender.equals(getString(R.string.female))) {
-                femaleRB.toggle();
-            } else if (signupInfo.gender.contains(getString(R.string.other_prefix))) {
-                otherRB.toggle();
-                otherEditText.setText(signupInfo.gender.substring(6));
-            }
+        checked = new boolean[allInterests.length];
+        for (int i = 0; i < allInterests.length; i++) {
+            checked[i] = signupInfo.interests.contains(allInterests[i]);
         }
+        BaseAdapter adapter = new InterestAdapter(getContext(), allInterests, checked);
+        interestsLV.setAdapter(adapter);
+        interestsLV.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
         // Inflate the layout for this fragment
         return view;
@@ -108,25 +92,17 @@ public class SignupGender extends Fragment {
      */
     private void goBack() {
         Bundle signUpBundle = createBundleFromThis();
-        ((MainActivity) getActivity()).navigateTo(SignupNamesAge.newInstance(signUpBundle), true);
+        ((MainActivity) getActivity()).navigateTo(SignupBio.newInstance(signUpBundle), true);
     }
 
     /*
      * Navigates to the next signup screen
      */
     private void goNext() {
-        if (!validInput()) {
-            Toast.makeText(getContext(), R.string.empty_fields_error, Toast.LENGTH_LONG).show();
-        } else {
-            Bundle signUpBundle = createBundleFromThis();
-            ((MainActivity) getActivity()).navigateTo(SignupLocation.newInstance(signUpBundle), true);
-        }
-
+        Bundle signUpBundle = createBundleFromThis();
+        ((MainActivity) getActivity()).navigateTo(SignupEmailPasswords.newInstance(signUpBundle), true);
     }
 
-    private boolean validInput() {
-        return !otherEditText.getText().toString().isEmpty() || !otherRB.isChecked();
-    }
 
     /*
      * Creates a Bundle with all of the signup information contained in this fragment's instance variables
@@ -135,12 +111,11 @@ public class SignupGender extends Fragment {
     private Bundle createBundleFromThis() {
 
         // Update instance variables based on user input
-        if (maleRB.isChecked()) {
-            signupInfo.gender = getString(R.string.male);
-        } else if (femaleRB.isChecked()) {
-            signupInfo.gender = getString(R.string.female);
-        } else if (otherRB.isChecked()) {
-            signupInfo.gender = getString(R.string.other_prefix) + otherEditText.getText().toString();
+        signupInfo.interests = new ArrayList<>();
+        for (int i = 0; i < checked.length; i++) {
+            if (checked[i]) {
+                signupInfo.interests.add(allInterests[i]);
+            }
         }
 
         // Write to a bundle
@@ -156,4 +131,6 @@ public class SignupGender extends Fragment {
     private void readFromArguments() {
         signupInfo = SignupInfo.readFromBundle(getArguments(), this.getContext());
     }
+
+
 }

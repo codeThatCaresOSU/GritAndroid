@@ -12,6 +12,8 @@ import android.widget.Toast;
 import com.justcorrections.grit.MainActivity;
 import com.justcorrections.grit.R;
 
+import java.util.ArrayList;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link SignupNamesAge#newInstance} factory method to
@@ -20,11 +22,12 @@ import com.justcorrections.grit.R;
 public class SignupEmailPasswords extends Fragment {
 
 
-    private int age;
-    private String firstName, lastName, city, address, zip, bio, email, password, gender;
+    private SignupInfo signupInfo;
+
     private EditText emailEditText, passwordEditText, confirmPasswordEditText;
 
-    public SignupEmailPasswords() {}
+    public SignupEmailPasswords() {
+    }
 
     /**
      * Use this factory method to create a new instance of
@@ -75,12 +78,12 @@ public class SignupEmailPasswords extends Fragment {
         /*
          * Populate views with data if it already exists
          */
-        if (email != null && !email.isEmpty()) {
-            emailEditText.setText(email);
+        if (signupInfo.email != null && !signupInfo.email.isEmpty()) {
+            emailEditText.setText(signupInfo.email);
         }
-        if (password != null && !password.isEmpty()) {
-            passwordEditText.setText(password);
-            confirmPasswordEditText.setText(password);
+        if (signupInfo.password != null && !signupInfo.password.isEmpty()) {
+            passwordEditText.setText(signupInfo.password);
+            confirmPasswordEditText.setText(signupInfo.password);
         }
 
         // Inflate the layout for this fragment
@@ -125,43 +128,22 @@ public class SignupEmailPasswords extends Fragment {
      * and views.
      */
     private Bundle createBundleFromThis() {
-        Bundle signupInfo = new Bundle();
 
         // Update instance variables based on user input
-        email = emailEditText.getText().toString();
-        password = passwordEditText.getText().toString();
+        signupInfo.email = emailEditText.getText().toString();
+        signupInfo.password = passwordEditText.getText().toString();
 
-        // Put all the info in the bundle
-        signupInfo.putInt(getString(R.string.age), age);
-        signupInfo.putString(getString(R.string.first_name), firstName);
-        signupInfo.putString(getString(R.string.last_name), lastName);
-        signupInfo.putString(getString(R.string.email), email);
-        signupInfo.putString(getString(R.string.city), city);
-        signupInfo.putString(getString(R.string.street_address), address);
-        signupInfo.putString(getString(R.string.zip), zip);
-        signupInfo.putString(getString(R.string.bio), bio);
-        signupInfo.putString(getString(R.string.password), password);
-        signupInfo.putString(getString(R.string.gender), gender);
+        // Write to a bundle
+        Bundle bundle = SignupInfo.writeToBundle(signupInfo, this.getContext());
 
         // return the bundle
-        return signupInfo;
+        return bundle;
     }
 
     /*
      * updates instance variables to match the information contained in the given bundle.
      */
     private void readFromArguments() {
-        if (getArguments() != null) {
-            firstName = getArguments().getString(getString(R.string.first_name), "");
-            lastName = getArguments().getString(getString(R.string.last_name), "");
-            city = getArguments().getString(getString(R.string.city), "");
-            address = getArguments().getString(getString(R.string.street_address), "");
-            zip = getArguments().getString(getString(R.string.zip), "");
-            bio = getArguments().getString(getString(R.string.bio), "");
-            email = getArguments().getString(getString(R.string.email), "");
-            password = getArguments().getString(getString(R.string.password), "");
-            age = getArguments().getInt(getString(R.string.age), 0);
-            gender = getArguments().getString(getString(R.string.gender), "");
-        }
+        signupInfo = SignupInfo.readFromBundle(getArguments(), this.getContext());
     }
 }

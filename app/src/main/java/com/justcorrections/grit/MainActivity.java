@@ -10,9 +10,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.justcorrections.grit.auth.GritAuthentication;
-import com.justcorrections.grit.modules.signin.SigninFragment;
 import com.justcorrections.grit.modules.map.MapFragment;
-import com.justcorrections.grit.modules.mystery.MysteryFragment;
+import com.justcorrections.grit.modules.signin.SigninFragment;
+import com.justcorrections.grit.modules.signup.SignupNamesAge;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             else
                 System.out.println("need to add details fragment here");
         } else if (id == R.id.menu_mystery) {
-            navigateTo(MysteryFragment.newInstance("param 1", "param 2"), false);
+            navigateTo(SignupNamesAge.newInstance(new Bundle()), false);
         }
         return true;
     }
