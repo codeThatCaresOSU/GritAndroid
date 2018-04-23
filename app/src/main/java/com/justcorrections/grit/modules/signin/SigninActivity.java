@@ -38,9 +38,6 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
         Button signupButton = findViewById(R.id.signin_sign_up_button);
         Button forgotPasswordButton = findViewById(R.id.signin_forgot_password_button);
 
-        System.out.println("Ianaa " + signupButton.getPaddingTop() + " " + signupButton.getPaddingRight());
-        System.out.println("Ianaa " + forgotPasswordButton.getPaddingTop() + " " + forgotPasswordButton.getPaddingRight());
-
         signinButton.setOnClickListener(this);
         signupButton.setOnClickListener(this);
         forgotPasswordButton.setOnClickListener(this);

@@ -25,4 +25,5 @@
     <color name="greenDark">#00600f</color>
     <color name="greenLight">#4caf50</color>
 
+    <color name="grayText">#808080</color>
 </resources>
