@@ -9,6 +9,9 @@
     <string name="signin_sign_up">Sign up for a new account</string>
     <string name="signin_forgot_password">Forgot password?</string>
 
+    <!-- forgotpassword -->
+    <string name="forgotpassword_send_password_reset_email">Send password reset email</string>
+
     <!-- Strings related to showing resource details -->
     <string name="no_resource_loaded_label">No Resource Loaded</string>
     <string name="prefix_name">Name:</string>

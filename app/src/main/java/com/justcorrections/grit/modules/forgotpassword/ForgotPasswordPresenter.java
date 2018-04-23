@@ -1,6 +1,9 @@
 package com.justcorrections.grit.modules.forgotpassword;
 
+import android.text.TextUtils;
+
 import com.justcorrections.grit.auth.GritAuth;
+import com.justcorrections.grit.auth.GritAuth.GritAuthCallback;
 
 public class ForgotPasswordPresenter {
 
@@ -21,6 +24,26 @@ public class ForgotPasswordPresenter {
 
     public boolean isAttachedToView() {
         return view != null;
+    }
+
+    public void onResetButtonClicked(String email) {
+        if (TextUtils.isEmpty(email)) {
+            view.setEmailLayoutErrorText("Email can't be empty");
+        } else {
+            auth.sendPasswordResetEmail(email, new GritAuthCallback() {
+                @Override
+                public void onSuccess() {
+                    view.notifyEmailSent();
+                    view.hideSoftKeyboard();
+                    view.finish();
+                }
+
+                @Override
+                public void onFailure(Exception e) {
+                    view.setEmailLayoutErrorText(e.getMessage());
+                }
+            });
+        }
     }
 
 }

@@ -30,9 +30,9 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
 
         presenter = new SigninPresenter(GritAuth.getInstance());
 
-        emailLayout = findViewById(R.id.signin_email_layout);
+        emailLayout = findViewById(R.id.forgotpassword_email_layout);
         passwordLayout = findViewById(R.id.signin_password_layout);
-        emailInput = findViewById(R.id.signin_email_input);
+        emailInput = findViewById(R.id.forgotpassword_email_input);
         passwordInput = findViewById(R.id.signin_password_input);
         Button signinButton = findViewById(R.id.signin_sign_in_button);
         Button signupButton = findViewById(R.id.signin_sign_up_button);
