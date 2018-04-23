@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.justcorrections.grit.modules.hompage.HomepageActivity;
+import com.justcorrections.grit.modules.homepage.HomepageActivity;
 import com.justcorrections.grit.R;
 
 /**

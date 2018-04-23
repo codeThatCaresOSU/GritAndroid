@@ -5,7 +5,8 @@ import android.text.TextUtils;
 
 import com.justcorrections.grit.auth.GritAuth;
 import com.justcorrections.grit.auth.GritAuth.GritAuthCallback;
-import com.justcorrections.grit.modules.hompage.HomepageActivity;
+import com.justcorrections.grit.modules.forgotpassword.ForgotPasswordActivity;
+import com.justcorrections.grit.modules.homepage.HomepageActivity;
 
 /**
  * Created by ianwillis on 3/9/18.
@@ -43,7 +44,7 @@ public class SigninPresenter {
                 @Override
                 public void onSuccess() {
                     if (isAttachedToView()) {
-                        navigateToHomepage();
+                        navigateToHomepageActivity();
                     }
                 }
 
@@ -62,12 +63,17 @@ public class SigninPresenter {
     }
 
     public void onForgotPasswordButtonPressed() {
-        System.out.println("Ian here2");
+        navigateToForgotPasswordActivity();
     }
 
-    private void navigateToHomepage() {
+    private void navigateToHomepageActivity() {
         Intent intent = new Intent(view, HomepageActivity.class);
         view.startActivity(intent);
         view.finish();
+    }
+
+    private void navigateToForgotPasswordActivity() {
+        Intent intent = new Intent(view, ForgotPasswordActivity.class);
+        view.startActivity(intent);
     }
 }

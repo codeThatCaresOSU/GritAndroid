@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.justcorrections.grit.modules.hompage.HomepageActivity;
+import com.justcorrections.grit.modules.homepage.HomepageActivity;
 import com.justcorrections.grit.R;
 import com.justcorrections.grit.data.model.Resource;
 

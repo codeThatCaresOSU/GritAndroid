@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.justcorrections.grit.auth.GritAuth;
-import com.justcorrections.grit.modules.hompage.HomepageActivity;
+import com.justcorrections.grit.modules.homepage.HomepageActivity;
 import com.justcorrections.grit.modules.signin.SigninActivity;
 
 public class SplashActivity extends AppCompatActivity {

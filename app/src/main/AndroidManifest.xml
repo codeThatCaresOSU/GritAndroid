@@ -30,17 +30,17 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
         <activity
-            android:name=".modules.hompage.HomepageActivity"
+            android:name=".modules.homepage.HomepageActivity"
             android:theme="@style/AppTheme.ActionBar"
             android:windowSoftInputMode="adjustResize">
         </activity>
-
         <activity
             android:name=".modules.signin.SigninActivity"
             android:windowSoftInputMode="stateHidden">
         </activity>
+        <activity android:name=".modules.forgotpassword.ForgotPasswordActivity"/>
+
     </application>
 
 </manifest>

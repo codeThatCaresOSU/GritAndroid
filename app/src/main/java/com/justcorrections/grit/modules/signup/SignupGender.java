@@ -10,7 +10,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
-import com.justcorrections.grit.modules.hompage.HomepageActivity;
+import com.justcorrections.grit.modules.homepage.HomepageActivity;
 import com.justcorrections.grit.R;
 
 /**

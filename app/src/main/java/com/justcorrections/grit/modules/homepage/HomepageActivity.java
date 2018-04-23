@@ -1,4 +1,4 @@
-package com.justcorrections.grit.modules.hompage;
+package com.justcorrections.grit.modules.homepage;
 
 import android.content.Intent;
 import android.os.Bundle;

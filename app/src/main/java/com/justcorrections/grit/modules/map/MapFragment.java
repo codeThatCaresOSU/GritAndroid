@@ -22,7 +22,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.justcorrections.grit.modules.hompage.HomepageActivity;
+import com.justcorrections.grit.modules.homepage.HomepageActivity;
 import com.justcorrections.grit.R;
 import com.justcorrections.grit.data.model.Category;
 import com.justcorrections.grit.data.model.Resource;
