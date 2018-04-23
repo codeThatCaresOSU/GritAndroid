@@ -4,13 +4,11 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.justcorrections.grit.R;
@@ -62,17 +60,13 @@ public class ForgotPasswordActivity extends AppCompatActivity implements OnClick
     }
 
     public void notifyEmailSent() {
-        Toast toast = Toast.makeText(this, "Reset email sent",
-                Toast.LENGTH_SHORT);
-        TextView message = (TextView) toast.getView().findViewById(android.R.id.message);
-        message.setTextColor(ContextCompat.getColor(this, R.color.white));
-        toast.getView().setBackgroundColor(ContextCompat.getColor(this, R.color.primary));
+        Toast toast = Toast.makeText(this, "Reset email sent", Toast.LENGTH_SHORT);
         toast.show();
     }
 
     public void hideSoftKeyboard() {
         final InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-        if (inputMethodManager.isActive()) {
+        if (inputMethodManager != null && inputMethodManager.isActive()) {
             if (getCurrentFocus() != null) {
                 inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
             }

@@ -59,7 +59,7 @@ public class SigninPresenter {
     }
 
     public void onCreateAccountButtonPressed() {
-        System.out.println("Ian here2");
+
     }
 
     public void onForgotPasswordButtonPressed() {
