@@ -6,26 +6,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.RadioButton;
 
-import com.justcorrections.grit.modules.homepage.HomepageActivity;
+import com.justcorrections.grit.MainActivity;
 import com.justcorrections.grit.R;
-
-import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link SignupNamesAge#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SignupLocation extends Fragment {
+public class SignupMentorMentee extends Fragment {
 
     private SignupInfo signupInfo;
 
-    private EditText addressEditText, cityEditText, zipEditText;
+    private RadioButton rbMentor, rbMentee;
 
-    public SignupLocation() {
+    public SignupMentorMentee() {
     }
 
     /**
@@ -35,8 +32,8 @@ public class SignupLocation extends Fragment {
      * @param signupInfo a bundle of the signup details.
      * @return A new instance of fragment SignupNamesAge.
      */
-    public static SignupLocation newInstance(Bundle signupInfo) {
-        SignupLocation fragment = new SignupLocation();
+    public static SignupMentorMentee newInstance(Bundle signupInfo) {
+        SignupMentorMentee fragment = new SignupMentorMentee();
         fragment.setArguments(signupInfo);
         return fragment;
     }
@@ -51,23 +48,20 @@ public class SignupLocation extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_signup_location, container, false);
+        View view = inflater.inflate(R.layout.fragment_signup_mentor_mentee, container, false);
 
         // find the views
-        Button backButton = view.findViewById(R.id.button_location_back);
-        Button nextButton = view.findViewById(R.id.button_location_next);
-        addressEditText = view.findViewById(R.id.et_street_address);
-        cityEditText = view.findViewById(R.id.et_City);
-        zipEditText = view.findViewById(R.id.et_zip);
+        Button nextButton = view.findViewById(R.id.button_mentor_mentee_next);
+        Button backButton = view.findViewById(R.id.button_mentor_mentee_back);
+        rbMentor = view.findViewById(R.id.rb_mentor);
+        rbMentee = view.findViewById(R.id.rb_mentee);
 
-        // Set on click listeners
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 goBack();
             }
         });
-
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,15 +72,9 @@ public class SignupLocation extends Fragment {
         /*
          * Populate views with data if it already exists
          */
-        if (addressEditText != null && !signupInfo.address.isEmpty()) {
-            addressEditText.setText(signupInfo.address);
-        }
-        if (signupInfo.city != null && !signupInfo.city.isEmpty()) {
-            cityEditText.setText(signupInfo.city);
-        }
-        if (signupInfo.zip != null && !signupInfo.zip.isEmpty()) {
-            zipEditText.setText(signupInfo.zip);
-        }
+        rbMentor.setChecked(signupInfo.isMentor);
+        rbMentee.setChecked(!signupInfo.isMentor);
+
 
         // Inflate the layout for this fragment
         return view;
@@ -97,37 +85,25 @@ public class SignupLocation extends Fragment {
      */
     private void goBack() {
         Bundle signUpBundle = createBundleFromThis();
-        ((HomepageActivity) getActivity()).navigateTo(SignupGender.newInstance(signUpBundle), true);
+        ((MainActivity) getActivity()).navigateTo(SignupNamesAge.newInstance(signUpBundle), true);
     }
 
     /*
      * Navigates to the next signup screen
      */
     private void goNext() {
-        if (!noEmptyFields()) {
-            Toast.makeText(getContext(), R.string.empty_fields_error, Toast.LENGTH_LONG).show();
-        } else {
-            Bundle signUpBundle = createBundleFromThis();
-            ((HomepageActivity) getActivity()).navigateTo(SignupBio.newInstance(signUpBundle), true);
-        }
+        Bundle signUpBundle = createBundleFromThis();
+        ((MainActivity) getActivity()).navigateTo(SignupGender.newInstance(signUpBundle), true);
     }
 
-    private boolean noEmptyFields() {
-        return !addressEditText.getText().toString().isEmpty()
-                && !zipEditText.getText().toString().isEmpty()
-                && !cityEditText.getText().toString().isEmpty();
-    }
 
     /*
      * Creates a Bundle with all of the signup information contained in this fragment's instance variables
      * and views.
      */
     private Bundle createBundleFromThis() {
-
         // Update instance variables based on user input
-        signupInfo.city = cityEditText.getText().toString();
-        signupInfo.address = addressEditText.getText().toString();
-        signupInfo.zip = zipEditText.getText().toString();
+        signupInfo.isMentor = this.rbMentor.isChecked();
 
         // Write to a bundle
         Bundle bundle = SignupInfo.writeToBundle(signupInfo, this.getContext());
