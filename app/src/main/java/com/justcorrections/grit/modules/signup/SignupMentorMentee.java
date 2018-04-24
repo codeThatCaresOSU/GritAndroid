@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RadioButton;
 
-import com.justcorrections.grit.MainActivity;
 import com.justcorrections.grit.R;
 
 /**
@@ -85,7 +84,7 @@ public class SignupMentorMentee extends Fragment {
      */
     private void goBack() {
         Bundle signUpBundle = createBundleFromThis();
-        ((MainActivity) getActivity()).navigateTo(SignupNamesAge.newInstance(signUpBundle), true);
+        //((MainActivity) getActivity()).navigateTo(SignupNamesAge.newInstance(signUpBundle), true);
     }
 
     /*
@@ -93,7 +92,7 @@ public class SignupMentorMentee extends Fragment {
      */
     private void goNext() {
         Bundle signUpBundle = createBundleFromThis();
-        ((MainActivity) getActivity()).navigateTo(SignupGender.newInstance(signUpBundle), true);
+        //((MainActivity) getActivity()).navigateTo(SignupGender.newInstance(signUpBundle), true);
     }
 
 

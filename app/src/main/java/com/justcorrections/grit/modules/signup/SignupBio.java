@@ -9,10 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.justcorrections.grit.modules.homepage.HomepageActivity;
 import com.justcorrections.grit.R;
-
-import java.util.ArrayList;
+import com.justcorrections.grit.modules.homepage.HomepageActivity;
 
 /**
  * A simple {@link Fragment} subclass.

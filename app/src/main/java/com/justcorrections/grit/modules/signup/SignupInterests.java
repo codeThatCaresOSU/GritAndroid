@@ -9,7 +9,6 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
-import com.justcorrections.grit.MainActivity;
 import com.justcorrections.grit.R;
 
 import java.util.ArrayList;
@@ -92,7 +91,7 @@ public class SignupInterests extends Fragment {
      */
     private void goBack() {
         Bundle signUpBundle = createBundleFromThis();
-        ((MainActivity) getActivity()).navigateTo(SignupBio.newInstance(signUpBundle), true);
+        //((MainActivity) getActivity()).navigateTo(SignupBio.newInstance(signUpBundle), true);
     }
 
     /*
@@ -100,7 +99,7 @@ public class SignupInterests extends Fragment {
      */
     private void goNext() {
         Bundle signUpBundle = createBundleFromThis();
-        ((MainActivity) getActivity()).navigateTo(SignupEmailPasswords.newInstance(signUpBundle), true);
+        //((MainActivity) getActivity()).navigateTo(SignupEmailPasswords.newInstance(signUpBundle), true);
     }
 
 

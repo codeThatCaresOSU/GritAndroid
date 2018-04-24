@@ -10,16 +10,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-<<<<<<< HEAD:app/src/main/java/com/justcorrections/grit/modules/homepage/HomepageActivity.java
-import com.justcorrections.grit.utils.NavigationHandler;
 import com.justcorrections.grit.R;
 import com.justcorrections.grit.modules.signin.SigninActivity;
-=======
-import com.justcorrections.grit.auth.GritAuthentication;
-import com.justcorrections.grit.modules.map.MapFragment;
-import com.justcorrections.grit.modules.signin.SigninFragment;
-import com.justcorrections.grit.modules.signup.SignupNamesAge;
->>>>>>> signup:app/src/main/java/com/justcorrections/grit/MainActivity.java
+import com.justcorrections.grit.utils.NavigationHandler;
 
 public class HomepageActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -48,22 +41,7 @@ public class HomepageActivity extends AppCompatActivity implements BottomNavigat
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-<<<<<<< HEAD:app/src/main/java/com/justcorrections/grit/modules/homepage/HomepageActivity.java
         return false;
-=======
-        int id = item.getItemId();
-        if (id == R.id.menu_map) {
-            navigateTo(MapFragment.newInstance(), false);
-        } else if (id == R.id.menu_account) {
-            if (GritAuthentication.getInstance().getCurrentUser() == null)
-                navigateTo(SigninFragment.newInstance(), false);
-            else
-                System.out.println("need to add details fragment here");
-        } else if (id == R.id.menu_mystery) {
-            navigateTo(SignupNamesAge.newInstance(new Bundle()), false);
-        }
-        return true;
->>>>>>> signup:app/src/main/java/com/justcorrections/grit/MainActivity.java
     }
 
     @Override
