@@ -65,7 +65,7 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
                 presenter.onSigninButtonPressed(email, password);
                 break;
             case R.id.signin_sign_up_button:
-                presenter.onCreateAccountButtonPressed();
+                presenter.onSignupButtonPressed();
                 break;
             case R.id.signin_forgot_password_button:
                 presenter.onForgotPasswordButtonPressed();

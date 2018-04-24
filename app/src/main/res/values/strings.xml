@@ -52,6 +52,10 @@
     <string name="empty_fields_error">Please make sure to fill out each field</string>
     <string name="over_18_error">You must be 18 or over</string>
     <string name="password_match_error">Passwords must match</string>
-    <string name="sign_up_for_a_new_account">Sign up for a new account</string>
+    <string name="interests_title">What are you interested in?</string>
+    <string name="mentor">Mentor: I want to teach</string>
+    <string name="mentee">Mentee: I want to learn</string>
+    <string name="title_mentor_mentee">Are you a mentor or a mentee?</string>
+    <string name="interests">Interests</string>
 
 </resources>

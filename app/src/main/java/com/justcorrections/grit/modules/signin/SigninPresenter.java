@@ -7,6 +7,7 @@ import com.justcorrections.grit.auth.GritAuth;
 import com.justcorrections.grit.auth.GritAuth.GritAuthCallback;
 import com.justcorrections.grit.modules.forgotpassword.ForgotPasswordActivity;
 import com.justcorrections.grit.modules.homepage.HomepageActivity;
+import com.justcorrections.grit.modules.signup.SignupActivity;
 
 /**
  * Created by ianwillis on 3/9/18.
@@ -58,8 +59,8 @@ public class SigninPresenter {
         }
     }
 
-    public void onCreateAccountButtonPressed() {
-
+    public void onSignupButtonPressed() {
+        navigateToSigninActivity();
     }
 
     public void onForgotPasswordButtonPressed() {
@@ -70,6 +71,11 @@ public class SigninPresenter {
         Intent intent = new Intent(view, HomepageActivity.class);
         view.startActivity(intent);
         view.finish();
+    }
+
+    private void navigateToSigninActivity() {
+        Intent intent = new Intent(view, SignupActivity.class);
+        view.startActivity(intent);
     }
 
     private void navigateToForgotPasswordActivity() {

@@ -10,9 +10,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.justcorrections.grit.utils.NavigationHandler;
 import com.justcorrections.grit.R;
 import com.justcorrections.grit.modules.signin.SigninActivity;
+import com.justcorrections.grit.utils.NavigationHandler;
 
 public class HomepageActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
