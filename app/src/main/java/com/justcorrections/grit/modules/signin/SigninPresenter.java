@@ -36,9 +36,9 @@ public class SigninPresenter {
     public void onSigninButtonPressed(String email, String password) {
         view.clearErrorText();
         if (TextUtils.isEmpty(email)) {
-            view.setEmailInputError("Email cannot be empty");
+            view.setEmailInputError("Email can't be empty");
         } else if (TextUtils.isEmpty(password)) {
-            view.setPasswordLayoutError("Password cannot be empty");
+            view.setPasswordLayoutError("Password can't be empty");
         } else {
             auth.signin(email, password, new GritAuthCallback() {
                 @Override
