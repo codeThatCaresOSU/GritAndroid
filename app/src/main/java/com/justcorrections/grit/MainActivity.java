@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.justcorrections.grit.auth.GritAuthentication;
+import com.justcorrections.grit.data.model.GritUser;
+import com.justcorrections.grit.modules.profile.ProfileViewAndEdit;
 import com.justcorrections.grit.modules.signin.SigninFragment;
 import com.justcorrections.grit.modules.map.MapFragment;
 import com.justcorrections.grit.modules.mystery.MysteryFragment;
@@ -48,7 +50,15 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             else
                 System.out.println("need to add details fragment here");
         } else if (id == R.id.menu_mystery) {
-            navigateTo(MysteryFragment.newInstance("param 1", "param 2"), false);
+
+            // TODO remove tests for profile view
+            GritUser user1 = new GritUser();
+            user1.setGender("male");
+            user1.setEmail("pulpdrew@gmail.com");
+            user1.setPassword("qwerty123");
+            user1.setAge(19);
+
+            navigateTo(ProfileViewAndEdit.newInstance(user1), false);
         }
         return true;
     }

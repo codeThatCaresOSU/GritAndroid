@@ -23,7 +23,8 @@ public class DatabaseHelper {
 
         OhioData("MapData/OhioData"),
         Categories("MapData/Categories"),
-        Mentees("Mentees");
+        Mentees("Mentees"),
+        Users("UsersPath");
 
         private final String path;
 
