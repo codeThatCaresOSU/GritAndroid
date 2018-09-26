@@ -52,14 +52,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             }
         } else if (id == R.id.menu_mystery) {
 
-            // TODO remove tests for profile view
-            GritUser user1 = new GritUser();
-            user1.setGender("male");
-            user1.setEmail("pulpdrew@gmail.com");
-            user1.setPassword("qwerty123");
-            user1.setAge(19);
-
-            navigateTo(ProfileViewAndEdit.newInstance(user1), false);
+            navigateTo(ProfileViewAndEdit.newInstance(new GritUser()), false);
         }
         return true;
     }

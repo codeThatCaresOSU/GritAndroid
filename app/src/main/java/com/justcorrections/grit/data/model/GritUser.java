@@ -3,10 +3,7 @@ package com.justcorrections.grit.data.model;
 import android.content.Context;
 import android.os.Bundle;
 
-import com.justcorrections.grit.R;
-
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Andrew Davis on 4/21/2018.
@@ -14,7 +11,7 @@ import java.util.List;
 
 public class GritUser extends FirebaseDataModel {
 
-    private int age;
+    private String birthday;
     private String firstName;
     private String lastName;
     private String city;
@@ -31,12 +28,12 @@ public class GritUser extends FirebaseDataModel {
 
     }
 
-    public int getAge() {
-        return age;
+    public String getBirthday() {
+        return birthday;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setBirthday(String age) {
+        this.birthday = age;
     }
 
     public String getFirstName() {
@@ -138,12 +135,10 @@ public class GritUser extends FirebaseDataModel {
     public static final String BIO_KEY = "bio";
     public static final String EMAIL_KEY = "email";
     public static final String PASSWORD_KEY = "password";
-    public static final String AGE_KEY = "age";
+    public static final String BIRTHDAY_KEY = "birthday";
     public static final String GENDER_KEY = "gender";
     public static final String MENTOR_KEY = "mentor";
     public static final String INTERESTS_KEY = "interests";
-
-
 
     public static GritUser readFromBundle(Bundle bundle, Context context) {
 
@@ -157,7 +152,7 @@ public class GritUser extends FirebaseDataModel {
         user.setBio(bundle.getString(BIO_KEY, ""));
         user.setEmail(bundle.getString(EMAIL_KEY, ""));
         user.setPassword(bundle.getString(PASSWORD_KEY, ""));
-        user.setAge(bundle.getInt(AGE_KEY, 0));
+        user.setBirthday(bundle.getString(BIRTHDAY_KEY, ""));
         user.setGender(bundle.getString(GENDER_KEY, ""));
         user.setMentor(bundle.getBoolean(MENTOR_KEY, false));
 
@@ -174,7 +169,7 @@ public class GritUser extends FirebaseDataModel {
         Bundle bundle = new Bundle();
 
         // Put all the info in the bundle
-        bundle.putInt(AGE_KEY, user.getAge());
+        bundle.putString(BIRTHDAY_KEY, user.getBirthday());
         bundle.putString(FIRST_NAME_KEY, user.getFirstName());
         bundle.putString(LAST_NAME_KEY, user.getLastName());
         bundle.putString(EMAIL_KEY, user.getEmail());
@@ -189,5 +184,11 @@ public class GritUser extends FirebaseDataModel {
 
         // return the bundle
         return bundle;
+    }
+
+    public static void saveToDatabase(GritUser user, String uid) {
+
+
+
     }
 }

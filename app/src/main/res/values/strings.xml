@@ -51,7 +51,7 @@
     <string name="name_age_title">We need a few details...</string>
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
-    <string name="age">Age (Years)</string>
+    <string name="age">Birthday (MM/DD/YYYY)</string>
     <string name="back">Back</string>
     <string name="next">Next</string>
     <string name="bio_hint">Who are you? What do you do?</string>
@@ -80,5 +80,6 @@
     <string name="profile_edit_button_title">edit</string>
     <string name="back_to_sign_in">Back to Sign In</string>
     <string name="sign_in_title">Welcome back to GRIT</string>
+    <string name="birthday">Birthday</string>
 
 </resources>

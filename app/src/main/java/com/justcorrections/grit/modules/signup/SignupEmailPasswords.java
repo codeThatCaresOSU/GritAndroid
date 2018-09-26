@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.justcorrections.grit.MainActivity;
 import com.justcorrections.grit.R;
+import com.justcorrections.grit.data.model.GritUser;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,8 +21,7 @@ import com.justcorrections.grit.R;
 public class SignupEmailPasswords extends Fragment {
 
 
-    private int age;
-    private String firstName, lastName, city, address, zip, bio, email, password, gender;
+    private GritUser user;
     private EditText emailEditText, passwordEditText, confirmPasswordEditText;
 
     public SignupEmailPasswords() {}
@@ -42,7 +42,11 @@ public class SignupEmailPasswords extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        readFromArguments();
+        if (getArguments() != null) {
+            this.user = GritUser.readFromBundle(getArguments(), this.getContext());
+        } else {
+            this.user = new GritUser();
+        }
     }
 
     @Override
@@ -75,12 +79,12 @@ public class SignupEmailPasswords extends Fragment {
         /*
          * Populate views with data if it already exists
          */
-        if (email != null && !email.isEmpty()) {
-            emailEditText.setText(email);
+        if (user.getEmail() != null && !user.getEmail().isEmpty()) {
+            emailEditText.setText(user.getEmail());
         }
-        if (password != null && !password.isEmpty()) {
-            passwordEditText.setText(password);
-            confirmPasswordEditText.setText(password);
+        if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+            passwordEditText.setText(user.getPassword());
+            confirmPasswordEditText.setText(user.getPassword());
         }
 
         // Inflate the layout for this fragment
@@ -128,40 +132,10 @@ public class SignupEmailPasswords extends Fragment {
         Bundle signupInfo = new Bundle();
 
         // Update instance variables based on user input
-        email = emailEditText.getText().toString();
-        password = passwordEditText.getText().toString();
-
-        // Put all the info in the bundle
-        signupInfo.putInt(getString(R.string.age), age);
-        signupInfo.putString(getString(R.string.first_name), firstName);
-        signupInfo.putString(getString(R.string.last_name), lastName);
-        signupInfo.putString(getString(R.string.email), email);
-        signupInfo.putString(getString(R.string.city), city);
-        signupInfo.putString(getString(R.string.street_address), address);
-        signupInfo.putString(getString(R.string.zip), zip);
-        signupInfo.putString(getString(R.string.bio), bio);
-        signupInfo.putString(getString(R.string.password), password);
-        signupInfo.putString(getString(R.string.gender), gender);
+        user.setEmail(emailEditText.getText().toString());
+        user.setPassword(passwordEditText.getText().toString());
 
         // return the bundle
-        return signupInfo;
-    }
-
-    /*
-     * updates instance variables to match the information contained in the given bundle.
-     */
-    private void readFromArguments() {
-        if (getArguments() != null) {
-            firstName = getArguments().getString(getString(R.string.first_name), "");
-            lastName = getArguments().getString(getString(R.string.last_name), "");
-            city = getArguments().getString(getString(R.string.city), "");
-            address = getArguments().getString(getString(R.string.street_address), "");
-            zip = getArguments().getString(getString(R.string.zip), "");
-            bio = getArguments().getString(getString(R.string.bio), "");
-            email = getArguments().getString(getString(R.string.email), "");
-            password = getArguments().getString(getString(R.string.password), "");
-            age = getArguments().getInt(getString(R.string.age), 0);
-            gender = getArguments().getString(getString(R.string.gender), "");
-        }
+        return GritUser.writeToBundle(user, this.getContext());
     }
 }

@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.justcorrections.grit.MainActivity;
 import com.justcorrections.grit.R;
+import com.justcorrections.grit.data.model.GritUser;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,8 +20,7 @@ import com.justcorrections.grit.R;
  */
 public class SignupLocation extends Fragment {
 
-    private int age;
-    private String firstName, lastName, city, address, zip, bio, email, password, gender;
+    private GritUser user;
     private EditText addressEditText, cityEditText, zipEditText;
 
     public SignupLocation() {}
@@ -41,7 +41,11 @@ public class SignupLocation extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        readFromArguments();
+        if (getArguments() != null) {
+            this.user = GritUser.readFromBundle(getArguments(), this.getContext());
+        } else {
+            this.user = new GritUser();
+        }
     }
 
     @Override
@@ -75,14 +79,14 @@ public class SignupLocation extends Fragment {
         /*
          * Populate views with data if it already exists
          */
-        if (addressEditText != null && !address.isEmpty()) {
-            addressEditText.setText(address);
+        if (user.getAddress() != null && !user.getAddress().isEmpty()) {
+            addressEditText.setText(user.getAddress());
         }
-        if (city != null && !city.isEmpty()) {
-            cityEditText.setText(city);
+        if (user.getCity() != null && !user.getCity().isEmpty()) {
+            cityEditText.setText(user.getCity());
         }
-        if (zip != null && !zip.isEmpty()) {
-            zipEditText.setText(zip);
+        if (user.getZip() != null && !user.getZip().isEmpty()) {
+            zipEditText.setText(user.getZip());
         }
 
         // Inflate the layout for this fragment
@@ -120,44 +124,13 @@ public class SignupLocation extends Fragment {
      * and views.
      */
     private Bundle createBundleFromThis() {
-        Bundle signupInfo = new Bundle();
 
         // Update instance variables based on user input
-        city = cityEditText.getText().toString();
-        address = addressEditText.getText().toString();
-        zip = zipEditText.getText().toString();
-
-        // Put all the info in the bundle
-        signupInfo.putInt(getString(R.string.age), age);
-        signupInfo.putString(getString(R.string.first_name), firstName);
-        signupInfo.putString(getString(R.string.last_name), lastName);
-        signupInfo.putString(getString(R.string.email), email);
-        signupInfo.putString(getString(R.string.city), city);
-        signupInfo.putString(getString(R.string.street_address), address);
-        signupInfo.putString(getString(R.string.zip), zip);
-        signupInfo.putString(getString(R.string.bio), bio);
-        signupInfo.putString(getString(R.string.password), password);
-        signupInfo.putString(getString(R.string.gender), gender);
+        user.setCity(cityEditText.getText().toString());
+        user.setAddress(addressEditText.getText().toString());
+        user.setZip(zipEditText.getText().toString());
 
         // return the bundle
-        return signupInfo;
-    }
-
-    /*
-     * updates instance variables to match the information contained in the given bundle.
-     */
-    private void readFromArguments() {
-        if (getArguments() != null) {
-            firstName = getArguments().getString(getString(R.string.first_name), "");
-            lastName = getArguments().getString(getString(R.string.last_name), "");
-            city = getArguments().getString(getString(R.string.city), "");
-            address = getArguments().getString(getString(R.string.street_address), "");
-            zip = getArguments().getString(getString(R.string.zip), "");
-            bio = getArguments().getString(getString(R.string.bio), "");
-            email = getArguments().getString(getString(R.string.email), "");
-            password = getArguments().getString(getString(R.string.password), "");
-            age = getArguments().getInt(getString(R.string.age), 0);
-            gender = getArguments().getString(getString(R.string.gender), "");
-        }
+        return GritUser.writeToBundle(user, this.getContext());
     }
 }

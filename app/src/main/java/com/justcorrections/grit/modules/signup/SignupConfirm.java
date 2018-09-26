@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.justcorrections.grit.MainActivity;
 import com.justcorrections.grit.R;
+import com.justcorrections.grit.data.model.GritUser;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -18,11 +19,11 @@ import com.justcorrections.grit.R;
  */
 public class SignupConfirm extends Fragment {
 
-    private int age;
-    private String firstName, lastName, city, address, zip, bio, email, password, gender;
+    private GritUser user;
     private TextView tvFirstName, tvLastName, tvAge, tvCity, tvAddress, tvZip, tvBio, tvEmail, tvGender;
 
-    public SignupConfirm() {}
+    public SignupConfirm() {
+    }
 
     /**
      * Use this factory method to create a new instance of
@@ -40,7 +41,11 @@ public class SignupConfirm extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        readFromArguments();
+        if (getArguments() != null) {
+            this.user = GritUser.readFromBundle(getArguments(), this.getContext());
+        } else {
+            this.user = new GritUser();
+        }
     }
 
     @Override
@@ -81,26 +86,20 @@ public class SignupConfirm extends Fragment {
         /*
          * Populate views with data if it already exists
          */
-        tvAddress.setText(address);
-        tvCity.setText(city);
-        tvZip.setText(zip);
-        tvFirstName.setText(firstName);
-        tvLastName.setText(lastName);
-        tvBio.setText(bio);
-        tvEmail.setText(email);
+        tvAddress.setText(user.getAddress());
+        tvCity.setText(user.getCity());
+        tvZip.setText(user.getZip());
+        tvFirstName.setText(user.getFirstName());
+        tvLastName.setText(user.getLastName());
+        tvBio.setText(user.getBio());
+        tvEmail.setText(user.getEmail());
+        tvAge.setText(user.getBirthday());
 
-        if (age == 0) {
-            tvAge.setText("");
+        if (!user.getGender().contains(getString(R.string.other_prefix))) {
+            tvGender.setText(user.getGender());
         } else {
-            tvAge.setText(String.valueOf(age));
+            tvGender.setText(user.getGender().substring(6));
         }
-
-        if (!gender.contains(getString(R.string.other_prefix))) {
-            tvGender.setText(gender);
-        } else {
-            tvGender.setText(gender.substring(6));
-        }
-
 
         // Inflate the layout for this fragment
         return view;
@@ -118,8 +117,7 @@ public class SignupConfirm extends Fragment {
      * Navigates to the next signup screen
      */
     private void goNext() {
-        // TODO send user data to firebase
-        // Check that all data has been entered
+        GritUser.saveToDatabase(null, null);
     }
 
     /*
@@ -127,41 +125,7 @@ public class SignupConfirm extends Fragment {
      * and views.
      */
     private Bundle createBundleFromThis() {
-        Bundle signupInfo = new Bundle();
-
-        // Update instance variables based on user input
-
-        // Put all the info in the bundle
-        signupInfo.putInt(getString(R.string.age), age);
-        signupInfo.putString(getString(R.string.first_name), firstName);
-        signupInfo.putString(getString(R.string.last_name), lastName);
-        signupInfo.putString(getString(R.string.email), email);
-        signupInfo.putString(getString(R.string.city), city);
-        signupInfo.putString(getString(R.string.street_address), address);
-        signupInfo.putString(getString(R.string.zip), zip);
-        signupInfo.putString(getString(R.string.bio), bio);
-        signupInfo.putString(getString(R.string.password), password);
-        signupInfo.putString(getString(R.string.gender), gender);
-
         // return the bundle
-        return signupInfo;
-    }
-
-    /*
-     * updates instance variables to match the information contained in the given bundle.
-     */
-    private void readFromArguments() {
-        if (getArguments() != null) {
-            firstName = getArguments().getString(getString(R.string.first_name), "");
-            lastName = getArguments().getString(getString(R.string.last_name), "");
-            city = getArguments().getString(getString(R.string.city), "");
-            address = getArguments().getString(getString(R.string.street_address), "");
-            zip = getArguments().getString(getString(R.string.zip), "");
-            bio = getArguments().getString(getString(R.string.bio), "");
-            email = getArguments().getString(getString(R.string.email), "");
-            password = getArguments().getString(getString(R.string.password), "");
-            age = getArguments().getInt(getString(R.string.age), 0);
-            gender = getArguments().getString(getString(R.string.gender), "");
-        }
+        return GritUser.writeToBundle(user, this.getContext());
     }
 }

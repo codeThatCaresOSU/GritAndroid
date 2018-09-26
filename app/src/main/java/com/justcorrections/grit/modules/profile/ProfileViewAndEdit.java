@@ -81,7 +81,7 @@ public class ProfileViewAndEdit extends Fragment {
 
         // put info into the views
         this.etAddress.setText(user.getAddress());
-        this.etAge.setText(String.valueOf(user.getAge()));
+        this.etAge.setText(String.valueOf(user.getBirthday()));
         this.etEmail.setText(user.getEmail());
         this.etPassword.setText(user.getPassword());
         this.etGender.setText(user.getGender());
@@ -138,13 +138,7 @@ public class ProfileViewAndEdit extends Fragment {
         user.setBio(etBio.getText().toString());
         user.setZip(etZip.getText().toString());
         user.setPassword(etPassword.getText().toString());
-
-        try {
-            user.setAge(Integer.parseInt(etAge.getText().toString()));
-        } catch (NumberFormatException e) {
-            Toast.makeText(getContext(), "Age is not a number. Ignoring.", Toast.LENGTH_SHORT).show();
-            etAge.setText(String.valueOf(user.getAge()));
-        }
+        user.setBirthday(etAge.getText().toString());
 
         // save the new information to the database
         GritUserDataSource.getInstance().updateItem(user, user.getId());
