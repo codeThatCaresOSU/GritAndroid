@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@color/white"
     tools:context=".modules.signin.SigninFragment">
 
     <RelativeLayout
@@ -12,6 +12,18 @@
         android:layout_gravity="center_vertical">
 
         <!-- username input -->
+
+        <TextView
+            android:id="@+id/tv_sign_in_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sign_in_title"
+            android:gravity="center"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:textSize="40sp"
+            android:layout_marginBottom="16dp"
+            />
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/signin_email_layout"
@@ -25,14 +37,15 @@
             android:paddingStart="48dp"
             android:paddingTop="4dp"
             android:theme="@style/TextHint"
-            android:transitionName="user_layout">
+            android:transitionName="user_layout"
+            android:layout_below="@id/tv_sign_in_title">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/signin_email_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/email_address"
-                android:inputType="textEmailAddress"/>
+                android:inputType="textEmailAddress" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -73,7 +86,8 @@
             android:layout_marginTop="24dp"
             android:contentDescription="@string/user_icon_description"
             android:src="@drawable/ic_user"
-            android:transitionName="user_icon"/>
+            android:transitionName="user_icon"
+            android:layout_below="@id/tv_sign_in_title"/>
 
         <!-- key icon -->
 
@@ -114,7 +128,7 @@
             android:layout_below="@id/signin_signin_button"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:text="@string/forgot_your_password"
-            android:textColor="@android:color/white"
+            android:textColor="@android:color/black"
             android:textSize="12sp"/>
 
         <!-- create account button -->
@@ -128,7 +142,7 @@
             android:layout_below="@id/signin_signin_button"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:text="@string/create_an_account"
-            android:textColor="@android:color/white"
+            android:textColor="@android:color/black"
             android:textSize="12sp"/>
 
     </RelativeLayout>

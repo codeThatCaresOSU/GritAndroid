@@ -79,5 +79,6 @@
     <string name="profile_title">Profile</string>
     <string name="profile_edit_button_title">edit</string>
     <string name="back_to_sign_in">Back to Sign In</string>
+    <string name="sign_in_title">Welcome back to GRIT</string>
 
 </resources>
