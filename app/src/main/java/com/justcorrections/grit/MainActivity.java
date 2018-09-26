@@ -5,16 +5,14 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
 import com.justcorrections.grit.auth.GritAuthentication;
-import com.justcorrections.grit.data.model.GritUser;
-import com.justcorrections.grit.modules.profile.ProfileViewAndEdit;
-import com.justcorrections.grit.modules.signin.SigninFragment;
 import com.justcorrections.grit.modules.map.MapFragment;
-import com.justcorrections.grit.modules.mystery.MysteryFragment;
+import com.justcorrections.grit.modules.signin.SigninFragment;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -50,9 +48,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             } else {
                 navigateTo(SigninFragment.newInstance(), false);
             }
-        } else if (id == R.id.menu_mystery) {
-
-            navigateTo(ProfileViewAndEdit.newInstance(new GritUser()), false);
         }
         return true;
     }
@@ -72,8 +67,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
      * @param message The error message to show.
      */
     public void showErrorText(String message) {
-        errorText.setText(message);
-        errorText.setVisibility(View.VISIBLE);
+        try {
+            errorText.setText(message);
+            errorText.setVisibility(View.VISIBLE);
+        } catch (Exception e) {
+            Log.d("MAIN ACTIVITY", e.getMessage());
+        }
     }
 
     /**
