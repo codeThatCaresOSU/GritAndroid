@@ -45,10 +45,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         if (id == R.id.menu_map) {
             navigateTo(MapFragment.newInstance(), false);
         } else if (id == R.id.menu_account) {
-            if (GritAuthentication.getInstance().getCurrentUser() == null)
+            if (GritAuthentication.getInstance().getCurrentUser() == null) {
                 navigateTo(SigninFragment.newInstance(), false);
-            else
-                System.out.println("need to add details fragment here");
+            } else {
+                navigateTo(SigninFragment.newInstance(), false);
+            }
         } else if (id == R.id.menu_mystery) {
 
             // TODO remove tests for profile view

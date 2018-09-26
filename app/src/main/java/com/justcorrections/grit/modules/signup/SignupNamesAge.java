@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.justcorrections.grit.MainActivity;
 import com.justcorrections.grit.R;
+import com.justcorrections.grit.modules.signin.SigninFragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -56,11 +57,19 @@ public class SignupNamesAge extends Fragment {
         lastNameEditText = view.findViewById(R.id.et_last_name);
         ageEditText = view.findViewById(R.id.et_age);
         Button nextButton = view.findViewById(R.id.button_names_age_next);
+        Button backButton = view.findViewById(R.id.button_names_age_back);
 
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 goNext();
+            }
+        });
+        backButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                goBack();
             }
         });
 
@@ -81,6 +90,13 @@ public class SignupNamesAge extends Fragment {
 
         // Inflate the layout for this fragment
         return view;
+    }
+
+    /*
+     * Navigates to the previous signup screen
+     */
+    private void goBack() {
+        ((MainActivity) getActivity()).navigateTo(SigninFragment.newInstance(), true);
     }
 
     /*

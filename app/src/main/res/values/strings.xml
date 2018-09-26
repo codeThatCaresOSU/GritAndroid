@@ -78,5 +78,6 @@
     <string name="password_match_error">Passwords must match</string>
     <string name="profile_title">Profile</string>
     <string name="profile_edit_button_title">edit</string>
+    <string name="back_to_sign_in">Back to Sign In</string>
 
 </resources>
