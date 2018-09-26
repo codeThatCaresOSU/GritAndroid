@@ -24,7 +24,8 @@ public class DatabaseHelper {
         OhioData("MapData/OhioData"),
         Categories("MapData/Categories"),
         Mentees("Mentees"),
-        Users("UsersPath");
+        Users("UsersPath"),
+        TEST("Test-users");
 
         private final String path;
 

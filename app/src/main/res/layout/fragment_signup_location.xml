@@ -47,6 +47,18 @@
             app:layout_constraintTop_toBottomOf="@+id/et_street_address" />
 
         <EditText
+            android:id="@+id/et_state"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:ems="10"
+            android:hint="@string/state"
+            android:inputType="text"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_City" />
+
+        <EditText
             android:id="@+id/et_zip"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
@@ -56,7 +68,7 @@
             android:inputType="number"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/et_City" />
+            app:layout_constraintTop_toBottomOf="@+id/et_state" />
 
         <Button
             android:id="@+id/button_location_back"

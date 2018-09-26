@@ -21,7 +21,7 @@ import com.justcorrections.grit.data.model.GritUser;
 public class SignupLocation extends Fragment {
 
     private GritUser user;
-    private EditText addressEditText, cityEditText, zipEditText;
+    private EditText addressEditText, cityEditText, zipEditText, stateEditText;
 
     public SignupLocation() {}
 
@@ -60,6 +60,7 @@ public class SignupLocation extends Fragment {
         addressEditText = view.findViewById(R.id.et_street_address);
         cityEditText = view.findViewById(R.id.et_City);
         zipEditText = view.findViewById(R.id.et_zip);
+        stateEditText = view.findViewById(R.id.et_state);
 
         // Set on click listeners
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -87,6 +88,9 @@ public class SignupLocation extends Fragment {
         }
         if (user.getZip() != null && !user.getZip().isEmpty()) {
             zipEditText.setText(user.getZip());
+        }
+        if (user.getState() != null && !user.getState().isEmpty()) {
+            stateEditText.setText(user.getState());
         }
 
         // Inflate the layout for this fragment
@@ -116,7 +120,8 @@ public class SignupLocation extends Fragment {
     private boolean noEmptyFields() {
         return !addressEditText.getText().toString().isEmpty()
                 && !zipEditText.getText().toString().isEmpty()
-                && !cityEditText.getText().toString().isEmpty();
+                && !cityEditText.getText().toString().isEmpty()
+                && !stateEditText.getText().toString().isEmpty();
     }
 
     /*
@@ -129,6 +134,7 @@ public class SignupLocation extends Fragment {
         user.setCity(cityEditText.getText().toString());
         user.setAddress(addressEditText.getText().toString());
         user.setZip(zipEditText.getText().toString());
+        user.setState(stateEditText.getText().toString());
 
         // return the bundle
         return GritUser.writeToBundle(user, this.getContext());

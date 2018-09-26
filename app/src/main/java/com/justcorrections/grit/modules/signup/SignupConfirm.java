@@ -7,9 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.justcorrections.grit.MainActivity;
 import com.justcorrections.grit.R;
+import com.justcorrections.grit.auth.GritAuthentication;
 import com.justcorrections.grit.data.model.GritUser;
 
 /**
@@ -20,7 +22,7 @@ import com.justcorrections.grit.data.model.GritUser;
 public class SignupConfirm extends Fragment {
 
     private GritUser user;
-    private TextView tvFirstName, tvLastName, tvAge, tvCity, tvAddress, tvZip, tvBio, tvEmail, tvGender;
+    private TextView tvFirstName, tvLastName, tvAge, tvCity, tvAddress, tvZip, tvBio, tvEmail, tvGender, tvState, tvOccupation;
 
     public SignupConfirm() {
     }
@@ -67,6 +69,8 @@ public class SignupConfirm extends Fragment {
         tvBio = view.findViewById(R.id.tv_confirm_bio_value);
         tvEmail = view.findViewById(R.id.tv_confirm_email_value);
         tvGender = view.findViewById(R.id.tv_confirm_gender_value);
+        tvState = view.findViewById(R.id.tv_confirm_state_value);
+        tvOccupation = view.findViewById(R.id.tv_confirm_occupation_value);
 
 
         // Set on click listeners
@@ -79,7 +83,7 @@ public class SignupConfirm extends Fragment {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                goNext();
+                registerUser();
             }
         });
 
@@ -91,9 +95,11 @@ public class SignupConfirm extends Fragment {
         tvZip.setText(user.getZip());
         tvFirstName.setText(user.getFirstName());
         tvLastName.setText(user.getLastName());
-        tvBio.setText(user.getBio());
+        tvBio.setText(user.getDescription());
         tvEmail.setText(user.getEmail());
         tvAge.setText(user.getBirthday());
+        tvState.setText(user.getState());
+        tvOccupation.setText(user.getOccupation());
 
         if (!user.getGender().contains(getString(R.string.other_prefix))) {
             tvGender.setText(user.getGender());
@@ -116,8 +122,21 @@ public class SignupConfirm extends Fragment {
     /*
      * Navigates to the next signup screen
      */
-    private void goNext() {
-        GritUser.saveToDatabase(null, null);
+    private void registerUser() {
+
+        final GritAuthentication auth = GritAuthentication.getInstance();
+        auth.createUser(user.getEmail(), user.getPassword(), new GritAuthentication.GritAuthCallback() {
+            @Override
+            public void onSuccess() {
+                Toast.makeText(SignupConfirm.this.getContext(), "Authed, now saving", Toast.LENGTH_SHORT).show();
+                GritUser.saveToDatabase(user, auth.getCurrentUser().getUid());
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                Toast.makeText(SignupConfirm.this.getContext(), errorMessage, Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     /*

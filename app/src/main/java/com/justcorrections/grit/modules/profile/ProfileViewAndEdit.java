@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.justcorrections.grit.R;
 import com.justcorrections.grit.data.model.GritUser;
@@ -88,7 +87,7 @@ public class ProfileViewAndEdit extends Fragment {
         this.etLastName.setText(user.getLastName());
         this.etFirstName.setText(user.getFirstName());
         this.etCity.setText(user.getCity());
-        this.etBio.setText(user.getBio());
+        this.etBio.setText(user.getDescription());
         this.etZip.setText(user.getZip());
 
         // Inflate the layout for this fragment
@@ -135,7 +134,7 @@ public class ProfileViewAndEdit extends Fragment {
         user.setLastName(etLastName.getText().toString());
         user.setFirstName(etFirstName.getText().toString());
         user.setCity(etCity.getText().toString());
-        user.setBio(etBio.getText().toString());
+        user.setDescription(etBio.getText().toString());
         user.setZip(etZip.getText().toString());
         user.setPassword(etPassword.getText().toString());
         user.setBirthday(etAge.getText().toString());

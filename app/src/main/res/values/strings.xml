@@ -54,7 +54,7 @@
     <string name="age">Birthday (MM/DD/YYYY)</string>
     <string name="back">Back</string>
     <string name="next">Next</string>
-    <string name="bio_hint">Who are you? What do you do?</string>
+    <string name="bio_hint">What is your occupation?</string>
     <string name="bio_title">Tell us a bit about yourself</string>
     <string name="confirm_title">Did we get all that right?</string>
     <string name="gender">Gender</string>
@@ -71,9 +71,9 @@
     <string name="city">City</string>
     <string name="street_address">Street Address</string>
     <string name="location_title">Where do you live?</string>
-    <string name="bio">Bio</string>
+    <string name="description">Bio</string>
     <string name="confirm">Confirm</string>
-    <string name="empty_fields_error">Please make sure to fill out each field</string>
+    <string name="empty_fields_error">Please make sure to fill out each required field</string>
     <string name="over_18_error">You must be 18 or over</string>
     <string name="password_match_error">Passwords must match</string>
     <string name="profile_title">Profile</string>
@@ -81,5 +81,8 @@
     <string name="back_to_sign_in">Back to Sign In</string>
     <string name="sign_in_title">Welcome back to GRIT</string>
     <string name="birthday">Birthday</string>
+    <string name="description_optional">Description (optional)</string>
+    <string name="state">State</string>
+    <string name="occupation">Occupation</string>
 
 </resources>

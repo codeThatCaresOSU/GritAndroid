@@ -21,7 +21,7 @@ import com.justcorrections.grit.data.model.GritUser;
 public class SignupBio extends Fragment {
 
     private GritUser user;
-    private EditText bioEditText;
+    private EditText occupationEditText, descriptionEditText;
 
     public SignupBio() {}
 
@@ -57,7 +57,8 @@ public class SignupBio extends Fragment {
         // find the views
         Button backButton = view.findViewById(R.id.button_bio_back);
         Button nextButton = view.findViewById(R.id.button_bio_next);
-        bioEditText = view.findViewById(R.id.et_bio);
+        occupationEditText = view.findViewById(R.id.et_bio_occupation);
+        descriptionEditText = view.findViewById(R.id.et_bio_description);
 
         // Set on click listeners
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -77,8 +78,12 @@ public class SignupBio extends Fragment {
         /*
          * Populate views with data if it already exists
          */
-        if (user.getBio() != null && !user.getBio().isEmpty()) {
-            bioEditText.setText(user.getBio());
+        if (user.getDescription() != null && !user.getDescription().isEmpty()) {
+            descriptionEditText.setText(user.getDescription());
+        }
+
+        if (user.getOccupation() != null && !user.getOccupation().isEmpty()) {
+            occupationEditText.setText(user.getOccupation());
         }
 
         // Inflate the layout for this fragment
@@ -106,7 +111,7 @@ public class SignupBio extends Fragment {
     }
 
     private boolean noEmptyFields() {
-        return !bioEditText.getText().toString().isEmpty();
+        return !occupationEditText.getText().toString().isEmpty();
     }
 
     /*
@@ -116,7 +121,8 @@ public class SignupBio extends Fragment {
     private Bundle createBundleFromThis() {
 
         // Update instance variables based on user input
-        user.setBio(this.bioEditText.getText().toString());
+        user.setDescription(this.descriptionEditText.getText().toString());
+        user.setOccupation(this.occupationEditText.getText().toString());
 
         // return the bundle
         return GritUser.writeToBundle(user, this.getContext());
