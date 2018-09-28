@@ -8,9 +8,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.firebase.database.DatabaseReference;
 import com.justcorrections.grit.R;
+import com.justcorrections.grit.auth.GritAuthentication;
+import com.justcorrections.grit.data.DatabaseHelper;
 import com.justcorrections.grit.data.model.GritUser;
-import com.justcorrections.grit.data.remote.GritUserDataSource;
+import com.justcorrections.grit.data.remote.UserValueEventListener;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,9 +22,9 @@ import com.justcorrections.grit.data.remote.GritUserDataSource;
  */
 public class ProfileViewAndEdit extends Fragment {
 
-    private EditText etFirstName, etLastName, etEmail, etAge, etGender, etAddress, etCity, etZip, etBio, etPassword;
+    private EditText etName, etOccupation, etState, etEmail, etBirthday, etGender, etAddress, etCity, etZip, etDescription, etPassword;
     private Button editButton;
-    private GritUser user;
+    private String uid;
 
     private boolean isEditing = false;
 
@@ -34,21 +37,15 @@ public class ProfileViewAndEdit extends Fragment {
      *
      * @return A new instance of fragment ProfileViewAndEdit.
      */
-    public static ProfileViewAndEdit newInstance(GritUser user) {
+    public static ProfileViewAndEdit newInstance() {
         ProfileViewAndEdit fragment = new ProfileViewAndEdit();
-        Bundle args = GritUser.writeToBundle(user, fragment.getContext());
-        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            this.user = GritUser.readFromBundle(getArguments(), getContext());
-        } else {
-            user = new GritUser();
-        }
+        uid = GritAuthentication.getInstance().getCurrentUser().getUid();
     }
 
     @Override
@@ -60,15 +57,16 @@ public class ProfileViewAndEdit extends Fragment {
 
         // find the views
         this.etAddress = view.findViewById(R.id.et_profile_address_value);
-        this.etAge = view.findViewById(R.id.et_profile_age_value);
+        this.etBirthday = view.findViewById(R.id.et_profile_birthday_value);
         this.etEmail = view.findViewById(R.id.et_profile_email_value);
         this.etGender = view.findViewById(R.id.et_profile_gender_value);
-        this.etLastName = view.findViewById(R.id.et_profile_last_name_value);
-        this.etFirstName = view.findViewById(R.id.et_profile_first_name_value);
+        this.etName = view.findViewById(R.id.et_profile_name_value);
         this.etCity = view.findViewById(R.id.et_profile_city_value);
-        this.etBio = view.findViewById(R.id.et_profile_bio_value);
+        this.etDescription = view.findViewById(R.id.et_profile_bio_value);
         this.etZip = view.findViewById(R.id.et_profile_zip_value);
         this.etPassword = view.findViewById(R.id.et_profile_password_value);
+        this.etState = view.findViewById(R.id.et_profile_state_value);
+        this.etOccupation = view.findViewById(R.id.et_profile_occupation_value);
 
         this.editButton = view.findViewById(R.id.button_profile_edit);
         editButton.setOnClickListener(new View.OnClickListener() {
@@ -78,17 +76,17 @@ public class ProfileViewAndEdit extends Fragment {
             }
         });
 
-        // put info into the views
-        this.etAddress.setText(user.getAddress());
-        this.etAge.setText(String.valueOf(user.getBirthday()));
-        this.etEmail.setText(user.getEmail());
-        this.etPassword.setText(user.getPassword());
-        this.etGender.setText(user.getGender());
-        this.etLastName.setText(user.getLastName());
-        this.etFirstName.setText(user.getFirstName());
-        this.etCity.setText(user.getCity());
-        this.etBio.setText(user.getDescription());
-        this.etZip.setText(user.getZip());
+        // Update the views with data from the database
+        DatabaseReference userRef = DatabaseHelper.getReference(DatabaseHelper.DatabasePath.TEST).child(uid);
+        userRef.child(GritUser.NAME_KEY).addValueEventListener(new UserValueEventListener(etName));
+        userRef.child(GritUser.CITY_KEY).addValueEventListener(new UserValueEventListener(etCity));
+        userRef.child(GritUser.ADDRESS_KEY).addValueEventListener(new UserValueEventListener(etAddress));
+        userRef.child(GritUser.ZIP_KEY).addValueEventListener(new UserValueEventListener(etZip));
+        userRef.child(GritUser.DESCRIPTION_KEY).addValueEventListener(new UserValueEventListener(etDescription));
+        userRef.child(GritUser.BIRTHDAY_KEY).addValueEventListener(new UserValueEventListener(etBirthday));
+        userRef.child(GritUser.GENDER_KEY).addValueEventListener(new UserValueEventListener(etGender));
+        userRef.child(GritUser.STATE_KEY).addValueEventListener(new UserValueEventListener(etState));
+        userRef.child(GritUser.OCCUPATION_KEY).addValueEventListener(new UserValueEventListener(etOccupation));
 
         // Inflate the layout for this fragment
         return view;
@@ -100,15 +98,16 @@ public class ProfileViewAndEdit extends Fragment {
 
         // Enable/Disable editing of the editTexts
         this.etAddress.setEnabled(isEditing);
-        this.etAge.setEnabled(isEditing);
+        this.etBirthday.setEnabled(isEditing);
         this.etEmail.setEnabled(isEditing);
         this.etGender.setEnabled(isEditing);
-        this.etLastName.setEnabled(isEditing);
-        this.etFirstName.setEnabled(isEditing);
+        this.etName.setEnabled(isEditing);
         this.etCity.setEnabled(isEditing);
-        this.etBio.setEnabled(isEditing);
+        this.etDescription.setEnabled(isEditing);
         this.etZip.setEnabled(isEditing);
         this.etPassword.setEnabled(isEditing);
+        this.etOccupation.setEnabled(isEditing);
+        this.etState.setEnabled(isEditing);
 
         if (isEditing) {
 
@@ -119,7 +118,6 @@ public class ProfileViewAndEdit extends Fragment {
 
             // change the title on the button
             this.editButton.setText(R.string.profile_edit_button_title);
-
             readAndSave();
         }
 
@@ -128,19 +126,21 @@ public class ProfileViewAndEdit extends Fragment {
     private void readAndSave() {
 
         // Read the information from the edit texts
+        GritUser user = new GritUser();
         user.setAddress(etAddress.getText().toString());
         user.setEmail(etEmail.getText().toString());
         user.setGender(etGender.getText().toString());
-        user.setLastName(etLastName.getText().toString());
-        user.setFirstName(etFirstName.getText().toString());
+        user.setName(etName.getText().toString());
         user.setCity(etCity.getText().toString());
-        user.setDescription(etBio.getText().toString());
+        user.setDescription(etDescription.getText().toString());
         user.setZip(etZip.getText().toString());
         user.setPassword(etPassword.getText().toString());
-        user.setBirthday(etAge.getText().toString());
+        user.setBirthday(etBirthday.getText().toString());
+        user.setState(etState.getText().toString());
+        user.setOccupation(etOccupation.getText().toString());
 
         // save the new information to the database
-        GritUserDataSource.getInstance().updateItem(user, user.getId());
+        GritUser.saveToDatabase(user, this.uid);
 
     }
 

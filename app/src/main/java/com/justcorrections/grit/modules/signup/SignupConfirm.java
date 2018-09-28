@@ -13,6 +13,7 @@ import com.justcorrections.grit.MainActivity;
 import com.justcorrections.grit.R;
 import com.justcorrections.grit.auth.GritAuthentication;
 import com.justcorrections.grit.data.model.GritUser;
+import com.justcorrections.grit.modules.profile.ProfileViewAndEdit;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -22,7 +23,7 @@ import com.justcorrections.grit.data.model.GritUser;
 public class SignupConfirm extends Fragment {
 
     private GritUser user;
-    private TextView tvFirstName, tvLastName, tvAge, tvCity, tvAddress, tvZip, tvBio, tvEmail, tvGender, tvState, tvOccupation;
+    private TextView tvFirstName, tvAge, tvCity, tvAddress, tvZip, tvBio, tvEmail, tvGender, tvState, tvOccupation;
 
     public SignupConfirm() {
     }
@@ -64,8 +65,7 @@ public class SignupConfirm extends Fragment {
         tvCity = view.findViewById(R.id.tv_confirm_city_value);
         tvZip = view.findViewById(R.id.tv_confirm_zip_value);
         tvAge = view.findViewById(R.id.tv_confirm_age_value);
-        tvFirstName = view.findViewById(R.id.tv_confirm_first_name_value);
-        tvLastName = view.findViewById(R.id.tv_confirm_last_name_value);
+        tvFirstName = view.findViewById(R.id.tv_confirm_name_value);
         tvBio = view.findViewById(R.id.tv_confirm_bio_value);
         tvEmail = view.findViewById(R.id.tv_confirm_email_value);
         tvGender = view.findViewById(R.id.tv_confirm_gender_value);
@@ -93,8 +93,7 @@ public class SignupConfirm extends Fragment {
         tvAddress.setText(user.getAddress());
         tvCity.setText(user.getCity());
         tvZip.setText(user.getZip());
-        tvFirstName.setText(user.getFirstName());
-        tvLastName.setText(user.getLastName());
+        tvFirstName.setText(user.getName());
         tvBio.setText(user.getDescription());
         tvEmail.setText(user.getEmail());
         tvAge.setText(user.getBirthday());
@@ -130,6 +129,7 @@ public class SignupConfirm extends Fragment {
             public void onSuccess() {
                 Toast.makeText(SignupConfirm.this.getContext(), "Authed, now saving", Toast.LENGTH_SHORT).show();
                 GritUser.saveToDatabase(user, auth.getCurrentUser().getUid());
+                ((MainActivity) getActivity()).navigateTo(ProfileViewAndEdit.newInstance(), false);
             }
 
             @Override

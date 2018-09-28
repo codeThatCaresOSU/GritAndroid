@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.justcorrections.grit.auth.GritAuthentication;
 import com.justcorrections.grit.modules.map.MapFragment;
+import com.justcorrections.grit.modules.profile.ProfileViewAndEdit;
 import com.justcorrections.grit.modules.signin.SigninFragment;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             if (GritAuthentication.getInstance().getCurrentUser() == null) {
                 navigateTo(SigninFragment.newInstance(), false);
             } else {
-                navigateTo(SigninFragment.newInstance(), false);
+                navigateTo(ProfileViewAndEdit.newInstance(), false);
             }
         }
         return true;

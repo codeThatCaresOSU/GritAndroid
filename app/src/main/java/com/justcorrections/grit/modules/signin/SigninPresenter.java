@@ -3,6 +3,7 @@ package com.justcorrections.grit.modules.signin;
 import com.justcorrections.grit.MainActivity;
 import com.justcorrections.grit.auth.GritAuthentication;
 import com.justcorrections.grit.auth.GritAuthentication.GritAuthCallback;
+import com.justcorrections.grit.modules.profile.ProfileViewAndEdit;
 import com.justcorrections.grit.modules.signup.SignupEmailPasswords;
 import com.justcorrections.grit.modules.signup.SignupNamesAge;
 
@@ -32,8 +33,7 @@ public class SigninPresenter {
         auth.signin(email, password, new GritAuthCallback() {
             @Override
             public void onSuccess() {
-                // switch fragment
-                System.out.println("Ian it worked " + auth.getCurrentUser());
+                ((MainActivity) view.getActivity()).navigateTo(ProfileViewAndEdit.newInstance(), false);
             }
 
             @Override

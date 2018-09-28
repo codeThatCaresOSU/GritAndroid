@@ -71,7 +71,7 @@
     <string name="city">City</string>
     <string name="street_address">Street Address</string>
     <string name="location_title">Where do you live?</string>
-    <string name="description">Bio</string>
+    <string name="description">Description</string>
     <string name="confirm">Confirm</string>
     <string name="empty_fields_error">Please make sure to fill out each required field</string>
     <string name="over_18_error">You must be 18 or over</string>
@@ -84,5 +84,7 @@
     <string name="description_optional">Description (optional)</string>
     <string name="state">State</string>
     <string name="occupation">Occupation</string>
+    <string name="name">Name</string>
+    <string name="address_short">Address</string>
 
 </resources>
