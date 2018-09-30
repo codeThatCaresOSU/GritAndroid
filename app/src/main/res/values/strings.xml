@@ -70,6 +70,7 @@
     <string name="zip">Zip</string>
     <string name="city">City</string>
     <string name="street_address">Street Address</string>
+    <string name="address">Address</string>
     <string name="location_title">Where do you live?</string>
     <string name="description">Description</string>
     <string name="confirm">Confirm</string>
@@ -86,5 +87,6 @@
     <string name="occupation">Occupation</string>
     <string name="name">Name</string>
     <string name="address_short">Address</string>
+    <string name="fake_password">Notthepassword</string>
 
 </resources>

@@ -1,6 +1,7 @@
 package com.justcorrections.grit.modules.signup;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,14 +43,14 @@ public class SignupLocation extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            this.user = GritUser.readFromBundle(getArguments(), this.getContext());
+            this.user = GritUser.readFromBundle(getArguments());
         } else {
             this.user = new GritUser();
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_signup_location, container, false);
@@ -80,17 +81,17 @@ public class SignupLocation extends Fragment {
         /*
          * Populate views with data if it already exists
          */
-        if (user.getAddress() != null && !user.getAddress().isEmpty()) {
-            addressEditText.setText(user.getAddress());
+        if (user.getValue(GritUser.ADDRESS_KEY) != null && !user.getValue(GritUser.ADDRESS_KEY).isEmpty()) {
+            addressEditText.setText(user.getValue(GritUser.ADDRESS_KEY));
         }
-        if (user.getCity() != null && !user.getCity().isEmpty()) {
-            cityEditText.setText(user.getCity());
+        if (user.getValue(GritUser.CITY_KEY) != null && !user.getValue(GritUser.CITY_KEY).isEmpty()) {
+            cityEditText.setText(user.getValue(GritUser.CITY_KEY));
         }
-        if (user.getZip() != null && !user.getZip().isEmpty()) {
-            zipEditText.setText(user.getZip());
+        if (user.getValue(GritUser.ZIP_KEY) != null && !user.getValue(GritUser.ZIP_KEY).isEmpty()) {
+            zipEditText.setText(user.getValue(GritUser.ZIP_KEY));
         }
-        if (user.getState() != null && !user.getState().isEmpty()) {
-            stateEditText.setText(user.getState());
+        if (user.getValue(GritUser.STATE_KEY) != null && !user.getValue(GritUser.STATE_KEY).isEmpty()) {
+            stateEditText.setText(user.getValue(GritUser.STATE_KEY));
         }
 
         // Inflate the layout for this fragment
@@ -131,12 +132,12 @@ public class SignupLocation extends Fragment {
     private Bundle createBundleFromThis() {
 
         // Update instance variables based on user input
-        user.setCity(cityEditText.getText().toString());
-        user.setAddress(addressEditText.getText().toString());
-        user.setZip(zipEditText.getText().toString());
-        user.setState(stateEditText.getText().toString());
+        user.setValue(GritUser.CITY_KEY, cityEditText.getText().toString());
+        user.setValue(GritUser.ADDRESS_KEY, addressEditText.getText().toString());
+        user.setValue(GritUser.ZIP_KEY, zipEditText.getText().toString());
+        user.setValue(GritUser.STATE_KEY, stateEditText.getText().toString());
 
         // return the bundle
-        return GritUser.writeToBundle(user, this.getContext());
+        return GritUser.writeToBundle(user);
     }
 }

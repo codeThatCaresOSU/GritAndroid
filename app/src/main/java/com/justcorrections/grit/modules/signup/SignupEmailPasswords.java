@@ -1,6 +1,7 @@
 package com.justcorrections.grit.modules.signup;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,14 +44,14 @@ public class SignupEmailPasswords extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            this.user = GritUser.readFromBundle(getArguments(), this.getContext());
+            this.user = GritUser.readFromBundle(getArguments());
         } else {
             this.user = new GritUser();
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_signup_email_passwords, container, false);
@@ -79,12 +80,12 @@ public class SignupEmailPasswords extends Fragment {
         /*
          * Populate views with data if it already exists
          */
-        if (user.getEmail() != null && !user.getEmail().isEmpty()) {
-            emailEditText.setText(user.getEmail());
+        if (user.getValue(GritUser.EMAIL_KEY) != null && !user.getValue(GritUser.EMAIL_KEY).isEmpty()) {
+            emailEditText.setText(user.getValue(GritUser.EMAIL_KEY));
         }
-        if (user.getPassword() != null && !user.getPassword().isEmpty()) {
-            passwordEditText.setText(user.getPassword());
-            confirmPasswordEditText.setText(user.getPassword());
+        if (user.getValue(GritUser.PASSWORD_KEY) != null && !user.getValue(GritUser.PASSWORD_KEY).isEmpty()) {
+            passwordEditText.setText(user.getValue(GritUser.PASSWORD_KEY));
+            confirmPasswordEditText.setText(user.getValue(GritUser.PASSWORD_KEY));
         }
 
         // Inflate the layout for this fragment
@@ -132,10 +133,10 @@ public class SignupEmailPasswords extends Fragment {
         Bundle signupInfo = new Bundle();
 
         // Update instance variables based on user input
-        user.setEmail(emailEditText.getText().toString());
-        user.setPassword(passwordEditText.getText().toString());
+        user.setValue(GritUser.EMAIL_KEY, emailEditText.getText().toString());
+        user.setValue(GritUser.PASSWORD_KEY, passwordEditText.getText().toString());
 
         // return the bundle
-        return GritUser.writeToBundle(user, this.getContext());
+        return GritUser.writeToBundle(user);
     }
 }

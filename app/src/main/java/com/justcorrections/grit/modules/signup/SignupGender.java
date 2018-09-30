@@ -44,7 +44,7 @@ public class SignupGender extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            this.user = GritUser.readFromBundle(getArguments(), this.getContext());
+            this.user = GritUser.readFromBundle(getArguments());
         } else {
             this.user = new GritUser();
         }
@@ -89,14 +89,15 @@ public class SignupGender extends Fragment {
         /*
          * Populate views with data if it already exists
          */
-        if (user.getGender() != null && !user.getGender().isEmpty()) {
-            if (user.getGender().equals(getString(R.string.male))) {
+        String gender = user.getValue(GritUser.GENDER_KEY);
+        if (gender != null && !gender.isEmpty()) {
+            if (gender.equals(GritUser.MALE)) {
                 maleRB.toggle();
-            } else if (user.getGender().equals(getString(R.string.female))) {
+            } else if (gender.equals(GritUser.FEMALE)) {
                 femaleRB.toggle();
-            } else if (user.getGender().substring(0, 6).equals(getString(R.string.other_prefix))) {
+            } else {
                 otherRB.toggle();
-                otherEditText.setText(user.getGender().substring(6));
+                otherEditText.setText(gender);
             }
         }
 
@@ -137,14 +138,14 @@ public class SignupGender extends Fragment {
 
         // Update instance variables based on user input
         if (maleRB.isChecked()) {
-            user.setGender(getString(R.string.male));
+            user.setValue(GritUser.GENDER_KEY, GritUser.MALE);
         } else if (femaleRB.isChecked()) {
-            user.setGender(getString(R.string.female));
+            user.setValue(GritUser.GENDER_KEY, GritUser.FEMALE);
         } else if (otherRB.isChecked()){
-            user.setGender(getString(R.string.other_prefix) + otherEditText.getText().toString());
+            user.setValue(GritUser.GENDER_KEY, otherEditText.getText().toString());
         }
 
         // return the bundle
-        return GritUser.writeToBundle(user, this.getContext());
+        return GritUser.writeToBundle(user);
     }
 }

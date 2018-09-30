@@ -1,6 +1,7 @@
 package com.justcorrections.grit.modules.signup;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,14 +45,14 @@ public class SignupNamesAge extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            this.user = GritUser.readFromBundle(getArguments(), this.getContext());
+            this.user = GritUser.readFromBundle(getArguments());
         } else {
             this.user = new GritUser();
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_signup_names_age, container, false);
@@ -79,12 +80,12 @@ public class SignupNamesAge extends Fragment {
         /*
          * Populate views with data if it already exists
          */
-        if (user.getName() != null && !user.getName().isEmpty()) {
-            nameEditText.setText(user.getName());
+        if (user.getValue(GritUser.NAME_KEY) != null && !user.getValue(GritUser.NAME_KEY).isEmpty()) {
+            nameEditText.setText(user.getValue(GritUser.NAME_KEY));
         }
 
-        if (user.getBirthday() != null && !user.getBirthday().isEmpty()) {
-            ageEditText.setText(String.valueOf(user.getBirthday()));
+        if (user.getValue(GritUser.BIRTHDAY_KEY) != null && !user.getValue(GritUser.BIRTHDAY_KEY).isEmpty()) {
+            ageEditText.setText(String.valueOf(user.getValue(GritUser.BIRTHDAY_KEY)));
         }
 
         // Inflate the layout for this fragment
@@ -123,10 +124,10 @@ public class SignupNamesAge extends Fragment {
     private Bundle createBundleFromThis() {
 
         // Update instance variables based on user input
-        user.setBirthday(this.ageEditText.getText().toString());
-        user.setName(this.nameEditText.getText().toString());
+        user.setValue(GritUser.BIRTHDAY_KEY, this.ageEditText.getText().toString());
+        user.setValue(GritUser.NAME_KEY, this.nameEditText.getText().toString());
 
         // return the bundle
-        return GritUser.writeToBundle(user, this.getContext());
+        return GritUser.writeToBundle(user);
     }
 }

@@ -64,13 +64,13 @@
             android:id="@+id/et_profile_birthday_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:inputType="number"
-            android:textSize="20sp"
             android:layout_marginRight="40dp"
+            android:enabled="false"
+            android:inputType="text"
+            android:textSize="20sp"
             app:layout_constraintLeft_toLeftOf="@id/et_profile_name_value"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_profile_birthday_label"
-            android:enabled="false"/>
+            app:layout_constraintTop_toTopOf="@id/tv_profile_birthday_label" />
 
 
         <TextView

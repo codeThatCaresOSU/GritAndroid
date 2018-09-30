@@ -8,10 +8,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.justcorrections.grit.R;
 import com.justcorrections.grit.auth.GritAuthentication;
 import com.justcorrections.grit.data.DatabaseHelper;
+import com.justcorrections.grit.data.model.FirebaseDataModel;
 import com.justcorrections.grit.data.model.GritUser;
 import com.justcorrections.grit.data.remote.UserValueEventListener;
 
@@ -87,6 +89,8 @@ public class ProfileViewAndEdit extends Fragment {
         userRef.child(GritUser.GENDER_KEY).addValueEventListener(new UserValueEventListener(etGender));
         userRef.child(GritUser.STATE_KEY).addValueEventListener(new UserValueEventListener(etState));
         userRef.child(GritUser.OCCUPATION_KEY).addValueEventListener(new UserValueEventListener(etOccupation));
+        userRef.child(GritUser.EMAIL_KEY).addValueEventListener(new UserValueEventListener(etEmail));
+        this.etPassword.setText(R.string.fake_password);
 
         // Inflate the layout for this fragment
         return view;
@@ -127,17 +131,19 @@ public class ProfileViewAndEdit extends Fragment {
 
         // Read the information from the edit texts
         GritUser user = new GritUser();
-        user.setAddress(etAddress.getText().toString());
-        user.setEmail(etEmail.getText().toString());
-        user.setGender(etGender.getText().toString());
-        user.setName(etName.getText().toString());
-        user.setCity(etCity.getText().toString());
-        user.setDescription(etDescription.getText().toString());
-        user.setZip(etZip.getText().toString());
-        user.setPassword(etPassword.getText().toString());
-        user.setBirthday(etBirthday.getText().toString());
-        user.setState(etState.getText().toString());
-        user.setOccupation(etOccupation.getText().toString());
+        user.setValue(GritUser.ADDRESS_KEY, etAddress.getText().toString());
+        user.setValue(GritUser.EMAIL_KEY, etEmail.getText().toString());
+        user.setValue(GritUser.GENDER_KEY, etGender.getText().toString());
+        user.setValue(GritUser.NAME_KEY, etName.getText().toString());
+        user.setValue(GritUser.CITY_KEY, etCity.getText().toString());
+        user.setValue(GritUser.DESCRIPTION_KEY, etDescription.getText().toString());
+        user.setValue(GritUser.ZIP_KEY, etZip.getText().toString());
+        user.setValue(GritUser.BIRTHDAY_KEY, etBirthday.getText().toString());
+        user.setValue(GritUser.STATE_KEY, etState.getText().toString());
+        user.setValue(GritUser.OCCUPATION_KEY, etOccupation.getText().toString());
+
+        FirebaseAuth.getInstance().getCurrentUser().updateEmail(etEmail.getText().toString());
+        FirebaseAuth.getInstance().getCurrentUser().updatePassword(etPassword.getText().toString());
 
         // save the new information to the database
         GritUser.saveToDatabase(user, this.uid);

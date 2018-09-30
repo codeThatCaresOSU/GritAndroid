@@ -23,7 +23,8 @@ import com.justcorrections.grit.modules.profile.ProfileViewAndEdit;
 public class SignupConfirm extends Fragment {
 
     private GritUser user;
-    private TextView tvFirstName, tvAge, tvCity, tvAddress, tvZip, tvBio, tvEmail, tvGender, tvState, tvOccupation;
+    private TextView tvName, tvBirthday, tvCity, tvAddress, tvZip, tvDescription, tvEmail, tvGender, tvState, tvOccupation;
+    private Button nextButton;
 
     public SignupConfirm() {
     }
@@ -45,7 +46,7 @@ public class SignupConfirm extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            this.user = GritUser.readFromBundle(getArguments(), this.getContext());
+            this.user = GritUser.readFromBundle(getArguments());
         } else {
             this.user = new GritUser();
         }
@@ -59,14 +60,14 @@ public class SignupConfirm extends Fragment {
 
         // find the views
         Button backButton = view.findViewById(R.id.button_confirm_back);
-        Button nextButton = view.findViewById(R.id.button_confirm_next);
+        nextButton = view.findViewById(R.id.button_confirm_next);
 
         tvAddress = view.findViewById(R.id.tv_confirm_address_value);
         tvCity = view.findViewById(R.id.tv_confirm_city_value);
         tvZip = view.findViewById(R.id.tv_confirm_zip_value);
-        tvAge = view.findViewById(R.id.tv_confirm_age_value);
-        tvFirstName = view.findViewById(R.id.tv_confirm_name_value);
-        tvBio = view.findViewById(R.id.tv_confirm_bio_value);
+        tvBirthday = view.findViewById(R.id.tv_confirm_age_value);
+        tvName = view.findViewById(R.id.tv_confirm_name_value);
+        tvDescription = view.findViewById(R.id.tv_confirm_bio_value);
         tvEmail = view.findViewById(R.id.tv_confirm_email_value);
         tvGender = view.findViewById(R.id.tv_confirm_gender_value);
         tvState = view.findViewById(R.id.tv_confirm_state_value);
@@ -90,21 +91,16 @@ public class SignupConfirm extends Fragment {
         /*
          * Populate views with data if it already exists
          */
-        tvAddress.setText(user.getAddress());
-        tvCity.setText(user.getCity());
-        tvZip.setText(user.getZip());
-        tvFirstName.setText(user.getName());
-        tvBio.setText(user.getDescription());
-        tvEmail.setText(user.getEmail());
-        tvAge.setText(user.getBirthday());
-        tvState.setText(user.getState());
-        tvOccupation.setText(user.getOccupation());
-
-        if (!user.getGender().contains(getString(R.string.other_prefix))) {
-            tvGender.setText(user.getGender());
-        } else {
-            tvGender.setText(user.getGender().substring(6));
-        }
+        tvAddress.setText(user.getValue(GritUser.ADDRESS_KEY));
+        tvCity.setText(user.getValue(GritUser.CITY_KEY));
+        tvZip.setText(user.getValue(GritUser.ZIP_KEY));
+        tvName.setText(user.getValue(GritUser.NAME_KEY));
+        tvDescription.setText(user.getValue(GritUser.DESCRIPTION_KEY));
+        tvEmail.setText(user.getValue(GritUser.EMAIL_KEY));
+        tvBirthday.setText(user.getValue(GritUser.BIRTHDAY_KEY));
+        tvState.setText(user.getValue(GritUser.STATE_KEY));
+        tvOccupation.setText(user.getValue(GritUser.OCCUPATION_KEY));
+        tvGender.setText(user.getValue(GritUser.GENDER_KEY));
 
         // Inflate the layout for this fragment
         return view;
@@ -124,10 +120,10 @@ public class SignupConfirm extends Fragment {
     private void registerUser() {
 
         final GritAuthentication auth = GritAuthentication.getInstance();
-        auth.createUser(user.getEmail(), user.getPassword(), new GritAuthentication.GritAuthCallback() {
+        auth.createUser(user.getValue(GritUser.EMAIL_KEY), user.getValue(GritUser.PASSWORD_KEY), new GritAuthentication.GritAuthCallback() {
             @Override
             public void onSuccess() {
-                Toast.makeText(SignupConfirm.this.getContext(), "Authed, now saving", Toast.LENGTH_SHORT).show();
+                nextButton.setEnabled(false);
                 GritUser.saveToDatabase(user, auth.getCurrentUser().getUid());
                 ((MainActivity) getActivity()).navigateTo(ProfileViewAndEdit.newInstance(), false);
             }
@@ -145,6 +141,6 @@ public class SignupConfirm extends Fragment {
      */
     private Bundle createBundleFromThis() {
         // return the bundle
-        return GritUser.writeToBundle(user, this.getContext());
+        return GritUser.writeToBundle(user);
     }
 }

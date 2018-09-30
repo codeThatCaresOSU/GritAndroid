@@ -42,7 +42,7 @@ public class SignupBio extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            this.user = GritUser.readFromBundle(getArguments(), this.getContext());
+            this.user = GritUser.readFromBundle(getArguments());
         } else {
             this.user = new GritUser();
         }
@@ -78,12 +78,12 @@ public class SignupBio extends Fragment {
         /*
          * Populate views with data if it already exists
          */
-        if (user.getDescription() != null && !user.getDescription().isEmpty()) {
-            descriptionEditText.setText(user.getDescription());
+        if (user.getValue(GritUser.DESCRIPTION_KEY) != null && !user.getValue(GritUser.DESCRIPTION_KEY).isEmpty()) {
+            descriptionEditText.setText(user.getValue(GritUser.DESCRIPTION_KEY));
         }
 
-        if (user.getOccupation() != null && !user.getOccupation().isEmpty()) {
-            occupationEditText.setText(user.getOccupation());
+        if (user.getValue(GritUser.OCCUPATION_KEY) != null && !user.getValue(GritUser.OCCUPATION_KEY).isEmpty()) {
+            occupationEditText.setText(user.getValue(GritUser.OCCUPATION_KEY));
         }
 
         // Inflate the layout for this fragment
@@ -121,10 +121,10 @@ public class SignupBio extends Fragment {
     private Bundle createBundleFromThis() {
 
         // Update instance variables based on user input
-        user.setDescription(this.descriptionEditText.getText().toString());
-        user.setOccupation(this.occupationEditText.getText().toString());
+        user.setValue(GritUser.DESCRIPTION_KEY, this.descriptionEditText.getText().toString());
+        user.setValue(GritUser.OCCUPATION_KEY, this.occupationEditText.getText().toString());
 
         // return the bundle
-        return GritUser.writeToBundle(user, this.getContext());
+        return GritUser.writeToBundle(user);
     }
 }
