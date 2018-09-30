@@ -7,15 +7,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
+import com.justcorrections.grit.MainActivity;
 import com.justcorrections.grit.R;
 import com.justcorrections.grit.auth.GritAuthentication;
 import com.justcorrections.grit.data.DatabaseHelper;
-import com.justcorrections.grit.data.model.FirebaseDataModel;
 import com.justcorrections.grit.data.model.GritUser;
 import com.justcorrections.grit.data.remote.UserValueEventListener;
+import com.justcorrections.grit.modules.signin.SigninFragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,8 +27,8 @@ import com.justcorrections.grit.data.remote.UserValueEventListener;
  */
 public class ProfileViewAndEdit extends Fragment {
 
-    private EditText etName, etOccupation, etState, etEmail, etBirthday, etGender, etAddress, etCity, etZip, etDescription, etPassword;
-    private Button editButton;
+    private EditText etName, etOccupation, etState, etEmail, etBirthday, etGender, etAddress, etCity, etZip, etDescription;
+    private Button editButton, signoutButton, changePasswordButton;
     private String uid;
 
     private boolean isEditing = false;
@@ -47,12 +50,18 @@ public class ProfileViewAndEdit extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        uid = GritAuthentication.getInstance().getCurrentUser().getUid();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle bundle) {
+
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            uid = GritAuthentication.getInstance().getCurrentUser().getUid();
+        } else {
+            ((MainActivity) this.getActivity()).navigateTo(SigninFragment.newInstance(), false);
+        }
 
         // create the view
         View view = inflater.inflate(R.layout.fragment_profile_view_and_edit, container, false);
@@ -66,7 +75,6 @@ public class ProfileViewAndEdit extends Fragment {
         this.etCity = view.findViewById(R.id.et_profile_city_value);
         this.etDescription = view.findViewById(R.id.et_profile_bio_value);
         this.etZip = view.findViewById(R.id.et_profile_zip_value);
-        this.etPassword = view.findViewById(R.id.et_profile_password_value);
         this.etState = view.findViewById(R.id.et_profile_state_value);
         this.etOccupation = view.findViewById(R.id.et_profile_occupation_value);
 
@@ -74,7 +82,28 @@ public class ProfileViewAndEdit extends Fragment {
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onButtonClick();
+                onEditButtonClick();
+            }
+        });
+
+        this.signoutButton = view.findViewById(R.id.button_profile_signout);
+        signoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseAuth.getInstance().signOut();
+                ((MainActivity) getActivity()).navigateTo(SigninFragment.newInstance(), false);
+            }
+        });
+
+        this.changePasswordButton = view.findViewById(R.id.button_profile_change_password);
+        this.changePasswordButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseAuth instance = FirebaseAuth.getInstance();
+                FirebaseUser currentUser = instance.getCurrentUser();
+                instance.sendPasswordResetEmail(currentUser.getEmail());
+                instance.signOut();
+                ((MainActivity) getActivity()).navigateTo(SigninFragment.newInstance(), false);
             }
         });
 
@@ -90,13 +119,12 @@ public class ProfileViewAndEdit extends Fragment {
         userRef.child(GritUser.STATE_KEY).addValueEventListener(new UserValueEventListener(etState));
         userRef.child(GritUser.OCCUPATION_KEY).addValueEventListener(new UserValueEventListener(etOccupation));
         userRef.child(GritUser.EMAIL_KEY).addValueEventListener(new UserValueEventListener(etEmail));
-        this.etPassword.setText(R.string.fake_password);
 
         // Inflate the layout for this fragment
         return view;
     }
 
-    private void onButtonClick() {
+    private void onEditButtonClick() {
 
         isEditing = !isEditing;
 
@@ -109,7 +137,6 @@ public class ProfileViewAndEdit extends Fragment {
         this.etCity.setEnabled(isEditing);
         this.etDescription.setEnabled(isEditing);
         this.etZip.setEnabled(isEditing);
-        this.etPassword.setEnabled(isEditing);
         this.etOccupation.setEnabled(isEditing);
         this.etState.setEnabled(isEditing);
 
@@ -142,14 +169,20 @@ public class ProfileViewAndEdit extends Fragment {
         user.setValue(GritUser.STATE_KEY, etState.getText().toString());
         user.setValue(GritUser.OCCUPATION_KEY, etOccupation.getText().toString());
 
-        FirebaseAuth.getInstance().getCurrentUser().updateEmail(etEmail.getText().toString());
-        FirebaseAuth.getInstance().getCurrentUser().updatePassword(etPassword.getText().toString());
+        try {
+            FirebaseAuth.getInstance().getCurrentUser().updateEmail(etEmail.getText().toString());
+        } catch (Exception e) {
+            Toast.makeText(this.getContext(),
+                    "There was an issue changing your email. Please Sign out and Sign back in.",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
+
 
         // save the new information to the database
         GritUser.saveToDatabase(user, this.uid);
 
     }
-
 
 
 }

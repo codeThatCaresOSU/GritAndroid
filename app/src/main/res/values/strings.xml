@@ -88,5 +88,7 @@
     <string name="name">Name</string>
     <string name="address_short">Address</string>
     <string name="fake_password">Notthepassword</string>
+    <string name="signout">Signout</string>
+    <string name="change_password">Change Password</string>
 
 </resources>

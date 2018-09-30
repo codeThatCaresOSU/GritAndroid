@@ -69,10 +69,12 @@ public class ResourceDetailPresenter {
             try {
                 InputStream in = new java.net.URL(urlBuilder.toString()).openStream();
                 downloadedImage = BitmapFactory.decodeStream(in);
+                in.close();
             } catch (Exception e) {
                 Log.e("Error", e.getMessage());
                 resourceDetailFragment.mainActivity.showErrorText("Google Streetview Image could not be loaded. Please check your connection and try again later.");
                 e.printStackTrace();
+                return BitmapFactory.decodeResource(ResourceDetailPresenter.this.resourceDetailFragment.getResources(), R.drawable.default_streetview_image);
             }
 
             return downloadedImage;

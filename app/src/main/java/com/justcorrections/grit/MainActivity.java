@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.justcorrections.grit.auth.GritAuthentication;
 import com.justcorrections.grit.modules.map.MapFragment;
 import com.justcorrections.grit.modules.profile.ProfileViewAndEdit;
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         if (id == R.id.menu_map) {
             navigateTo(MapFragment.newInstance(), false);
         } else if (id == R.id.menu_account) {
-            if (GritAuthentication.getInstance().getCurrentUser() == null) {
+            if (FirebaseAuth.getInstance().getCurrentUser() == null) {
                 navigateTo(SigninFragment.newInstance(), false);
             } else {
                 navigateTo(ProfileViewAndEdit.newInstance(), false);

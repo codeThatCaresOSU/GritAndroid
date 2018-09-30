@@ -20,7 +20,7 @@
         <!-- email maintainer for key -->
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="@string/google_map_api_key" />
+            android:value="AIzaSyDfrqd4Msw7pxzl-CFaXukG6mnTsDbZM6w" />
 
         <activity android:name=".MainActivity"
             android:windowSoftInputMode="adjustResize">
