@@ -10,66 +10,56 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp">
 
-        <TextView
-            android:id="@+id/tv_profile_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:maxWidth="400dp"
-            android:text="@string/profile_title"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="40sp"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <TextView
-            android:id="@+id/tv_profile_name_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:paddingTop="4dp"
-            android:text="@string/name"
-            android:textColor="@color/black"
-            android:layout_marginStart="40dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_profile_title" />
+        <ImageView
+            android:id="@+id/profile_imageview_profile"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:src="@android:drawable/sym_def_app_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="#80000000"/>
 
         <EditText
             android:id="@+id/et_profile_name_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginStart="16dp"
+            android:enabled="false"
             android:inputType="textPersonName"
             android:textSize="20sp"
-            app:layout_constraintLeft_toRightOf="@id/tv_profile_name_label"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_profile_name_label"
-            android:enabled="false"/>
+            app:layout_constraintBottom_toBottomOf="@+id/profile_imageview_profile"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/profile_imageview_profile"
+            app:layout_constraintTop_toTopOf="@+id/profile_imageview_profile" />
 
         <TextView
             android:id="@+id/tv_profile_birthday_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
             android:paddingTop="4dp"
             android:text="@string/birthday"
             android:textColor="@color/black"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/tv_profile_name_label"
-            app:layout_constraintTop_toBottomOf="@id/et_profile_name_value" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profile_imageview_profile" />
 
         <EditText
             android:id="@+id/et_profile_birthday_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginRight="40dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginStart="48dp"
             android:enabled="false"
             android:inputType="text"
             android:textSize="20sp"
-            app:layout_constraintLeft_toLeftOf="@id/et_profile_name_value"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_profile_birthday_label"
             app:layout_constraintTop_toTopOf="@id/tv_profile_birthday_label" />
 
 
@@ -82,20 +72,21 @@
             android:text="@string/gender"
             android:textColor="@color/black"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/tv_profile_name_label"
+            app:layout_constraintStart_toStartOf="@+id/tv_profile_birthday_label"
             app:layout_constraintTop_toBottomOf="@id/et_profile_birthday_value" />
 
         <EditText
             android:id="@+id/et_profile_gender_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:enabled="false"
             android:inputType="text"
             android:textSize="20sp"
-            android:layout_marginEnd="40dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintLeft_toLeftOf="@id/et_profile_name_value"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_profile_gender_label"
-            android:enabled="false"/>
+            app:layout_constraintStart_toStartOf="@+id/et_profile_birthday_value"
+            app:layout_constraintTop_toTopOf="@id/tv_profile_gender_label" />
 
 
         <TextView
@@ -107,20 +98,21 @@
             android:text="@string/address_short"
             android:textColor="@color/black"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/tv_profile_name_label"
+            app:layout_constraintStart_toStartOf="@+id/tv_profile_birthday_label"
             app:layout_constraintTop_toBottomOf="@id/et_profile_gender_value" />
 
         <EditText
             android:id="@+id/et_profile_address_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:enabled="false"
             android:inputType="textPostalAddress"
             android:textSize="20sp"
-            android:layout_marginEnd="40dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintLeft_toLeftOf="@id/et_profile_name_value"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_profile_address_label"
-            android:enabled="false"/>
+            app:layout_constraintStart_toStartOf="@+id/et_profile_birthday_value"
+            app:layout_constraintTop_toTopOf="@id/tv_profile_address_label" />
 
 
         <TextView
@@ -132,20 +124,20 @@
             android:text="@string/city"
             android:textColor="@color/black"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/tv_profile_name_label"
+            app:layout_constraintStart_toStartOf="@+id/tv_profile_birthday_label"
             app:layout_constraintTop_toBottomOf="@id/et_profile_address_value" />
 
         <EditText
             android:id="@+id/et_profile_city_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:enabled="false"
             android:inputType="textCapWords"
             android:textSize="20sp"
-            android:layout_marginEnd="40dp"
-            app:layout_constraintLeft_toLeftOf="@id/et_profile_name_value"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_profile_city_label"
-            android:enabled="false"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/et_profile_birthday_value"
+            app:layout_constraintTop_toTopOf="@id/tv_profile_city_label" />
 
         <TextView
             android:id="@+id/tv_profile_state_label"
@@ -156,20 +148,20 @@
             android:text="@string/state"
             android:textColor="@color/black"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/tv_profile_name_label"
+            app:layout_constraintStart_toStartOf="@+id/tv_profile_birthday_label"
             app:layout_constraintTop_toBottomOf="@id/et_profile_city_value" />
 
         <EditText
             android:id="@+id/et_profile_state_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:enabled="false"
             android:inputType="text"
             android:textSize="20sp"
-            android:layout_marginEnd="40dp"
-            app:layout_constraintLeft_toLeftOf="@id/et_profile_name_value"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_profile_state_label"
-            android:enabled="false"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/et_profile_birthday_value"
+            app:layout_constraintTop_toTopOf="@id/tv_profile_state_label" />
 
         <TextView
             android:id="@+id/tv_profile_zip_label"
@@ -179,21 +171,20 @@
             android:paddingTop="4dp"
             android:text="@string/zip"
             android:textColor="@color/black"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/tv_profile_name_label"
+            app:layout_constraintStart_toStartOf="@+id/tv_profile_birthday_label"
             app:layout_constraintTop_toBottomOf="@id/et_profile_state_value" />
 
         <EditText
             android:id="@+id/et_profile_zip_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:enabled="false"
             android:inputType="number"
             android:textSize="20sp"
-            android:layout_marginRight="40dp"
-            app:layout_constraintLeft_toLeftOf="@id/et_profile_name_value"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_profile_zip_label"
-            android:enabled="false"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/et_profile_birthday_value"
+            app:layout_constraintTop_toTopOf="@id/tv_profile_zip_label" />
 
 
         <TextView
@@ -204,21 +195,20 @@
             android:paddingTop="4dp"
             android:text="@string/occupation"
             android:textColor="@color/black"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/tv_profile_name_label"
+            app:layout_constraintStart_toStartOf="@+id/tv_profile_birthday_label"
             app:layout_constraintTop_toBottomOf="@id/et_profile_zip_value" />
 
         <EditText
             android:id="@+id/et_profile_occupation_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:enabled="false"
             android:inputType="text"
             android:textSize="20sp"
-            android:layout_marginEnd="40dp"
-            app:layout_constraintLeft_toLeftOf="@id/et_profile_name_value"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_profile_occupation_label"
-            android:enabled="false"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/et_profile_birthday_value"
+            app:layout_constraintTop_toTopOf="@id/tv_profile_occupation_label" />
 
         <TextView
             android:id="@+id/tv_profile_bio_label"
@@ -228,21 +218,20 @@
             android:paddingTop="4dp"
             android:text="@string/description"
             android:textColor="@color/black"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/tv_profile_name_label"
+            app:layout_constraintStart_toStartOf="@+id/tv_profile_birthday_label"
             app:layout_constraintTop_toBottomOf="@id/et_profile_occupation_value" />
 
         <EditText
             android:id="@+id/et_profile_bio_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:enabled="false"
             android:inputType="text"
             android:textSize="20sp"
-            android:layout_marginEnd="40dp"
-            app:layout_constraintLeft_toLeftOf="@id/et_profile_name_value"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_profile_bio_label"
-            android:enabled="false"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/et_profile_birthday_value"
+            app:layout_constraintTop_toTopOf="@id/tv_profile_bio_label" />
 
 
         <TextView
@@ -253,21 +242,20 @@
             android:paddingTop="4dp"
             android:text="@string/email"
             android:textColor="@color/black"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/tv_profile_name_label"
+            app:layout_constraintStart_toStartOf="@+id/tv_profile_birthday_label"
             app:layout_constraintTop_toBottomOf="@id/et_profile_bio_value" />
 
         <EditText
             android:id="@+id/et_profile_email_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:enabled="false"
             android:inputType="textEmailAddress"
             android:textSize="20sp"
-            android:layout_marginRight="40dp"
-            app:layout_constraintLeft_toLeftOf="@id/et_profile_name_value"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_profile_email_label"
-            android:enabled="false"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/et_profile_birthday_value"
+            app:layout_constraintTop_toTopOf="@id/tv_profile_email_label" />
 
         <Button
             android:id="@+id/button_profile_change_password"
@@ -303,6 +291,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/button_profile_edit" />
+
+
 
     </android.support.constraint.ConstraintLayout>
 

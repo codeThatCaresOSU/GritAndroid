@@ -1,19 +1,38 @@
 package com.justcorrections.grit.modules.signup;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.justcorrections.grit.MainActivity;
 import com.justcorrections.grit.R;
 import com.justcorrections.grit.auth.GritAuthentication;
+import com.justcorrections.grit.data.StorageHelper;
 import com.justcorrections.grit.data.model.GritUser;
 import com.justcorrections.grit.modules.profile.ProfileViewAndEdit;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,7 +43,13 @@ public class SignupConfirm extends Fragment {
 
     private GritUser user;
     private TextView tvName, tvBirthday, tvCity, tvAddress, tvZip, tvDescription, tvEmail, tvGender, tvState, tvOccupation;
+    private TextView tvChooseImage;
     private Button nextButton;
+    private ImageView profileImageView;
+
+    private static final int REQ_CODE_PICK_IMAGE = 123;
+    private Uri profileImageUri;
+    private Bitmap profileImage;
 
     public SignupConfirm() {
     }
@@ -72,7 +97,15 @@ public class SignupConfirm extends Fragment {
         tvGender = view.findViewById(R.id.tv_confirm_gender_value);
         tvState = view.findViewById(R.id.tv_confirm_state_value);
         tvOccupation = view.findViewById(R.id.tv_confirm_occupation_value);
+        profileImageView = view.findViewById(R.id.profile_imageview);
+        tvChooseImage = view.findViewById(R.id.tv_choose_image);
 
+        profileImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                chooseImage();
+            }
+        });
 
         // Set on click listeners
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -106,6 +139,30 @@ public class SignupConfirm extends Fragment {
         return view;
     }
 
+    private void chooseImage() {
+        // Allow the user to choose where they want to choose an image from
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+
+        // When the activity that is launched returns, it will provide the IMAGE_SELECT_REQUEST_CODE
+        startActivityForResult(intent, REQ_CODE_PICK_IMAGE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQ_CODE_PICK_IMAGE && resultCode == RESULT_OK) {
+            this.profileImageUri = data.getData();
+
+            try {
+                this.profileImage = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), this.profileImageUri);
+                this.profileImageView.setImageBitmap(this.profileImage);
+                this.tvChooseImage.setVisibility(View.INVISIBLE);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     /*
      * Navigates to the previous signup screen
      */
@@ -124,7 +181,8 @@ public class SignupConfirm extends Fragment {
             @Override
             public void onSuccess() {
                 nextButton.setEnabled(false);
-                GritUser.saveToDatabase(user, auth.getCurrentUser().getUid());
+                GritUser.saveToDatabase(user, FirebaseAuth.getInstance().getCurrentUser().getUid());
+                saveProfileImage(FirebaseAuth.getInstance().getCurrentUser().getUid());
                 ((MainActivity) getActivity()).navigateTo(ProfileViewAndEdit.newInstance(), false);
             }
 
@@ -135,12 +193,23 @@ public class SignupConfirm extends Fragment {
         });
     }
 
+    private void saveProfileImage(String uid) {
+
+        if (this.profileImageUri != null) {
+            StorageReference storageReference =
+                    FirebaseStorage.getInstance().getReference().child(StorageHelper.USER_PROFILE_PATH + "/" + uid);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            this.profileImage.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            storageReference.putBytes(baos.toByteArray());
+        }
+
+    }
+
     /*
      * Creates a Bundle with all of the signup information contained in this fragment's instance variables
      * and views.
      */
     private Bundle createBundleFromThis() {
-        // return the bundle
         return GritUser.writeToBundle(user);
     }
 }

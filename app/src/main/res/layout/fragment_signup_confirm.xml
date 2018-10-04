@@ -10,35 +10,25 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp">
 
-        <TextView
-            android:id="@+id/tv_confirm_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="90dp"
-            android:maxWidth="400dp"
-            android:text="@string/confirm_title"
-            android:textAlignment="center"
-            android:textSize="40sp"
-            app:layout_constraintTop_toTopOf="parent" />
-
 
         <TextView
             android:id="@+id/tv_confirm_name_label"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="50dp"
+            android:layout_height="22dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
             android:paddingTop="4dp"
             android:text="@string/name"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_confirm_title" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profile_imageview" />
 
         <TextView
             android:id="@+id/tv_confirm_name_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginEnd="32dp"
             android:textSize="20sp"
             app:layout_constraintLeft_toRightOf="@id/tv_confirm_name_label"
             app:layout_constraintRight_toRightOf="parent"
@@ -60,7 +50,7 @@
             android:id="@+id/tv_confirm_age_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="40dp"
+            android:layout_marginEnd="32dp"
             android:textSize="20sp"
             app:layout_constraintLeft_toLeftOf="@id/tv_confirm_name_value"
             app:layout_constraintRight_toRightOf="parent"
@@ -82,7 +72,7 @@
             android:id="@+id/tv_confirm_gender_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="40dp"
+            android:layout_marginEnd="32dp"
             android:textSize="20sp"
             app:layout_constraintLeft_toLeftOf="@id/tv_confirm_name_value"
             app:layout_constraintRight_toRightOf="parent"
@@ -104,7 +94,7 @@
             android:id="@+id/tv_confirm_address_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="40dp"
+            android:layout_marginEnd="32dp"
             android:textSize="20sp"
             app:layout_constraintLeft_toLeftOf="@id/tv_confirm_name_value"
             app:layout_constraintRight_toRightOf="parent"
@@ -126,7 +116,7 @@
             android:id="@+id/tv_confirm_city_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="40dp"
+            android:layout_marginEnd="32dp"
             android:textSize="20sp"
             app:layout_constraintLeft_toLeftOf="@id/tv_confirm_name_value"
             app:layout_constraintRight_toRightOf="parent"
@@ -147,7 +137,7 @@
             android:id="@+id/tv_confirm_state_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="40dp"
+            android:layout_marginEnd="32dp"
             android:textSize="20sp"
             app:layout_constraintLeft_toLeftOf="@id/tv_confirm_name_value"
             app:layout_constraintRight_toRightOf="parent"
@@ -168,7 +158,7 @@
             android:id="@+id/tv_confirm_zip_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="40dp"
+            android:layout_marginEnd="32dp"
             android:textSize="20sp"
             app:layout_constraintLeft_toLeftOf="@id/tv_confirm_name_value"
             app:layout_constraintRight_toRightOf="parent"
@@ -189,7 +179,7 @@
             android:id="@+id/tv_confirm_occupation_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="40dp"
+            android:layout_marginEnd="32dp"
             android:textSize="20sp"
             app:layout_constraintLeft_toLeftOf="@id/tv_confirm_name_value"
             app:layout_constraintRight_toRightOf="parent"
@@ -210,7 +200,7 @@
             android:id="@+id/tv_confirm_bio_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="40dp"
+            android:layout_marginEnd="32dp"
             android:textSize="20sp"
             app:layout_constraintLeft_toLeftOf="@id/tv_confirm_name_value"
             app:layout_constraintRight_toRightOf="parent"
@@ -232,7 +222,7 @@
             android:id="@+id/tv_confirm_email_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="40dp"
+            android:layout_marginEnd="32dp"
             android:textSize="20sp"
             app:layout_constraintLeft_toLeftOf="@id/tv_confirm_name_value"
             app:layout_constraintRight_toRightOf="parent"
@@ -265,6 +255,36 @@
             android:layout_height="20dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/button_confirm_back" />
+
+        <ImageView
+            android:id="@+id/profile_imageview"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            android:src="@color/colorPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_choose_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="@string/choose_image"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/profile_imageview"
+            app:layout_constraintEnd_toEndOf="@+id/profile_imageview"
+            app:layout_constraintStart_toStartOf="@+id/profile_imageview"
+            app:layout_constraintTop_toTopOf="@+id/profile_imageview" />
 
     </android.support.constraint.ConstraintLayout>
 

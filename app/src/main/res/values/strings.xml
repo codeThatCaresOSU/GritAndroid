@@ -56,7 +56,7 @@
     <string name="next">Next</string>
     <string name="bio_hint">What is your occupation?</string>
     <string name="bio_title">Tell us a bit about yourself</string>
-    <string name="confirm_title">Did we get all that right?</string>
+    <string name="confirm_title">One last thing</string>
     <string name="gender">Gender</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="email">Email</string>
@@ -90,5 +90,6 @@
     <string name="fake_password">Notthepassword</string>
     <string name="signout">Signout</string>
     <string name="change_password">Change Password</string>
+    <string name="choose_image">Choose\nProfile\nImage</string>
 
 </resources>

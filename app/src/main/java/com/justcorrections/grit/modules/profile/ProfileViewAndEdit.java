@@ -1,24 +1,38 @@
 package com.justcorrections.grit.modules.profile;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.justcorrections.grit.MainActivity;
 import com.justcorrections.grit.R;
 import com.justcorrections.grit.auth.GritAuthentication;
 import com.justcorrections.grit.data.DatabaseHelper;
+import com.justcorrections.grit.data.StorageHelper;
 import com.justcorrections.grit.data.model.GritUser;
 import com.justcorrections.grit.data.remote.UserValueEventListener;
 import com.justcorrections.grit.modules.signin.SigninFragment;
+
+import java.io.IOException;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,8 +44,12 @@ public class ProfileViewAndEdit extends Fragment {
     private EditText etName, etOccupation, etState, etEmail, etBirthday, etGender, etAddress, etCity, etZip, etDescription;
     private Button editButton, signoutButton, changePasswordButton;
     private String uid;
+    private ImageView profileImageView;
 
     private boolean isEditing = false;
+
+    private static final int MAX_DOWNLOAD_RETRYS = 5;
+    private int numRetrys;
 
     public ProfileViewAndEdit() {
     }
@@ -58,7 +76,7 @@ public class ProfileViewAndEdit extends Fragment {
 
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
-            uid = GritAuthentication.getInstance().getCurrentUser().getUid();
+            uid = currentUser.getUid();
         } else {
             ((MainActivity) this.getActivity()).navigateTo(SigninFragment.newInstance(), false);
         }
@@ -77,6 +95,10 @@ public class ProfileViewAndEdit extends Fragment {
         this.etZip = view.findViewById(R.id.et_profile_zip_value);
         this.etState = view.findViewById(R.id.et_profile_state_value);
         this.etOccupation = view.findViewById(R.id.et_profile_occupation_value);
+
+        this.profileImageView = view.findViewById(R.id.profile_imageview_profile);
+        Bitmap placeHolder = BitmapFactory.decodeResource(this.getContext().getResources(), R.drawable.ic_user);
+        this.profileImageView.setImageBitmap(placeHolder);
 
         this.editButton = view.findViewById(R.id.button_profile_edit);
         editButton.setOnClickListener(new View.OnClickListener() {
@@ -120,8 +142,39 @@ public class ProfileViewAndEdit extends Fragment {
         userRef.child(GritUser.OCCUPATION_KEY).addValueEventListener(new UserValueEventListener(etOccupation));
         userRef.child(GritUser.EMAIL_KEY).addValueEventListener(new UserValueEventListener(etEmail));
 
+        // Load the profile image from firebase storage
+        downloadProfileImage();
+
         // Inflate the layout for this fragment
         return view;
+    }
+
+    private void downloadProfileImage() {
+
+        StorageReference storageRef =
+                FirebaseStorage.getInstance().getReference().child(StorageHelper.USER_PROFILE_PATH + "/" + uid);
+        storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Glide.with(ProfileViewAndEdit.this.getContext()).load(uri).into(ProfileViewAndEdit.this.profileImageView);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+                // Keep retrying to download the image
+
+                // TODO probably a terrible way to do this
+                numRetrys++;
+                if (numRetrys <= MAX_DOWNLOAD_RETRYS) {
+                    android.os.SystemClock.sleep(1000);
+                    downloadProfileImage();
+                }
+
+            }
+        });
+
+
     }
 
     private void onEditButtonClick() {
