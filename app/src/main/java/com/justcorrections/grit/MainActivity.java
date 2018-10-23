@@ -14,6 +14,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.justcorrections.grit.auth.GritAuthentication;
 import com.justcorrections.grit.modules.map.MapFragment;
 import com.justcorrections.grit.modules.profile.ProfileViewAndEdit;
+import com.justcorrections.grit.modules.savedresources.SavedResourcesFragment;
 import com.justcorrections.grit.modules.signin.SigninFragment;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
@@ -50,6 +51,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             } else {
                 navigateTo(ProfileViewAndEdit.newInstance(), false);
             }
+        } else if (id == R.id.menu_saved) {
+            navigateTo(SavedResourcesFragment.newInstance(), false);
         }
         return true;
     }

@@ -3,9 +3,16 @@ package com.justcorrections.grit.modules.map;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.functions.FirebaseFunctions;
+import com.google.firebase.functions.HttpsCallableResult;
 import com.justcorrections.grit.MainActivity;
 import com.justcorrections.grit.R;
 
@@ -13,6 +20,8 @@ import com.justcorrections.grit.data.model.Resource;
 import com.justcorrections.grit.data.remote.ResourcesDataSource;
 
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Andrew Davis on 12/9/2017.
@@ -40,7 +49,7 @@ public class ResourceDetailPresenter {
             @Override
             public void onItemLoaded(Resource resource) {
                 resourceDetailFragment.populateViewsWithResourceDetails(resource);
-                new DownloadStreetviewImageTask().execute(resource.getAddress());
+                // TODO new DownloadStreetviewImageTask().execute(resource.getAddress());
             }
 
             @Override
@@ -48,6 +57,37 @@ public class ResourceDetailPresenter {
                 resourceDetailFragment.mainActivity.showErrorText("Details could not be loaded. Please check your connection and try again later.");
             }
         });
+    }
+
+    public void saveResource() {
+        FirebaseFunctions functions = FirebaseFunctions.getInstance();
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+
+        if (auth.getCurrentUser() == null) {
+            Toast.makeText(resourceDetailFragment.getContext(), "Please Sign-in to save Resources", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
+        data.put("resourceid", mResourceID);
+
+        functions.getHttpsCallable("saveResource")
+                .call(data)
+                .addOnSuccessListener(new OnSuccessListener<HttpsCallableResult>() {
+                    @Override
+                    public void onSuccess(HttpsCallableResult httpsCallableResult) {
+                        Toast.makeText(resourceDetailFragment.getContext(), "Successfully Saved", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(resourceDetailFragment.getContext(), "Failed to save: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        e.printStackTrace();
+                    }
+                });
+
     }
 
     private class DownloadStreetviewImageTask extends AsyncTask<String, Void, Bitmap> {

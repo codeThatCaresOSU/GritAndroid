@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -29,6 +30,7 @@ public class ResourceDetailFragment extends Fragment {
 
     private TextView tvLocation, tvURL, tvName, tvPhone, tvCategory;
     private ImageView ivStreetviewPic;
+    private Button buttonSaveResource;
 
     public static ResourceDetailFragment newInstance(String resourceID) {
         ResourceDetailFragment fragment = new ResourceDetailFragment();
@@ -58,6 +60,14 @@ public class ResourceDetailFragment extends Fragment {
         tvName = view.findViewById(R.id.tv_name);
         tvCategory = view.findViewById(R.id.tv_category);
         ivStreetviewPic = view.findViewById(R.id.iv_streetview);
+        buttonSaveResource = view.findViewById(R.id.button_save_resource);
+
+        buttonSaveResource.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                presenter.saveResource();
+            }
+        });
 
         mainActivity = (MainActivity) getActivity();
         mainActivity.hideErrorText();
