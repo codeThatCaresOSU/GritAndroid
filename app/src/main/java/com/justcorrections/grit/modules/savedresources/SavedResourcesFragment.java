@@ -1,6 +1,7 @@
 package com.justcorrections.grit.modules.savedresources;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.justcorrections.grit.MainActivity;
 import com.justcorrections.grit.R;
 import com.justcorrections.grit.data.model.Resource;
@@ -18,13 +26,16 @@ import com.justcorrections.grit.data.remote.ResourcesDataSource;
 import com.justcorrections.grit.modules.map.ResourceDetailFragment;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class SavedResourcesFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private List<Resource> resourceList;
     private SavedItemAdapter adapter;
+    private Set<String> savedIds = new HashSet<>();
 
     public SavedResourcesFragment() {
         // Required empty public constructor
@@ -69,17 +80,39 @@ public class SavedResourcesFragment extends Fragment {
 
     private void loadSavedResources() {
 
-        // Load the saved resources into resourceList
-        ResourcesDataSource.getInstance().getItems(new FirebaseDataSource.GetItemsCallback<Resource>() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) return;
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users/" + user.getUid() + "/savedResources");
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onItemsLoaded(List<Resource> items) {
-                resourceList.addAll(items);
-                adapter.notifyDataSetChanged();
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                resourceList.clear();
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                    savedIds.add(child.getValue().toString());
+                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference("MapData/OhioData/" + child.getValue().toString());
+                    ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot resourceData) {
+                            Resource resource = resourceData.getValue(Resource.class);
+                            if (!resourceList.contains(resource)) {
+                                resourceList.add(resource);
+                                adapter.notifyDataSetChanged();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+
             }
 
             @Override
-            public void onDataNotAvailable() {
-                Toast.makeText(getContext(), "Could not load resources", Toast.LENGTH_SHORT).show();
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
 

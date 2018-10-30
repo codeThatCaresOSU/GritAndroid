@@ -18,7 +18,13 @@ import com.justcorrections.grit.R;
 
 import com.justcorrections.grit.data.model.Resource;
 import com.justcorrections.grit.data.remote.ResourcesDataSource;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.HttpUrl;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
@@ -60,7 +66,6 @@ public class ResourceDetailPresenter {
     }
 
     public void saveResource() {
-        FirebaseFunctions functions = FirebaseFunctions.getInstance();
         FirebaseAuth auth = FirebaseAuth.getInstance();
 
         if (auth.getCurrentUser() == null) {
@@ -68,25 +73,28 @@ public class ResourceDetailPresenter {
             return;
         }
 
-        Map<String, Object> data = new HashMap<>();
-        data.put("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
-        data.put("resourceid", mResourceID);
+        OkHttpClient client = new OkHttpClient();
 
-        functions.getHttpsCallable("saveResource")
-                .call(data)
-                .addOnSuccessListener(new OnSuccessListener<HttpsCallableResult>() {
-                    @Override
-                    public void onSuccess(HttpsCallableResult httpsCallableResult) {
-                        Toast.makeText(resourceDetailFragment.getContext(), "Successfully Saved", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(resourceDetailFragment.getContext(), "Failed to save: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                        e.printStackTrace();
-                    }
-                });
+        HttpUrl.Builder urlBuilder = HttpUrl.parse("https://us-central1-grit-f9d52.cloudfunctions.net/saveResource").newBuilder();
+        urlBuilder.addQueryParameter("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
+        urlBuilder.addQueryParameter("id", mResourceID);
+        String url = urlBuilder.build().toString();
+
+        final Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+                Log.d("HTTPRESPONSE", response.message());
+            }
+        });
 
     }
 

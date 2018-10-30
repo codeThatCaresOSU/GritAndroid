@@ -130,7 +130,7 @@ public class ProfileViewAndEdit extends Fragment {
         });
 
         // Update the views with data from the database
-        DatabaseReference userRef = DatabaseHelper.getReference(DatabaseHelper.DatabasePath.TEST).child(uid);
+        DatabaseReference userRef = DatabaseHelper.getReference(DatabaseHelper.DatabasePath.Users).child(uid);
         userRef.child(GritUser.NAME_KEY).addValueEventListener(new UserValueEventListener(etName));
         userRef.child(GritUser.CITY_KEY).addValueEventListener(new UserValueEventListener(etCity));
         userRef.child(GritUser.ADDRESS_KEY).addValueEventListener(new UserValueEventListener(etAddress));

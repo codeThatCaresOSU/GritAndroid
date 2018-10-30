@@ -33,7 +33,11 @@ public class SigninPresenter {
         auth.signin(email, password, new GritAuthCallback() {
             @Override
             public void onSuccess() {
-                ((MainActivity) view.getActivity()).navigateTo(ProfileViewAndEdit.newInstance(), false);
+                try {
+                    ((MainActivity) view.getActivity()).navigateTo(ProfileViewAndEdit.newInstance(), false);
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override

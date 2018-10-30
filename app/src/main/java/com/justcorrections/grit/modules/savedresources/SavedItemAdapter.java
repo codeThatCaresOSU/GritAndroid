@@ -1,19 +1,14 @@
 package com.justcorrections.grit.modules.savedresources;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.justcorrections.grit.MainActivity;
 import com.justcorrections.grit.R;
 import com.justcorrections.grit.data.model.Resource;
-import com.justcorrections.grit.modules.map.ResourceDetailFragment;
 
 import java.util.List;
 

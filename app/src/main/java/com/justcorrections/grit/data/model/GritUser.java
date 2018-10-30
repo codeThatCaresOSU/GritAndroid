@@ -100,7 +100,7 @@ public class GritUser extends FirebaseDataModel {
 
     public static void saveToDatabase(GritUser user, String uid) {
 
-        DatabaseReference userRef = DatabaseHelper.getReference(DatabaseHelper.DatabasePath.TEST).child(uid);
+        DatabaseReference userRef = DatabaseHelper.getReference(DatabaseHelper.DatabasePath.Users).child(uid);
 
         for (String key : keys) {
             if (!key.equals(PASSWORD_KEY)) {
