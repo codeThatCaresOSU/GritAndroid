@@ -206,7 +206,7 @@ public class MapFragment extends Fragment implements OnClickListener, OnMapReady
         String markerId = marker.getId();
         String resourceId = resourceIds.get(markerId);
 
-        ResourceDetailFragment resourceDetailFragment = ResourceDetailFragment.newInstance(resourceId);
+        ResourceDetailFragment resourceDetailFragment = ResourceDetailFragment.newInstance(resourceId, marker.getTitle().substring(marker.getTitle().indexOf(':') + 2));
         ((MainActivity) getActivity()).navigateTo(resourceDetailFragment, false);
     }
 }

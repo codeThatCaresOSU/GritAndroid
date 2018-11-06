@@ -24,7 +24,9 @@ import com.justcorrections.grit.data.model.Resource;
 public class ResourceDetailFragment extends Fragment {
 
     private static final String ARG_RESOURCE_ID = "arg_id";
+    private static final String ARG_RESOURCE_NAME = "arg_name";
     private String mResourceID;
+    private String mResourceName;
     private ResourceDetailPresenter presenter;
     public MainActivity mainActivity;
 
@@ -32,10 +34,11 @@ public class ResourceDetailFragment extends Fragment {
     private ImageView ivStreetviewPic;
     private Button buttonSaveResource;
 
-    public static ResourceDetailFragment newInstance(String resourceID) {
+    public static ResourceDetailFragment newInstance(String resourceID, String resourceName) {
         ResourceDetailFragment fragment = new ResourceDetailFragment();
         Bundle args = new Bundle();
         args.putString(ARG_RESOURCE_ID, resourceID);
+        args.putString(ARG_RESOURCE_NAME, resourceName);
         fragment.setArguments(args);
         return fragment;
     }
@@ -45,6 +48,7 @@ public class ResourceDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mResourceID = getArguments().getString(ARG_RESOURCE_ID);
+            mResourceName = getArguments().getString(ARG_RESOURCE_NAME);
         }
     }
 
@@ -72,7 +76,7 @@ public class ResourceDetailFragment extends Fragment {
         mainActivity = (MainActivity) getActivity();
         mainActivity.hideErrorText();
 
-        presenter = new ResourceDetailPresenter(this, mResourceID);
+        presenter = new ResourceDetailPresenter(this, mResourceID, mResourceName);
         presenter.start();
 
         return view;

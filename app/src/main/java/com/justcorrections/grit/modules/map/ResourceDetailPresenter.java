@@ -11,11 +11,14 @@ import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.functions.FirebaseFunctions;
 import com.google.firebase.functions.HttpsCallableResult;
 import com.justcorrections.grit.MainActivity;
 import com.justcorrections.grit.R;
 
+import com.justcorrections.grit.data.model.FirebaseDataModel;
 import com.justcorrections.grit.data.model.Resource;
 import com.justcorrections.grit.data.remote.ResourcesDataSource;
 import com.squareup.okhttp.Callback;
@@ -38,10 +41,12 @@ public class ResourceDetailPresenter {
     private ResourceDetailFragment resourceDetailFragment;
 
     private String mResourceID;
+    private String resourceName;
 
-    public ResourceDetailPresenter(ResourceDetailFragment fragment, String resourceID) {
+    public ResourceDetailPresenter(ResourceDetailFragment fragment, String resourceID, String resourceName) {
         this.resourceDetailFragment = fragment;
         this.mResourceID = resourceID;
+        this.resourceName = resourceName;
     }
 
     public void start() {
@@ -73,28 +78,31 @@ public class ResourceDetailPresenter {
             return;
         }
 
-        OkHttpClient client = new OkHttpClient();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users/" + auth.getCurrentUser().getUid() + "/savedResources/" + resourceName);
+        ref.setValue("" + this.mResourceID);
 
-        HttpUrl.Builder urlBuilder = HttpUrl.parse("https://us-central1-grit-f9d52.cloudfunctions.net/saveResource").newBuilder();
-        urlBuilder.addQueryParameter("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
-        urlBuilder.addQueryParameter("id", mResourceID);
-        String url = urlBuilder.build().toString();
-
-        final Request request = new Request.Builder()
-                .url(url)
-                .build();
-
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Request request, IOException e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onResponse(Response response) throws IOException {
-                Log.d("HTTPRESPONSE", response.message());
-            }
-        });
+//        OkHttpClient client = new OkHttpClient();
+//
+//        HttpUrl.Builder urlBuilder = HttpUrl.parse("https://us-central1-grit-f9d52.cloudfunctions.net/saveResource").newBuilder();
+//        urlBuilder.addQueryParameter("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
+//        urlBuilder.addQueryParameter("id", mResourceID);
+//        String url = urlBuilder.build().toString();
+//
+//        final Request request = new Request.Builder()
+//                .url(url)
+//                .build();
+//
+//        client.newCall(request).enqueue(new Callback() {
+//            @Override
+//            public void onFailure(Request request, IOException e) {
+//                e.printStackTrace();
+//            }
+//
+//            @Override
+//            public void onResponse(Response response) throws IOException {
+//                Log.d("HTTPRESPONSE", response.message());
+//            }
+//        });
 
     }
 

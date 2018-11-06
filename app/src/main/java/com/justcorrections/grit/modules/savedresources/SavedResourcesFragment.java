@@ -67,6 +67,10 @@ public class SavedResourcesFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
         loadSavedResources();
+        
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            Toast.makeText(this.getContext(), "Please Sign in to view saved resources", Toast.LENGTH_SHORT).show();
+        }
 
 
         return view;
@@ -75,13 +79,15 @@ public class SavedResourcesFragment extends Fragment {
     public void itemOnClick(View view) {
         int itemPosition = recyclerView.getChildLayoutPosition(view);
         String resourceId = resourceList.get(itemPosition).getId();
-        ((MainActivity) this.getActivity()).navigateTo(ResourceDetailFragment.newInstance(resourceId), true);
+        String resourceName = resourceList.get(itemPosition).getName();
+        ((MainActivity) this.getActivity()).navigateTo(ResourceDetailFragment.newInstance(resourceId, resourceName), true);
     }
 
     private void loadSavedResources() {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user == null) return;
+        if (user == null)
+            return;
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users/" + user.getUid() + "/savedResources");
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
