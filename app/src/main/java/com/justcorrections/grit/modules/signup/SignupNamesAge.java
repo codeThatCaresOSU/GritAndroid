@@ -22,7 +22,7 @@ import com.justcorrections.grit.modules.signin.SigninFragment;
  */
 public class SignupNamesAge extends Fragment {
 
-    private EditText nameEditText, ageEditText;
+    private EditText firstNameEditText, lastNameEditText, ageEditText;
     private GritUser user;
 
     public SignupNamesAge() {
@@ -58,7 +58,8 @@ public class SignupNamesAge extends Fragment {
         View view = inflater.inflate(R.layout.fragment_signup_names_age, container, false);
 
         // find the views
-        nameEditText = view.findViewById(R.id.et_name);
+        firstNameEditText = view.findViewById(R.id.et_first_name);
+        lastNameEditText = view.findViewById(R.id.et_last_name);
         ageEditText = view.findViewById(R.id.et_age);
         Button nextButton = view.findViewById(R.id.button_names_age_next);
         Button backButton = view.findViewById(R.id.button_names_age_back);
@@ -80,8 +81,12 @@ public class SignupNamesAge extends Fragment {
         /*
          * Populate views with data if it already exists
          */
-        if (user.getValue(GritUser.NAME_KEY) != null && !user.getValue(GritUser.NAME_KEY).isEmpty()) {
-            nameEditText.setText(user.getValue(GritUser.NAME_KEY));
+        if (user.getValue(GritUser.FIRST_NAME_KEY) != null && !user.getValue(GritUser.FIRST_NAME_KEY).isEmpty()) {
+            firstNameEditText.setText(user.getValue(GritUser.FIRST_NAME_KEY));
+        }
+
+        if (user.getValue(GritUser.LAST_NAME_KEY) != null && !user.getValue(GritUser.LAST_NAME_KEY).isEmpty()) {
+            lastNameEditText.setText(user.getValue(GritUser.LAST_NAME_KEY));
         }
 
         if (user.getValue(GritUser.BIRTHDAY_KEY) != null && !user.getValue(GritUser.BIRTHDAY_KEY).isEmpty()) {
@@ -114,7 +119,8 @@ public class SignupNamesAge extends Fragment {
 
     private boolean noEmptyFields() {
         return !ageEditText.getText().toString().isEmpty()
-                && !nameEditText.getText().toString().isEmpty();
+                && !firstNameEditText.getText().toString().isEmpty()
+                && !lastNameEditText.getText().toString().isEmpty();
     }
 
     /*
@@ -125,7 +131,8 @@ public class SignupNamesAge extends Fragment {
 
         // Update instance variables based on user input
         user.setValue(GritUser.BIRTHDAY_KEY, this.ageEditText.getText().toString());
-        user.setValue(GritUser.NAME_KEY, this.nameEditText.getText().toString());
+        user.setValue(GritUser.FIRST_NAME_KEY, this.firstNameEditText.getText().toString());
+        user.setValue(GritUser.LAST_NAME_KEY, this.lastNameEditText.getText().toString());
 
         // return the bundle
         return GritUser.writeToBundle(user);

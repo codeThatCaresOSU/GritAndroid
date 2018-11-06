@@ -42,7 +42,7 @@ import static android.app.Activity.RESULT_OK;
 public class SignupConfirm extends Fragment {
 
     private GritUser user;
-    private TextView tvName, tvBirthday, tvCity, tvAddress, tvZip, tvDescription, tvEmail, tvGender, tvState, tvOccupation;
+    private TextView tvFirstName, tvLastName, tvBirthday, tvCity, tvAddress, tvZip, tvDescription, tvEmail, tvGender, tvState, tvOccupation;
     private TextView tvChooseImage;
     private Button nextButton;
     private ImageView profileImageView;
@@ -91,7 +91,8 @@ public class SignupConfirm extends Fragment {
         tvCity = view.findViewById(R.id.tv_confirm_city_value);
         tvZip = view.findViewById(R.id.tv_confirm_zip_value);
         tvBirthday = view.findViewById(R.id.tv_confirm_age_value);
-        tvName = view.findViewById(R.id.tv_confirm_name_value);
+        tvFirstName = view.findViewById(R.id.tv_confirm_name_value);
+        tvLastName = view.findViewById(R.id.tv_confirm_last_name_value);
         tvDescription = view.findViewById(R.id.tv_confirm_bio_value);
         tvEmail = view.findViewById(R.id.tv_confirm_email_value);
         tvGender = view.findViewById(R.id.tv_confirm_gender_value);
@@ -127,7 +128,8 @@ public class SignupConfirm extends Fragment {
         tvAddress.setText(user.getValue(GritUser.ADDRESS_KEY));
         tvCity.setText(user.getValue(GritUser.CITY_KEY));
         tvZip.setText(user.getValue(GritUser.ZIP_KEY));
-        tvName.setText(user.getValue(GritUser.NAME_KEY));
+        tvFirstName.setText(user.getValue(GritUser.FIRST_NAME_KEY));
+        tvLastName.setText(user.getValue(GritUser.LAST_NAME_KEY));
         tvDescription.setText(user.getValue(GritUser.DESCRIPTION_KEY));
         tvEmail.setText(user.getValue(GritUser.EMAIL_KEY));
         tvBirthday.setText(user.getValue(GritUser.BIRTHDAY_KEY));

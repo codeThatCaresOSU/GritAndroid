@@ -41,7 +41,7 @@ import java.io.IOException;
  */
 public class ProfileViewAndEdit extends Fragment {
 
-    private EditText etName, etOccupation, etState, etEmail, etBirthday, etGender, etAddress, etCity, etZip, etDescription;
+    private EditText etFirstName, etLastName, etOccupation, etState, etEmail, etBirthday, etGender, etAddress, etCity, etZip, etDescription;
     private Button editButton, signoutButton, changePasswordButton;
     private String uid;
     private ImageView profileImageView;
@@ -89,7 +89,8 @@ public class ProfileViewAndEdit extends Fragment {
         this.etBirthday = view.findViewById(R.id.et_profile_birthday_value);
         this.etEmail = view.findViewById(R.id.et_profile_email_value);
         this.etGender = view.findViewById(R.id.et_profile_gender_value);
-        this.etName = view.findViewById(R.id.et_profile_name_value);
+        this.etFirstName = view.findViewById(R.id.et_profile_first_name_value);
+        this.etLastName = view.findViewById(R.id.et_profile_last_name_value);
         this.etCity = view.findViewById(R.id.et_profile_city_value);
         this.etDescription = view.findViewById(R.id.et_profile_bio_value);
         this.etZip = view.findViewById(R.id.et_profile_zip_value);
@@ -131,7 +132,8 @@ public class ProfileViewAndEdit extends Fragment {
 
         // Update the views with data from the database
         DatabaseReference userRef = DatabaseHelper.getReference(DatabaseHelper.DatabasePath.Users).child(uid);
-        userRef.child(GritUser.NAME_KEY).addValueEventListener(new UserValueEventListener(etName));
+        userRef.child(GritUser.FIRST_NAME_KEY).addValueEventListener(new UserValueEventListener(etFirstName));
+        userRef.child(GritUser.LAST_NAME_KEY).addValueEventListener(new UserValueEventListener(etLastName));
         userRef.child(GritUser.CITY_KEY).addValueEventListener(new UserValueEventListener(etCity));
         userRef.child(GritUser.ADDRESS_KEY).addValueEventListener(new UserValueEventListener(etAddress));
         userRef.child(GritUser.ZIP_KEY).addValueEventListener(new UserValueEventListener(etZip));
@@ -186,7 +188,8 @@ public class ProfileViewAndEdit extends Fragment {
         this.etBirthday.setEnabled(isEditing);
         this.etEmail.setEnabled(isEditing);
         this.etGender.setEnabled(isEditing);
-        this.etName.setEnabled(isEditing);
+        this.etLastName.setEnabled(isEditing);
+        this.etFirstName.setEnabled(isEditing);
         this.etCity.setEnabled(isEditing);
         this.etDescription.setEnabled(isEditing);
         this.etZip.setEnabled(isEditing);
@@ -214,7 +217,8 @@ public class ProfileViewAndEdit extends Fragment {
         user.setValue(GritUser.ADDRESS_KEY, etAddress.getText().toString());
         user.setValue(GritUser.EMAIL_KEY, etEmail.getText().toString());
         user.setValue(GritUser.GENDER_KEY, etGender.getText().toString());
-        user.setValue(GritUser.NAME_KEY, etName.getText().toString());
+        user.setValue(GritUser.FIRST_NAME_KEY, etFirstName.getText().toString());
+        user.setValue(GritUser.LAST_NAME_KEY, etLastName.getText().toString());
         user.setValue(GritUser.CITY_KEY, etCity.getText().toString());
         user.setValue(GritUser.DESCRIPTION_KEY, etDescription.getText().toString());
         user.setValue(GritUser.ZIP_KEY, etZip.getText().toString());
@@ -230,8 +234,7 @@ public class ProfileViewAndEdit extends Fragment {
                     Toast.LENGTH_LONG).show();
             return;
         }
-
-
+        
         // save the new information to the database
         GritUser.saveToDatabase(user, this.uid);
 

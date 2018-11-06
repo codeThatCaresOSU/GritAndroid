@@ -19,7 +19,8 @@ public class GritUser extends FirebaseDataModel {
     /**
      * Keys for the Data base and the data Map
      */
-    public static final String NAME_KEY = "Name";
+    public static final String FIRST_NAME_KEY = "Last Name";
+    public static final String LAST_NAME_KEY = "First Name";
     public static final String CITY_KEY = "City";
     public static final String ADDRESS_KEY = "Street Address";
     public static final String ZIP_KEY = "Zip Code";
@@ -39,7 +40,7 @@ public class GritUser extends FirebaseDataModel {
     public static final String OTHER_PREFIX = "Other_";
 
     private Map<String, String> data;
-    private static final String[] keys = {NAME_KEY, CITY_KEY, ADDRESS_KEY, ZIP_KEY, DESCRIPTION_KEY,
+    private static final String[] keys = {FIRST_NAME_KEY, LAST_NAME_KEY, CITY_KEY, ADDRESS_KEY, ZIP_KEY, DESCRIPTION_KEY,
             EMAIL_KEY, PASSWORD_KEY, BIRTHDAY_KEY, GENDER_KEY, STATE_KEY, OCCUPATION_KEY};
 
     public GritUser() {
