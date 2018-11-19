@@ -20,4 +20,9 @@ public class FirebaseDataModel {
         this.id = id;
     }
 
+    @Override
+    public boolean equals(Object other) {
+        return other instanceof FirebaseDataModel && ((FirebaseDataModel) other).id == this.id;
+    }
+
 }

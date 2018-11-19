@@ -9,7 +9,7 @@
         android:icon="@drawable/ic_tab_account"
         android:title="@string/my_account" />
     <item
-        android:id="@+id/menu_mystery"
-        android:icon="@drawable/ic_tab_mystery"
-        android:title="Mystery" />
+        android:id="@+id/menu_saved"
+        android:icon="@drawable/ic_tab_saved"
+        android:title="@string/saved" />
 </menu>

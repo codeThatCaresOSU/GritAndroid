@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context="com.justcorrections.grit.MainActivity">
 
+
     <FrameLayout
         android:id="@+id/main_fragment_holder"
         android:layout_width="match_parent"
@@ -16,7 +17,22 @@
         android:id="@+id/main_snackbar_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/main_bottom_nav" />
+        android:layout_above="@id/main_bottom_nav" >
+
+    </android.support.design.widget.CoordinatorLayout>
+
+    <TextView
+        android:id="@+id/error_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/gray3"
+        android:text="@string/loading_error"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:padding="2dp"
+        android:visibility="invisible"/>
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/main_bottom_nav"

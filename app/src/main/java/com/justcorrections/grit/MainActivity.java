@@ -5,61 +5,56 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.justcorrections.grit.auth.AuthenticationHandler;
-import com.justcorrections.grit.modules.account.LoginFragment;
+import com.justcorrections.grit.auth.GritAuthentication;
 import com.justcorrections.grit.modules.map.MapFragment;
-import com.justcorrections.grit.modules.map.ResourceDetailFragment;
-import com.justcorrections.grit.modules.mystery.MysteryFragment;
-import com.justcorrections.grit.utils.DatabaseHelper;
-import com.justcorrections.grit.utils.NavigationHandler;
+import com.justcorrections.grit.modules.profile.ProfileViewAndEdit;
+import com.justcorrections.grit.modules.savedresources.SavedResourcesFragment;
+import com.justcorrections.grit.modules.signin.SigninFragment;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     private NavigationHandler navigationHandler;
-    private AuthenticationHandler authHandler;
-    private FirebaseAuth auth;
-    private FirebaseAuth.AuthStateListener authStateListener;
-    private BottomNavigationView bottomNav;
-    private List<Fragment> fragments = new ArrayList<>();
-
-    private DatabaseHelper helper;
+    private TextView errorText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        bottomNav = findViewById(R.id.main_bottom_nav);
         navigationHandler = new NavigationHandler(this);
-        helper = DatabaseHelper.getInstance();
-        authHandler = new AuthenticationHandler(this, this.fragments);
-        setupFragments();
 
-        bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                int id = item.getItemId();
-                if (id == R.id.menu_map) {
-                    navigationHandler.navigateTo(MapFragment.newInstance(), false);
-                } else if (id == R.id.menu_account) {
-                    navigationHandler.navigateTo(LoginFragment.newInstance(null), false);
-                } else if (id == R.id.menu_mystery) {
-                    navigationHandler.navigateTo(MysteryFragment.newInstance("param 1", "param 2"), false);
-                }
-                return true;
-            }
-        });
+        BottomNavigationView bottomNav = findViewById(R.id.main_bottom_nav);
+        bottomNav.setOnNavigationItemSelectedListener(this);
         bottomNav.setSelectedItemId(R.id.menu_map);
+
+        errorText = findViewById(R.id.error_textview);
+        errorText.setVisibility(View.INVISIBLE);
+
+        GritAuthentication.getInstance().signOut();
+
     }
 
-    public void navigateTo(Fragment fragment) {
-        navigationHandler.navigateTo(fragment, true);
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.menu_map) {
+            navigateTo(MapFragment.newInstance(), false);
+        } else if (id == R.id.menu_account) {
+            if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+                navigateTo(SigninFragment.newInstance(), false);
+            } else {
+                navigateTo(ProfileViewAndEdit.newInstance(), false);
+            }
+        } else if (id == R.id.menu_saved) {
+            navigateTo(SavedResourcesFragment.newInstance(), false);
+        }
+        return true;
     }
 
     @Override
@@ -67,28 +62,29 @@ public class MainActivity extends AppCompatActivity {
         navigationHandler.onBackPressed();
     }
 
-    public void setSelected(int position) {
-        if (position == 0) {
-            navigateTo(MapFragment.newInstance());
-        } else if (position == 1) {
-            navigateTo(LoginFragment.newInstance(null));
-        } else {
-            navigateTo(MysteryFragment.newInstance("a", "b"));
+    public void navigateTo(Fragment fragment, boolean saveTransactionToBackStack) {
+        navigationHandler.navigateTo(fragment, saveTransactionToBackStack);
+    }
+
+    /**
+     * Shows an error messsage at the top of the main activity.
+     *
+     * @param message The error message to show.
+     */
+    public void showErrorText(String message) {
+        try {
+            errorText.setText(message);
+            errorText.setVisibility(View.VISIBLE);
+        } catch (Exception e) {
+            Log.d("MAIN ACTIVITY", e.getMessage());
         }
     }
 
-    public void setupFragments() {
-        fragments.add(0, MapFragment.newInstance());
-        fragments.add(1, LoginFragment.newInstance(null));
-        fragments.add(2, MysteryFragment.newInstance("Parameter 1", "Parameter 2"));
+    /**
+     * Hides the error message from the main activity.
+     */
+    public void hideErrorText() {
+        errorText.setVisibility(View.INVISIBLE);
     }
 
-    public AuthenticationHandler getAuthHandler() {
-        return this.authHandler;
-    }
-
-    public void showResourceDetailFragment(String resourceID) {
-        fragments.add(3, ResourceDetailFragment.newInstance(resourceID));
-        setSelected(3);
-    }
 }

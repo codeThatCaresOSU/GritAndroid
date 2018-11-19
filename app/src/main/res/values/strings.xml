@@ -2,7 +2,7 @@
     <string name="app_name">GRIT</string>
     <string name="title_activity_login">Sign in</string>
 
-    <!-- Strings related to login -->
+    <!-- Strings related to signin -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>
     <string name="action_sign_in">Sign in or register</string>
@@ -22,11 +22,11 @@
     <string name="password">Password</string>
     <string name="user_icon_description">A user icon</string>
     <string name="password_icon_description">a password icon</string>
-    <string name="log_in">Log in</string>
+    <string name="sign_in">Sign in</string>
     <string name="forgot_your_password">Forgot your password?</string>
     <string name="create_an_account">Create an account</string>
     <string name="create_account">Create Account</string>
-    <string name="already_have_an_account">Already Have an Account?</string>
+    <string name="dont_have_an_account">Don\'t have an account?</string>
     <string name="back_to_login_page">Back to Login Page</string>
     <string name="reset_email_sent">Reset email sent. Check your email to recover your password.</string>
     <string name="reset_email_failed">Reset email failed to send. Try again later.</string>
@@ -37,7 +37,6 @@
     <string name="creating_account">Creating account</string>
     <string name="error_occurred">An error occurred, try again later</string>
 
-
     <!-- Strings related to showing resource details -->
     <string name="no_resource_loaded_label">No Resource Loaded</string>
     <string name="prefix_name">Name:</string>
@@ -45,6 +44,54 @@
     <string name="prefix_url">Website:</string>
     <string name="prefix_category">Category:</string>
     <string name="prefix_phone">Phone:</string>
+    <string name="loading_error">Loading Error. Please try again later.</string>
 
+    <!-- Strings for Signup -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="name_age_title">We need a few details...</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="age">Birthday (MM/DD/YYYY)</string>
+    <string name="back">Back</string>
+    <string name="next">Next</string>
+    <string name="bio_hint">What is your occupation?</string>
+    <string name="bio_title">Tell us a bit about yourself</string>
+    <string name="confirm_title">One last thing</string>
+    <string name="gender">Gender</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="email">Email</string>
+    <string name="email_password_title">Okay, last thing</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="other_prefix">Other_</string>
+    <string name="other_specify_below">Other (Specify Below)</string>
+    <string name="other_gender_hint">Other gender</string>
+    <string name="gender_title">You are</string>
+    <string name="zip">Zip</string>
+    <string name="city">City</string>
+    <string name="street_address">Street Address</string>
+    <string name="address">Address</string>
+    <string name="location_title">Where do you live?</string>
+    <string name="description">Description</string>
+    <string name="confirm">Confirm</string>
+    <string name="empty_fields_error">Please make sure to fill out each required field</string>
+    <string name="over_18_error">You must be 18 or over</string>
+    <string name="password_match_error">Passwords must match</string>
+    <string name="profile_title">Profile</string>
+    <string name="profile_edit_button_title">edit</string>
+    <string name="back_to_sign_in">Back to Sign In</string>
+    <string name="sign_in_title">Welcome back to GRIT</string>
+    <string name="birthday">Birthday</string>
+    <string name="description_optional">Description (optional)</string>
+    <string name="state">State</string>
+    <string name="occupation">Occupation</string>
+    <string name="address_short">Address</string>
+    <string name="fake_password">Notthepassword</string>
+    <string name="signout">Signout</string>
+    <string name="change_password">Change Password</string>
+    <string name="choose_image">Choose\nProfile\nImage</string>
+    <string name="save_resource">Save Resource</string>
+    <string name="resource_name">Resource Name</string>
+    <string name="saved">Saved</string>
 
 </resources>
