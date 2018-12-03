@@ -72,7 +72,7 @@ public class MapPresenter {
 
             @Override
             public void onDataNotAvailable() {
-                view.mainActivity.showErrorText("Categories could not be loaded. Please check your connection and try again later.");
+                view.mainActivity.showErrorText("Categories could not be loaded. Have you tried signing in?");
             }
         });
     }
